@@ -19,7 +19,7 @@ const ProductForm = ({
     <div className="add-product">
       <Card cardClass={"card"}>
         <form onSubmit={saveProduct}>
-          <Card cardClass={"group"} >
+          <Card cardClass={"group"}>
             <label>Product Image</label>
             <code className="--color-dark">
               Supported Formats: jpg, jpeg, png
@@ -27,6 +27,7 @@ const ProductForm = ({
             <input
               type="file"
               name="image"
+              required
               onChange={(e) => handleImageChange(e)}
             />
 
@@ -35,7 +36,7 @@ const ProductForm = ({
                 <img src={imagePreview} alt="product" />
               </div>
             ) : (
-              <p>No image set for this poduct.</p>
+              <p>No image set for this product.</p>
             )}
           </Card>
           <label>Product Name:</label>
@@ -43,18 +44,21 @@ const ProductForm = ({
             type="text"
             placeholder="Product name"
             name="name"
+
             value={product?.name}
             onChange={handleInputChange}
           />
 
           <label>Product Category:</label>
-          <input
-            type="text"
-            placeholder="Product Category"
+          <select
             name="category"
             value={product?.category}
             onChange={handleInputChange}
-          />
+          >
+            <option value="">Select Category</option>
+            <option value="Vegetable">Vegetable</option>
+            <option value="Fruit">Fruit</option>
+          </select>
 
           <label>Product Price:</label>
           <input

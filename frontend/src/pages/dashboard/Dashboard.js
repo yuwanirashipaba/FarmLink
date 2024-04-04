@@ -5,7 +5,7 @@ import { selectIsLoggedIn } from '../../redux/features/auth/authSlice';
 import { getProducts } from '../../redux/features/product/ProductSlice';
 import ProductList from '../../components/product/productList/ProductList';
 import ProductSummary from '../../components/product/productSummary/ProductSummary';
-
+import LineChart from '../../components/charts/lineChart';
 
 const Dashboard = () => {
  // useRedirectLoggedOutUser("/login");
@@ -40,6 +40,13 @@ const Dashboard = () => {
         products={products}
         isLoading={isLoading}
       />
+       <div>
+        <hr />
+      <h1>Store Sells</h1>
+      <div style={{ width: '800px', height: '700px' }}>
+      <LineChart />
+      </div>
+    </div>
     </div>
   )
 }

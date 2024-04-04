@@ -12,9 +12,8 @@ import DOMPurify from "dompurify"
 
 
 
-
 const ProductDetails = () => {
-  useRedirectLoggedOutUser("/login")
+ // useRedirectLoggedOutUser("/login")
   const dispatch = useDispatch()
 
   const { id } = useParams()

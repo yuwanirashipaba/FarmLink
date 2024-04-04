@@ -22,3 +22,22 @@ export const getLoginStatus = async (userData, resetToken) => {
   }
 };
 
+// Get user By id 
+
+const getUserById = async (userId) => {
+  try {
+    const response = await axios.get(`http://localhost:5000/users/${userId}`);
+    return response.data;
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    toast.error(message);
+  }
+};
+const authService = {
+    getUserById,
+}
+
+export default authService;
