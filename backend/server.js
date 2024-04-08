@@ -26,8 +26,8 @@ app.use(cors());
 
 
 //Routes
-app.use("/api/users", userRoutes);
-app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes); //signup
+app.use("/api/auth", authRoutes);   //login
 app.use(userManage);
 
 //Conntect to mongoDB and Start the Server
