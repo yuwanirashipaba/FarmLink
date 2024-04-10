@@ -24,9 +24,17 @@ app.use(cors({
 
 // Route Middleware
 
+
+
+
+
+//Routes
+app.use("/api/users", userRoutes); //signup
+app.use("/api/auth", authRoutes);   //login
 // Routes from Profile_Management branch
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+
 app.use(userManage);
 
 app.use("/api/products", productRoute);
