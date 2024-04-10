@@ -1,12 +1,11 @@
 const mongoose = require("mongoose");
 
 const productSchema = mongoose.Schema({
-    // waiting to implement user 
-    // user:{
-    //     type:mongoose.Schema.Types.ObjectId,
-    //     required : true,
-    //     ref: "User",
-    // },
+    user:{
+        type:mongoose.Schema.Types.ObjectId,
+        required : true,
+        ref: "profilemanagement",
+    },
     name : {
         type : String,
         required : [true,"Please add a name"],
@@ -45,7 +44,7 @@ const productSchema = mongoose.Schema({
     },
     image : {
         type : Object,
-        default: {},
+        required : [true,"Please add an image"],
 
     },
    
