@@ -32,7 +32,7 @@
 
 .product-card {
     position: relative;
-    overflow: hidden; /* Ensures that anything going out of the card boundaries is hidden */
+    overflow: hidden; 
 }
 
 .see-preview-btn {

@@ -79,9 +79,7 @@ body {
   animation-play-state: running; 
 }
 
-.overflow-scroll:hover {
-  animation-play-state: paused; 
-}
+
 
 @keyframes scrollAnimation {
   0% {

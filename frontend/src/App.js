@@ -25,7 +25,7 @@ axios.defaults.withCredentials = true
 function App() {
 
   // demo cookie
-  document.cookie = "authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWY3ZjU1YjQ4ZDE1OTEzYTQzZmVkZGEiLCJpYXQiOjE3MTIxMTkxOTksImV4cCI6MTcxMjcyMzk5OX0.XrrwNYPJktrclWwTThPsppWQmACZhrawuT9BBpYhd5Y; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+  document.cookie = "authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWY3ZjU1YjQ4ZDE1OTEzYTQzZmVkZGEiLCJpYXQiOjE3MTMxMTU0NjEsImV4cCI6MTcxMzcyMDI2MX0.I9q9kTaKiqiZxwkKfUsv8re0gNbyD7eLiSQvQW0oOJ0; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
   const dispatch = useDispatch();
   useEffect(() => {
     async function loginStatus() {

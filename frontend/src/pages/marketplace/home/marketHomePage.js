@@ -2,11 +2,14 @@ import React from 'react';
 import RecentlyAddedProducts from '../../../components/marketPlace/RecentlyAddedProducts/RecentlyAddedProducts';
 import './HomePage.css'
 import TopSellingProducts from '../../../components/marketPlace/TopSellingProducts/TopSellingProducts';
+import FeatureBar from '../../../components/marketPlace/FeatureBar/FeatureBar';
 const MarketplaceHomePage = () => {
   return (
     <div>
       <h1 className='text-center'>Welcome to Our Marketplace!</h1>
-
+      <section>
+        <FeatureBar />
+      </section>
       <section>
         
         <div style={{margin: '20px 0'}}>

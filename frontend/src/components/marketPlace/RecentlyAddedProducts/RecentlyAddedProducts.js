@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Spinner } from 'react-bootstrap';
-import Slider from 'react-slick'; // Import the Slider component
+import Slider from 'react-slick'; 
 import productService from '../../../redux/features/product/ProductService';
 import ProductCard from '../../ProductCard/ProductCard';
 import "slick-carousel/slick/slick.css"; 
@@ -29,10 +29,11 @@ const RecentlyAddedProducts = () => {
         dots: true,
         infinite: true,
         speed: 300,
+        pauseOnHover: false,
         slidesToShow: 4,
         slidesToScroll: 1.5,
         autoplay: true, // Enable automatic sliding
-        autoplaySpeed: 2000, // Slide transition speed in milliseconds
+        autoplaySpeed: 4000, 
         responsive: [
             {
                 breakpoint: 10,

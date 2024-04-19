@@ -33,8 +33,9 @@ const TopSellingProducts = () => {
         dots: true,
         infinite: true,
         speed: 300,
-        slidesToShow: 3,
+        slidesToShow: 4,
         slidesToScroll: 1,
+        pauseOnHover: false,
         autoplay: true, 
         autoplaySpeed: 2000,
         responsive: [
