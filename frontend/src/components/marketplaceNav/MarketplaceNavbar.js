@@ -18,7 +18,7 @@ function MarketplaceNavbar({ children, showCategories = true }) {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link href="/home" style={{marginLeft: "2rem"}} >Home</Nav.Link>
+                            <Nav.Link href="/" style={{marginLeft: "2rem"}} >Home</Nav.Link>
                             <Nav.Link href="/products" style={{marginLeft: "2rem"}} >Products</Nav.Link>
                             {showCategories && (
                                 <NavDropdown title="Categories" id="basic-nav-dropdown" style={{marginLeft: "2rem"}} >

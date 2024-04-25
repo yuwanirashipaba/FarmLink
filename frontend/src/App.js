@@ -29,15 +29,18 @@ axios.defaults.withCredentials = true
 
 function App() {
 
+  
   // demo cookie
-  document.cookie = "authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjI2MTVhOGVlMTQzNGM2OWRmMmNkNjIiLCJpYXQiOjE3MTM3NzE5ODMsImV4cCI6MTcxNDM3Njc4M30.QQPQ-PfP0GR00pkKHOreTkLT7Eu65EC21TxaM5GkHOA; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+
+  document.cookie = "authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWY3ZjU1YjQ4ZDE1OTEzYTQzZmVkZGEiLCJpYXQiOjE3MTM5MzA4OTIsImV4cCI6MTcxNDUzNTY5Mn0.JC8Ila_SlAQ_lgHCSl28z-JhcKl8WG8Fevg0pMC8CHg; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+
   const dispatch = useDispatch();
   useEffect(() => {
     async function loginStatus() {
       const status = await getLoginStatus()
       dispatch(SET_LOGIN(status))
     }
-    loginStatus()
+  //  loginStatus() commented out for now
   }
     , [dispatch])
 
@@ -62,7 +65,7 @@ function App() {
               </MarketplaceNavbar>
             } />
 
-            <Route path="/Home" element={
+            <Route path="/" element={
               <MarketplaceNavbar showCategories={false}>
                 <MarketHome/>
               </MarketplaceNavbar>
@@ -110,7 +113,7 @@ function App() {
               </Sidebar>
             } />
 
-            <Route path="/generate-report" element={
+            <Route path="/product-admin" element={
               <Sidebar>
                 <Layout>
                   <ProductAdminReport />
