@@ -9,71 +9,57 @@ const EditProduct = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const isLoading = useSelector(selectIsLoading)
-
-
-    const productEdit = useSelector(selectProduct)
-
-    const [product, setProduct] = useState(productEdit)
-    const [productImage, setProductImage] = useState("")
-    const [imagePreview, setImagePreview] = useState(null)
-    const [description, setDescription] = useState("")
+    const isLoading = useSelector(selectIsLoading);
+    const productEdit = useSelector(selectProduct);
+    const [product, setProduct] = useState(productEdit);
+    const [productImage, setProductImage] = useState("");
+    const [imagePreview, setImagePreview] = useState(null);
+    const [description, setDescription] = useState("");
 
     useEffect(() => {
-        dispatch(getProduct)
-    }, [dispatch, id])
-
+        dispatch(getProduct(id));
+    }, [dispatch, id]);
 
     useEffect(() => {
-        setProduct(productEdit)
-        setImagePreview(
-            productEdit && productEdit.image ? `${productEdit.image.filePath}` : null
-        )
-
-        setDescription(
-            productEdit && productEdit.description ? productEdit.description : ""
-        )
-    }, [productEdit])
+        if (productEdit) {
+            setProduct(productEdit);
+            setImagePreview(productEdit.image ? productEdit.image.filePath : null);
+            setDescription(productEdit.description || "");
+        }
+    }, [productEdit]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setProduct({ ...product, [name]: value });
-    }
+    };
 
     const handleImageChange = (e) => {
-        setProductImage(e.target.files[0])
-        setImagePreview(URL.createObjectURL(e.target.files[0]))
-    }
-
-
-
+        setProductImage(e.target.files[0]);
+        setImagePreview(URL.createObjectURL(e.target.files[0]));
+    };
 
     const saveProduct = async (e) => {
-        e.preventDefault()
-        const formData = new FormData()
-        formData.append("name", product?.name)
-        formData.append("category", product?.category)
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append("name", product?.name);
+        formData.append("category", product?.category);
         formData.append("quantity", product?.quantity);
-        formData.append("price", product?.price)
-        formData.append("description", description)
+        formData.append("price", product?.price);
+        formData.append("description", description);
         if (productImage) {
-            formData.append("image", productImage)
+            formData.append("image", productImage);
+        } else if (!productImage && productEdit.image) {
+            // If no new image is uploaded, keep the existing image
+            formData.append("image", productEdit.image.filePath);
         }
 
-
-
-        console.log(...formData)
-        await dispatch(updateProducts({ id, formData }))
-        await dispatch(getProducts())
-        navigate("/dashboard")
-    }
-
-
+        console.log(...formData);
+        await dispatch(updateProducts({ id, formData }));
+        await dispatch(getProducts());
+        navigate("/dashboard");
+    };
 
     return (
-
-
-
         <div>
             {isLoading && <Loader />}
             <h3 className='--mt'>Edit Product</h3>
@@ -86,14 +72,9 @@ const EditProduct = () => {
                 handleInputChange={handleInputChange}
                 handleImageChange={handleImageChange}
                 saveProduct={saveProduct}
-
-
-
-
             />
         </div>
-
     )
 }
 
-export default EditProduct
+export default EditProduct;

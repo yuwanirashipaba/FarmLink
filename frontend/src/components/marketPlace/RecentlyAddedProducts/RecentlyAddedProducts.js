@@ -5,7 +5,7 @@ import productService from '../../../redux/features/product/ProductService';
 import ProductCard from '../../ProductCard/ProductCard';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-
+import './RedentlyAddedProduct.css';
 const RecentlyAddedProducts = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -30,9 +30,9 @@ const RecentlyAddedProducts = () => {
         infinite: true,
         speed: 300,
         pauseOnHover: false,
-        slidesToShow: 4,
+        slidesToShow: 5,
         slidesToScroll: 1.5,
-        autoplay: true, // Enable automatic sliding
+        autoplay: true, 
         autoplaySpeed: 4000, 
         responsive: [
             {
@@ -64,7 +64,9 @@ const RecentlyAddedProducts = () => {
                     <Slider {...settings}>
                         {products.map((product) => (
                             <div key={product._id}>
-                                <ProductCard product={product} />
+                                <div className="small-product-card"> 
+                                    <ProductCard product={product} />
+                                </div>
                             </div>
                         ))}
                     </Slider>
