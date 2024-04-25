@@ -19,6 +19,11 @@ import ProductDetailsfarmer from '../src/components/product/productDetails/Produ
 import ProductDetails from './pages/marketplace//details/ProductDetails';
 import MarketHome from './pages/marketplace/home/marketHomePage';
 import ProductAdminReport from './components/productAdminReport/productAdminReport';
+import AssignDelivery from "./components/AssignDelivery"; 
+import AllDeliveries from "./components/AllDeliveries";
+import AllBuddies from "./components/AllBuddies";
+import ListBuddy from "./components/ListBuddy";
+
 axios.defaults.withCredentials = true
 
 
@@ -26,7 +31,9 @@ function App() {
 
   
   // demo cookie
+
   document.cookie = "authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWY3ZjU1YjQ4ZDE1OTEzYTQzZmVkZGEiLCJpYXQiOjE3MTM5MzA4OTIsImV4cCI6MTcxNDUzNTY5Mn0.JC8Ila_SlAQ_lgHCSl28z-JhcKl8WG8Fevg0pMC8CHg; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+
   const dispatch = useDispatch();
   useEffect(() => {
     async function loginStatus() {
@@ -113,6 +120,40 @@ function App() {
                 </Layout>
               </Sidebar>
             } />
+
+            <Route path="/assign" element={
+              <Sidebar>
+                <Layout>
+                  <AssignDelivery />
+                </Layout>
+              </Sidebar>
+            } />
+
+            <Route path="/view" element={
+              <Sidebar>
+                <Layout>
+                <AllDeliveries />
+                </Layout>
+              </Sidebar>
+            } />
+
+            <Route path="/list-buddy" element={
+              <Sidebar>
+                <Layout>
+                <ListBuddy />
+                </Layout>
+              </Sidebar>
+            } />
+
+            <Route path="/all-buddies" element={
+              <Sidebar>
+                <Layout>
+                <AllBuddies />
+                </Layout>
+              </Sidebar>
+            } />
+
+            
 
           </Routes>
         </BrowserRouter>
