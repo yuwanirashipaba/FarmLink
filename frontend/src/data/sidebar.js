@@ -1,4 +1,4 @@
-import { FaTh, FaRegChartBar, FaCommentAlt } from "react-icons/fa";
+import { FaTh, FaRegChartBar, FaCommentAlt , FaCalendarAlt , FaListAlt } from "react-icons/fa";
 import { BiImageAdd } from "react-icons/bi";
 
 const menu = [
@@ -25,6 +25,16 @@ const menu = [
         path: "/edit-profile",
       },
     ],
+  },
+  {
+    title: "Find an Expert",
+    icon: <FaCalendarAlt />,
+    path: "/expertlist",
+  },
+  {
+    title: "Appointment List",
+    icon: <FaListAlt />,
+    path: "/appointment-list",
   },
   {
     title: "Report Bug",
