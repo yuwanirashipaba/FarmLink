@@ -23,6 +23,11 @@ import AssignDelivery from "./components/AssignDelivery";
 import AllDeliveries from "./components/AllDeliveries";
 import AllBuddies from "./components/AllBuddies";
 import ListBuddy from "./components/ListBuddy";
+import AppointmentListPage from './components/appointmentList/AppointmentListPage';
+import AppointmentFormPage from './components/appointmentForm/AppointmentFormPage';
+import ExpertForm from './components/expertListingForm/expertListingForm';
+import ExpertDetails from './components/expertList/expertList';
+import ExpertAppointmentsPage from './components/expertAppointment/expertAppointmentPage';
 
 axios.defaults.withCredentials = true
 
@@ -149,6 +154,42 @@ function App() {
               <Sidebar>
                 <Layout>
                 <AllBuddies />
+                </Layout>
+              </Sidebar>
+            } />
+
+            <Route path="/appointment-list" element={
+              <Sidebar>
+                <Layout>
+                  <AppointmentListPage />
+                </Layout>
+              </Sidebar>
+            } />
+            <Route path="/appointment-form" element={
+              <Sidebar>
+                <Layout>
+                  <AppointmentFormPage />
+                </Layout>
+              </Sidebar>
+            } />
+            <Route path="/expertForm" element={
+              <Sidebar>
+                <Layout>
+                  <ExpertForm/>
+                </Layout>
+              </Sidebar>
+            } />
+            <Route path="/expertlist" element={
+              <Sidebar>
+                <Layout>
+                  <ExpertDetails  />
+                </Layout>
+              </Sidebar>
+            } />
+            <Route path="/expertAppointment" element={
+              <Sidebar>
+                <Layout>
+                  <ExpertAppointmentsPage />
                 </Layout>
               </Sidebar>
             } />
