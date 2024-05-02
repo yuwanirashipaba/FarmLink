@@ -2,10 +2,10 @@ import axios from 'axios';
 import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import AddProduct from './pages/addProduct/AddProduct';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from 'react';
 import { getLoginStatus } from './services/authService';
-import { SET_LOGIN } from './redux/features/auth/authSlice';
+import { SET_LOGIN, selectIsLoggedIn, selectName } from './redux/features/auth/authSlice';
 import { ToastContainer } from 'react-toastify';
 import Dashboard from './pages/dashboard/Dashboard';
 import Layout from './components/layout/Layout';
@@ -37,12 +37,28 @@ import ExpertMain from "./components/Expert/ExpertMain";
 import FarmerMain from "./components/Farmer/FarmerMain";
 
 
-
 axios.defaults.withCredentials = true
 let user;
 
 function App() {
 
+  const name = useSelector(selectName);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+
+
+console.log(name);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    async function loginStatus() {
+      const status = await getLoginStatus()
+      dispatch(SET_LOGIN(status))
+    }
+    loginStatus() 
+  }
+  , [dispatch])
+
+
+  
   try {
       user = JSON.parse(localStorage.getItem("role"));
 

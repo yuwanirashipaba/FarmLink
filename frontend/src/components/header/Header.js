@@ -1,29 +1,31 @@
 import React from 'react'
-import { logoutUser } from '../../services/authService'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom';
+import {  useSelector } from 'react-redux'
 import { SET_LOGIN, selectName } from '../../redux/features/auth/authSlice';
 
 
 const Header = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-//  const name = useSelector(selectName)
 
-//  const logout = async() => {
-//     await logoutUser();
-//     await dispatch(SET_LOGIN(false));
-//     navigate("/login")   
-//   }
+  const name = useSelector(selectName)
+
+  const handleLogout = () => {
+		if (localStorage.getItem("token")) {
+			localStorage.removeItem("token");
+			localStorage.removeItem("role");
+			window.location = "/login";
+      SET_LOGIN(false)
+		} else {
+			console.warn("Token not found in localStorage");
+		}
+	};
   return (
     <div className='--pad header'>
         
         <div className='--flex-between'>
             <h3>
                 <span className='--fw-thin'>Welcome,</span>
-                {/* <span className='--color-danger'>{name}</span> */}
+                <span className='--color-danger'>{name}</span>
             </h3>
-           {/* <button onClick={logout} className= "--btn --btn-danger">Logout</button> */} 
+           <button onClick={handleLogout} className= "--btn --btn-danger">Logout</button> 
         </div>
         
         
