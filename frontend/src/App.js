@@ -43,21 +43,16 @@ let user;
 
 function App() {
 
-// demo cookie
-
-document.cookie = "authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWY3ZjU1YjQ4ZDE1OTEzYTQzZmVkZGEiLCJpYXQiOjE3MTM5MzA4OTIsImV4cCI6MTcxNDUzNTY5Mn0.JC8Ila_SlAQ_lgHCSl28z-JhcKl8WG8Fevg0pMC8CHg; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-
-
-
-const dispatch = useDispatch();
-  
   try {
       user = JSON.parse(localStorage.getItem("role"));
+
   } catch (error) {
       console.error("Error parsing user from localStorage:", error);
-      
       return <Navigate to="/login" />;
   }
+
+
+
   return (
     <div className="App">
       <CategoryProvider>
@@ -87,7 +82,7 @@ const dispatch = useDispatch();
               </MarketplaceNavbar>
             } />
 
-            <Route path="/" element={
+            <Route path="/home" element={
               <MarketplaceNavbar showCategories={false}>
                 <MarketHome/>
               </MarketplaceNavbar>
@@ -174,7 +169,7 @@ const dispatch = useDispatch();
                 </Layout>
               </Sidebar>
             } />
-
+            
             <Route path="/appointment-list" element={
               <Sidebar>
                 <Layout>

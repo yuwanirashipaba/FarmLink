@@ -4,6 +4,7 @@ import { createProduct, selectIsLoading } from '../../redux/features/product/Pro
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Loader from '../../components/loader/Loader';
+import GlobalStyles from '../../GlobalStyles';
 
 
 const initialState = {
@@ -65,6 +66,7 @@ const AddProduct = () => {
 
     return (
     <div>
+      <GlobalStyles/>
         {isLoading && <Loader/>}
         <h3 >Add New Product</h3>
         <ProductForm

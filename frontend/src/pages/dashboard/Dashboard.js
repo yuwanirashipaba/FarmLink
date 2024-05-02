@@ -6,6 +6,7 @@ import { getProducts } from '../../redux/features/product/ProductSlice';
 import ProductList from '../../components/product/productList/ProductList';
 import ProductSummary from '../../components/product/productSummary/ProductSummary';
 import LineChart from '../../components/charts/lineChart';
+import GlobalStyles from '../../GlobalStyles';
 
 const Dashboard = () => {
  // useRedirectLoggedOutUser("/login");
@@ -35,6 +36,7 @@ const Dashboard = () => {
   return (
     <div>
       <h2>Dashboard</h2>
+      <GlobalStyles />
       <ProductSummary products={products} />
       <ProductList
         products={products}

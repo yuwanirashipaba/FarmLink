@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './expertList.scss';
+import GlobalStyles from '../../GlobalStyles';
 
 class ExpertDetails extends Component {
   constructor(props) {
@@ -28,7 +29,9 @@ class ExpertDetails extends Component {
     const { experts } = this.state;
 
     return (
+
       <div className="expert-details">
+        <GlobalStyles/>
         <h1 className="expert-details-title">Expert Details</h1>
         <div className="expert-card-container">
           {experts.map((expert) => (

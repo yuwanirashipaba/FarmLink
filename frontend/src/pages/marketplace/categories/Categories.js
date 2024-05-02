@@ -9,6 +9,7 @@ import Search from '../../../components/search/Search';
 import './Categories.css';
 import Footer from '../../../components/footer/Footer';
 import DualThumbRangeSlider from '../../../components/dualThumb/DualThumbRangeSlider'; // Make sure to import the actual slider component
+import GlobalStyles from '../../../GlobalStyles';
 
 function Categories() {
     const [search, setSearch] = useState("");
@@ -77,6 +78,7 @@ function Categories() {
 
   return (
     <>
+    <GlobalStyles/>
         <CategoriesNav />
         <Container fluid>
             <Row>

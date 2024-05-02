@@ -3,9 +3,12 @@ import RecentlyAddedProducts from '../../../components/marketPlace/RecentlyAdded
 import './HomePage.css'
 import TopSellingProducts from '../../../components/marketPlace/TopSellingProducts/TopSellingProducts';
 import FeatureBar from '../../../components/marketPlace/FeatureBar/FeatureBar';
+import GlobalStyles from '../../../GlobalStyles';
 const MarketplaceHomePage = () => {
   return (
+    
     <div className="homepage">
+      <GlobalStyles/>
       <h1 className='text-center'>Discover Exceptional Deals at Our Premier Marketplace!</h1>
       <section className="feature-section">
         <FeatureBar />

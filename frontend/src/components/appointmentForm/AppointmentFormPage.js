@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom'; // Import useLocation hook
 import './AppointmentFormPage.scss'; // Import SCSS file for styling
+import GlobalStyles from '../../GlobalStyles';
 
 const AppointmentFormPage = () => {
   const location = useLocation(); // Get the current location
@@ -68,6 +69,7 @@ const AppointmentFormPage = () => {
 
   return (
     <div className="appointment-form-page">
+      <GlobalStyles/>
       <h2>Request an Appointment</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">

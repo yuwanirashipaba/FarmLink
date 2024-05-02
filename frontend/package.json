@@ -34,6 +34,7 @@
     "react-toastify": "^10.0.5",
     "scss": "^0.2.4",
     "slick-carousel": "^1.8.1",
+    "styled-components": "^6.1.9",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

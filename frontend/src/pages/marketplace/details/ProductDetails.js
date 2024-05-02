@@ -7,6 +7,7 @@ import authService from '../../../services/authService';
 import './ProductDetails.css';
 import ProductCard from '../../../components/ProductCard/ProductCard';
 import Footer from '../../../components/footer/Footer';
+import GlobalStyles from '../../../GlobalStyles';
 
 
 
@@ -92,6 +93,7 @@ function ProductDetails() {
 
     return (
         <> 
+        <GlobalStyles/>
         <Container>
             <Row className="justify-content-center my-3">
                 <Col xs={12} md={5}>

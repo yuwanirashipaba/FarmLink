@@ -3,6 +3,7 @@ import axios from 'axios';
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import AppointmentPDF from './AppointmentPDF';
 import './AppointmentListPage.scss';
+import GlobalStyles from '../../GlobalStyles';
 
 function AppointmentListPage() {
   const [appointments, setAppointments] = useState([]);
@@ -82,6 +83,7 @@ function AppointmentListPage() {
 
   return (
     <div className="appointment-list-page">
+      <GlobalStyles/>
       <h2>Appointment List</h2>
       <table>
         <thead>

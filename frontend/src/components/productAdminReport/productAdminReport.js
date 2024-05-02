@@ -4,6 +4,7 @@ import productService from '../../redux/features/product/ProductService';
 import logo from '../../assets/logo.png';
 import { Card } from 'react-bootstrap';
 import ProductsTable from './ProductTable';
+import GlobalStyles from '../../GlobalStyles';
 
 const ProductAdminReport = () => {
   const [products, setProducts] = useState([]);
@@ -78,7 +79,9 @@ const ProductAdminReport = () => {
   };
 
   return (
+
     <div>
+      <GlobalStyles/>
       {loading ? (
         <p>Loading...</p>
       ) : (

@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 let storedName;
 
 try {
-  const localStorageValue = localStorage.getItem("name");
+  const localStorageValue = localStorage.getItem("firstName");
 
   // Check if the value is not null or undefined before parsing
   storedName = localStorageValue ? JSON.parse(localStorageValue) : "";
@@ -17,12 +18,9 @@ const initialState = {
   user: {
     name: "",
     email: "",
-    phone: "",
-    bio: "",
-    photo: "",
+    // Remove unused fields like photo, bio
   },
 };
-
 
 const authSlice = createSlice({
   name: "auth",
@@ -36,20 +34,17 @@ const authSlice = createSlice({
       state.name = action.payload;
     },
     SET_USER(state, action) {
-      const profile = action.payload;
-      state.user.name = profile.name;
-      state.user.email = profile.email;
-      state.user.phone = profile.phone;
-      state.user.bio = profile.bio;
-      state.user.photo = profile.photo;
+      const { name, email } = action.payload;
+      state.user.name = name;
+      state.user.email = email;
+      // Remove setting of unused fields like phone, bio
     },
   },
 });
 
 export const { SET_LOGIN, SET_NAME, SET_USER } = authSlice.actions;
 
-export const selectIsLoggedIn = (state) => /*state.auth.isLoggedIn*/ true;
-//export const selectName = (state) => state.auth.name;
+export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
 export const selectUser = (state) => state.auth.user;
 
 export default authSlice.reducer;
