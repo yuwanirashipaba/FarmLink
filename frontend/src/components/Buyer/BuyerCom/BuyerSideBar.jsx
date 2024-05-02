@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 
 const name = localStorage.getItem("firstName");
 const email = localStorage.getItem("email");
-console.log(name);
 
 const Sidebar = () => {
     const activeLink = 'hover:bg-white hover:text-teal-500 bg-teal-500 rounded-xl mt-2 pl-7 w-full h-10 flex justify-start items-center text-white text-sm space-x-1 font-bold'
