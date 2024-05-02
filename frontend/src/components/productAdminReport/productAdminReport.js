@@ -11,23 +11,38 @@ const ProductAdminReport = () => {
   const [outOfStock, setOutOfStock] = useState([]);
   const [totalQuantity, setTotalQuantity] = useState(0);
   const [inventoryValue, setInventoryValue] = useState(0);
+  const [vegiQuantity, setVegiQuantity] = useState(0);
+  const [fruitQuantity, setFruitQuantity] = useState(0);
 
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
+        const vegiQuantity = await productService.getProdcutsByCategory("Vegetable");
+        const fruitQuantity = await productService.getProdcutsByCategory("Fruit");
+ 
+        
         const res = await productService.getAllProducts();
         const parsedProducts = res.map(product => ({
           ...product,
           quantity: parseInt(product.quantity, 10)
         }));
+  
+      
+        const vegiProducts = parsedProducts.filter(product => product.category === "Vegetable");
+        const fruitProducts = parsedProducts.filter(product => product.category === "Fruit");
+  
+        const totalVegiQuantity = vegiProducts.reduce((acc, product) => acc + product.quantity, 0);
+        const totalFruitQuantity = fruitProducts.reduce((acc, product) => acc + product.quantity, 0);
+  
+        console.log(totalFruitQuantity, totalVegiQuantity);
+      
         setProducts(parsedProducts);
-        const outOfStockItems = parsedProducts.filter(product => product.quantity < 1);
-        setOutOfStock(outOfStockItems);
-        const totalQ = parsedProducts.reduce((acc, product) => acc + product.quantity, 0);
-        const invValue = parsedProducts.reduce((acc, product) => acc + (product.quantity * product.price), 0);
-        setTotalQuantity(totalQ);
-        setInventoryValue(invValue);
+        setOutOfStock(parsedProducts.filter(product => product.quantity < 1));
+        setTotalQuantity(parsedProducts.reduce((acc, product) => acc + product.quantity, 0));
+        setInventoryValue(parsedProducts.reduce((acc, product) => acc + (product.quantity * product.price), 0));
+        setVegiQuantity(totalVegiQuantity);
+        setFruitQuantity(totalFruitQuantity);
       } catch (err) {
         console.log(err);
       }
@@ -35,6 +50,7 @@ const ProductAdminReport = () => {
     };
     fetchProducts();
   }, []);
+  
 
   const downloadPdf = () => {
     const doc = new jsPDF();
@@ -46,8 +62,10 @@ const ProductAdminReport = () => {
     doc.setFont('helvetica', 'normal');
 
     let y = 50;
-    doc.text(`Total Quantity: ${totalQuantity}`, 10, y);
+    doc.text(`Total Vegitable Quantity: ${vegiQuantity}`, 10, y);
     y += 10;
+    doc.text(`Total Fruit Quantity: ${fruitQuantity}`, 10, y);
+    y+=10;
     doc.text(`Inventory Value: $${inventoryValue.toFixed(2)}`, 10, y);
     y += 10;
 
@@ -68,7 +86,8 @@ const ProductAdminReport = () => {
           <Card>
             
             <h2>Product Admin Report</h2>
-          <p> Total Quantity : {totalQuantity}</p>
+          <p> Total Vegitable Quantity : {vegiQuantity}</p>
+          <p> Total Fruit Quantity : {fruitQuantity}</p>
           <p> Inventory Value : ${inventoryValue.toFixed(2)}</p>
           {outOfStock.length > 0 && (
             <div>

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import './App.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import AddProduct from './pages/addProduct/AddProduct';
 import { useDispatch } from "react-redux";
 import { useEffect } from 'react';
@@ -28,33 +28,50 @@ import AppointmentFormPage from './components/appointmentForm/AppointmentFormPag
 import ExpertForm from './components/expertListingForm/expertListingForm';
 import ExpertDetails from './components/expertList/expertList';
 import ExpertAppointmentsPage from './components/expertAppointment/expertAppointmentPage';
+import AdminMain from "./components/Admin/AdminMain"
+import Signup from "./components/Singup";
+import Login from "./components/Login";
+import BuyerMain from "./components/Buyer/BuyerMain"
+import DeliveryMain from "./components/Delivery/DeliveryMain";
+import ExpertMain from "./components/Expert/ExpertMain";
+import FarmerMain from "./components/Farmer/FarmerMain";
+
+
 
 axios.defaults.withCredentials = true
-
+let user;
 
 function App() {
 
+// demo cookie
+
+document.cookie = "authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWY3ZjU1YjQ4ZDE1OTEzYTQzZmVkZGEiLCJpYXQiOjE3MTM5MzA4OTIsImV4cCI6MTcxNDUzNTY5Mn0.JC8Ila_SlAQ_lgHCSl28z-JhcKl8WG8Fevg0pMC8CHg; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+
+
+
+const dispatch = useDispatch();
   
-  // demo cookie
-
-  document.cookie = "authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWY3ZjU1YjQ4ZDE1OTEzYTQzZmVkZGEiLCJpYXQiOjE3MTM5MzA4OTIsImV4cCI6MTcxNDUzNTY5Mn0.JC8Ila_SlAQ_lgHCSl28z-JhcKl8WG8Fevg0pMC8CHg; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    async function loginStatus() {
-      const status = await getLoginStatus()
-      dispatch(SET_LOGIN(status))
-    }
-  //  loginStatus() commented out for now
+  try {
+      user = JSON.parse(localStorage.getItem("role"));
+  } catch (error) {
+      console.error("Error parsing user from localStorage:", error);
+      
+      return <Navigate to="/login" />;
   }
-    , [dispatch])
-
   return (
     <div className="App">
       <CategoryProvider>
         <BrowserRouter>
           <ToastContainer />
           <Routes>
+          {user && user.role === "admin" && <Route path="/*" element={<AdminMain />} />}
+            {user && user.role === "buyer" && <Route path="/*" element={<BuyerMain />} />}
+            {user && user.role === "farmer" && <Route path="/*" element={<FarmerMain />} />}
+            {user && user.role === "delivery" && <Route path="/*" element={<DeliveryMain />} />}
+            {user && user.role === "expert" && <Route path="/*" element={<ExpertMain />} />}
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Navigate replace to="/login" />} />
 
 
 
