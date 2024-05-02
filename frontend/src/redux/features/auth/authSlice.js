@@ -2,11 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 let storedName;
 
+
+
 try {
   const localStorageValue = localStorage.getItem("firstName");
-
-  // Check if the value is not null or undefined before parsing
-  storedName = localStorageValue ? JSON.parse(localStorageValue) : "";
+  storedName = localStorageValue || "";
+  
 } catch (error) {
   console.error("Error parsing 'name' from localStorage:", error);
   storedName = "";
@@ -18,7 +19,7 @@ const initialState = {
   user: {
     name: "",
     email: "",
-    // Remove unused fields like photo, bio
+    
   },
 };
 
@@ -37,7 +38,7 @@ const authSlice = createSlice({
       const { name, email } = action.payload;
       state.user.name = name;
       state.user.email = email;
-      // Remove setting of unused fields like phone, bio
+      
     },
   },
 });
@@ -46,5 +47,5 @@ export const { SET_LOGIN, SET_NAME, SET_USER } = authSlice.actions;
 
 export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
 export const selectUser = (state) => state.auth.user;
-
+export const selectuserID = (state) => state.auth._id;
 export default authSlice.reducer;

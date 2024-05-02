@@ -9,17 +9,17 @@ fs = require('fs');
 
 
 
-const demo = "65f7f55b48d15913a43fedda" // This is a demo user ID. In a real application, you would get the user ID from the request object
 // Add Product 
 
 const  createProduct = asyncHnadler(async (req,res) => {
-
+   
     const {name,sku,category,quantity,price,description} = req.body
 
     // Validation
     if(!name|| !category || !quantity || !price || !description ){
-        res.status(400)
-        throw new Error("Please fill in all fields")
+        res.status(400).json({ message: "Please fill in all fields" });
+        return
+        
 
     }
     // Handle Image upload
@@ -57,7 +57,7 @@ const  createProduct = asyncHnadler(async (req,res) => {
 
     //Create prduct
     const product = await Product.create({
-        user:demo,
+        user:req.user._id,
         name,
         sku,
         category,
@@ -89,7 +89,7 @@ const getProductByCategory = asyncHnadler(async (req, res) => {
 // Get All products 
 
 const getProduct = asyncHnadler(async (req,res) => {
-    const products = await Product.find({user:/*req.user._id*/demo}).sort("-createdAt")
+    const products = await Product.find({user:req.user._id}).sort("-createdAt")
     res.status(200).json(products)
  })
  
@@ -103,7 +103,7 @@ const getProduct = asyncHnadler(async (req,res) => {
          throw new Error("Product not found")
      }
      // match product to its user
-     if(product.user.toString() !== /*req.user._id*/demo){
+     if(product.user.toString() !== req.user._id){
          res.status(401)
          throw new Error("User Not authorized")
      }
@@ -137,7 +137,7 @@ const getProduct = asyncHnadler(async (req,res) => {
          throw new Error("Product not found")
      }
      // match product to its user
-     if(product.user.toString() !== /*req.user._id*/demo){
+     if(product.user.toString() !== req.user._id){
          res.status(401)
          throw new Error("User Not authorized")
      }
@@ -165,7 +165,7 @@ const getProduct = asyncHnadler(async (req,res) => {
  
      }
         // match product to its user
-        if(product.user.toString() !== /*req.user._id*/demo){
+        if(product.user.toString() !== req.user._id){
          res.status(401)
          throw new Error("User Not authorized")
      }

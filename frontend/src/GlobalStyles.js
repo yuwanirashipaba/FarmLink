@@ -504,4 +504,6 @@ a:hover {
 }
 `;
 
+
+
 export default GlobalStyles;

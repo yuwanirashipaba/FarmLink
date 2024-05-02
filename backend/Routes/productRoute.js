@@ -20,7 +20,7 @@ const { upload } = require("../Utills/fileupload");
 const { authenticate} = require('../middleware/authMiddleware');
 
 
-router.post("/",upload.single("image"), createProduct);
+router.post("/",upload.single("image"),authenticate, createProduct);
 router.patch("/:id",authenticate, upload.single("image"), updateProduct);
 router.delete("/:id",authenticate,deleteProduct);
 router.get("/all",authenticate,getAllProduct);

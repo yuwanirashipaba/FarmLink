@@ -8,7 +8,7 @@ import { getProduct } from '../../../redux/features/product/ProductSlice'
 import Card from '../../card/Card'
 import { SpinnerImg } from '../../loader/Loader'
 import DOMPurify from "dompurify"
-
+import GlobalStyles from '../../../GlobalStyles'
 
 
 
@@ -42,6 +42,7 @@ const ProductDetails = () => {
 
   return (
     <div className='product-detail'>
+      <GlobalStyles/>
       <h3 className='--mt'>Product Details</h3>
       <Card cardClass="card" >
         {isLoading && <SpinnerImg />}

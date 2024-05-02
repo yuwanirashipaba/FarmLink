@@ -55,6 +55,7 @@ function App() {
 
   return (
     <div className="App">
+      
       <CategoryProvider>
         <BrowserRouter>
           <ToastContainer />
@@ -67,7 +68,6 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Navigate replace to="/login" />} />
-
 
 
             <Route path="/market" element={

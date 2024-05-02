@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { getProduct, getProducts, selectIsLoading, selectProduct, updateProducts } from '../../redux/features/product/ProductSlice';
 import Loader from '../../components/loader/Loader';
 import ProductForm from '../../components/product/productForm/ProductForm';
-
+import GlobalStyles from "../../../src/GlobalStyles"
 const EditProduct = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
@@ -61,6 +61,7 @@ const EditProduct = () => {
 
     return (
         <div>
+            <GlobalStyles/>
             {isLoading && <Loader />}
             <h3 className='--mt'>Edit Product</h3>
             <ProductForm
