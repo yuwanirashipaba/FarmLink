@@ -1,16 +1,26 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import './ProductsTable.css'; // Make sure the CSS path is correct
-import { getAllProducts } from '../../redux/features/product/ProductSlice';
+import React, { useState, useEffect } from 'react';
+import './ProductsTable.css'; 
+import productService from '../../redux/features/product/ProductService';
 
 const ProductsTable = () => {
-    const dispatch = useDispatch();
-    const { products, loading } = useSelector(state => state.product);
-    useEffect(() => {
-        dispatch(getAllProducts());
-    }, [dispatch]);
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    console.log(products);
+    useEffect(() => {
+        const fetchProducts = async () => {
+            setLoading(true);
+            try {
+                // Fetch all products
+                let res = await productService.getAllProducts();
+    
+                setProducts(res);
+            } catch (err) {
+                console.log(err);
+            }
+            setLoading(false);
+        };
+        fetchProducts();
+    }, []);
     if (loading) return <p>Loading...</p>;
 
     return (
@@ -24,15 +34,14 @@ const ProductsTable = () => {
                 </tr>
             </thead>
             <tbody>
-                {products.map(product => (
-                    
-                    <tr key={product.id}>
-                        <td>{product.name}</td>
-                        <td>{product.category}</td>
-                        <td>${product.price}</td>
-                        <td>{product.quantity}</td>
-                    </tr>
-                ))}
+            {products.map((product, index) => (
+    <tr key={product.id || index}>
+        <td>{product.name}</td>
+        <td>{product.category}</td>
+        <td>${product.price}</td>
+        <td>{product.quantity}</td>
+    </tr>
+))}
             </tbody>
         </table>
     );

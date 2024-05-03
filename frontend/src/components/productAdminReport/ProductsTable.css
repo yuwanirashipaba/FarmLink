@@ -8,6 +8,7 @@
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
+    color: #333; /* Adjusted text color */
 }
 
 .products-table th {
