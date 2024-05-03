@@ -67,7 +67,7 @@ function App() {
             )}
             {user && user.role === "buyer" && (
               <Route
-                path="/home*"
+                path="/**"
                 element={
                   <MarketplaceNavbar showCategories={false}>
                     <MarketHome />
