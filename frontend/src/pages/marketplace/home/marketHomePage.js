@@ -6,6 +6,8 @@ import GlobalStyles from '../../../GlobalStyles';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import SpecialOffers from '../../../components/marketPlace/SpecialOffers/SpecialOffers';
+
 import './HomePage.css';
 import IMG1 from "./img1.jpg";
 import IMG2 from "./img2.jpg";
@@ -73,6 +75,7 @@ const MarketplaceHomePage = () => {
       </section>
       <section className="special-offers">
         <h2>Special Offers</h2>
+        <SpecialOffers />
       </section>
       <section className="top-selling">
         <div className="section-content">

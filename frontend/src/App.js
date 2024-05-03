@@ -35,6 +35,8 @@ import BuyerMain from "./components/Buyer/BuyerMain";
 import DeliveryMain from "./components/Delivery/DeliveryMain";
 import ExpertMain from "./components/Expert/ExpertMain";
 import FarmerMain from "./components/Farmer/FarmerMain";
+import OfferManagement from "./components/offer/Offers";
+import OfferPreview from "./components/offer/OfferPreview";
 
 axios.defaults.withCredentials = true;
 let user;
@@ -267,6 +269,29 @@ function App() {
                 </Sidebar>
               }
             />
+            <Route path="/offers" element={
+
+<Sidebar>
+  <Layout>
+  <OfferManagement />
+
+  </Layout>
+</Sidebar>
+
+
+} />
+<Route path="/offers-preview" element={
+<Sidebar>
+<Layout>
+<OfferPreview />
+
+
+</Layout>
+</Sidebar>
+
+
+
+} />
           </Routes>
         </BrowserRouter>
       </CategoryProvider>

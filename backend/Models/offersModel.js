@@ -1,18 +1,31 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const offerSchema = mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: [true, "Please add a name"],
-      trim: true,
+const offerSchema = new Schema({
+  products: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
     },
-
-    
-
+  ],
+  coupon: {
+    type: String,
+    default: null,
   },
-  { timestamps: true }
-);
-const offer = mongoose.model("offer", offerSchema); 
+  discount: {
+    type: Number,
+    default: null,
+  },
+  startDate: {
+    type: Date,
+    required: true,
+  },
+  endDate: {
+    type: Date,
+    required: true,
+  },
+});
 
-module.exports = offer;
+const Offer = mongoose.model("Offer", offerSchema);
+
+module.exports = Offer;

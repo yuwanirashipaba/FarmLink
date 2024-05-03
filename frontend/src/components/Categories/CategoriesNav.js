@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import './Categories.css';
-import { FaCarrot, FaAppleAlt, FaBorderAll } from "react-icons/fa";
+import { FaCarrot, FaAppleAlt, FaBorderAll,FaTags } from "react-icons/fa";
 import { useCategory } from '../../customHook/CategoryProvider';
 
 
@@ -35,6 +35,9 @@ function CategoriesNav() {
                 >
                     <FaCarrot />Vegetables
                 </Button>{' '}
+
+                <Button variant="success" id='offers' style={{ width: 'auto', height: 'auto' }}  onClick={() => setCategory('offers')}><FaTags />Offers</Button>{' '}
+
             </div>
         </div>
     );

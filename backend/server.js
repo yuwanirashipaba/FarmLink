@@ -13,7 +13,7 @@ const deliveryRouter = require("./Routes/deliveryRoute.js");
 const deliBuddyRouter = require("./Routes/delBuddyRoute.js"); 
 const appointmentRoutes = require('./Routes/appointmentRoute');
 const expertListingRoute = require('./Routes/expertListingRoute')
-
+const offerRouter = require("./Routes/offersRoute");
 
 const PORT = process.env.PORT || 2001;
 const app = express();
@@ -44,6 +44,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/appointments",appointmentRoutes)
 app.use("/expertlisting", expertListingRoute);
 
+app.use("/api/offers", offerRouter);
 
 
 // Route from main branch
