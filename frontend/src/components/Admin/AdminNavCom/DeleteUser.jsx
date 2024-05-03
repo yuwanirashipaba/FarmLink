@@ -28,7 +28,7 @@ const UserManagement = () => {
     const confirmed = window.confirm("Are you sure you want to delete this user?");
     if (confirmed) {
       try {
-        const response = await axios.delete(`http://localhost:5001/users/${id}`);
+        const response = await axios.delete(`http://localhost:5000/users/${id}`);
         setMessage(response.data.message);
         // Remove the deleted user from the local state
         setUsers(users.filter((user) => user._id !== id));
@@ -59,7 +59,7 @@ const UserManagement = () => {
       }
     }
   };
-
+      //search user
   const filteredUsers = users.filter((user) =>
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );

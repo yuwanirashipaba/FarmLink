@@ -10,16 +10,16 @@ export const SidebarData=[
         path: "/search",
       },
       {
-        title: "Sample",
-        path: "/sample3",
+        title: "Product Report",
+        path: "/product_report",
       },
       {
-        title: "Sample",
-        path: "/sample4",
+        title: "Delivery Assign",
+        path: "/delivery_delivery",
       },
       {
-        title: "Sample",
-        path: "/sample5",
+        title: "All Buddies",
+        path: "/allbuddies",
       },
      
       {

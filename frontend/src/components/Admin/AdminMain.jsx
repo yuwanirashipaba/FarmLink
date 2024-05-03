@@ -5,7 +5,8 @@ import AdminNavigation from "../Admin/AdminCom/AdminNavigation";
 
 const AdminMain = () => {
   return (
-    <React.Fragment>
+    
+    <React.Fragment >
       {/* heading section */}
       <section>
         <div>
@@ -27,6 +28,7 @@ const AdminMain = () => {
         </div>
       </section>
     </React.Fragment>
+    
   )
 }
 

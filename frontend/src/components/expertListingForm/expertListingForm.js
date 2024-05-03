@@ -87,7 +87,7 @@ const ExpertForm = () => {
 
   return (
     <div>
-      <ExpertDetails experts={experts} expertiseOptions={expertiseOptions} /> {/* Pass expertise options as a prop */}
+      
       <div className="form-container">
         <h1 className="form-title">Add Expert Farmer</h1>
         <form onSubmit={handleSubmit} encType="multipart/form-data">

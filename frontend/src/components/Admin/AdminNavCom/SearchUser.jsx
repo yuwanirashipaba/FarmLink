@@ -24,7 +24,7 @@ const UsersList = () => {
 
   const downloadPDF = async (user) => {
     try {
-      const response = await axios.post("http://localhost:5001/download", { user }, { responseType: 'arraybuffer' });
+      const response = await axios.post("http://localhost:5000/download", { user }, { responseType: 'arraybuffer' });
       const blob = new Blob([response.data], { type: "application/pdf" });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -37,8 +37,8 @@ const UsersList = () => {
       console.error("Failed to download PDF:", error);
     }
   };
-
-  const filteredUsers = users.filter((user) =>
+    //search user
+  const filteredUsers = users.filter((user) =>  
     user.firstName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 

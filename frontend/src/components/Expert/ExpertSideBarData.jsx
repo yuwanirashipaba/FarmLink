@@ -6,12 +6,12 @@ export const SidebarData=[
         path: "/*",
       },
       {
-        title: "Sample",
-        path: "/sample2",
+        title: "Expert Form",
+        path: "/expert_form",
       },
       {
-        title: "Sample",
-        path: "/sample3",
+        title: "Appointment",
+        path: "/appoi",
       },
       {
         title: "Sample",

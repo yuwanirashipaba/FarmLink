@@ -2,7 +2,7 @@ import React, { useState, useEffect} from "react";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import image from "../../../src/image/curriculum-vitae.png"
+import image from "../../image/curriculum-vitae.png"
 
 
 

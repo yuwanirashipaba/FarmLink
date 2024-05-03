@@ -94,7 +94,7 @@ const Signup = () => {
 
   								<option value="farmer">Farmer</option>
   								<option value="buyer">Buyer</option>
-  								<option value="admin">Admin</option>
+  								
 								<option value="delivery">Delivery</option>
 								<option value="expert">Expert</option>
 						</select>

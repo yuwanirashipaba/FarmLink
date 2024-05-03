@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Sample from "../DeliveryNavCom/Sample";
 import UpdateDelivery from "../DeliveryNavCom/UpdateDelivery";
+import ListBuddy from "../../ListBuddy";
 
 const NavPage = () => {
 
@@ -12,6 +13,7 @@ const NavPage = () => {
         <section>
           <Routes>
             <Route path="/updatedelivery" element={<UpdateDelivery />} />
+            <Route path="/listbuddies" element={<ListBuddy />} />
             <Route path="/*" element={<Sample />} />
           
           </Routes>

@@ -6,8 +6,8 @@ export const SidebarData=[
         path: "/*",
       },
       {
-        title: "Sample",
-        path: "/sample2",
+        title: "List Buddies",
+        path: "/listbuddies",
       },
       {
         title: "Sample",

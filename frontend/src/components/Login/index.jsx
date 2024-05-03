@@ -11,16 +11,12 @@ const Login = () => {
     const handleChange = ({ currentTarget: input }) => {
         setData({ ...data, [input.name]: input.value });
     };
-    
 
-    
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            
             const url = "http://localhost:5000/api/auth";
             const { data: res } = await axios.post(url, data);
-            console.log(res.firstName);
             localStorage.setItem("token", res.token);
             localStorage.setItem("userId", res.userId);
             localStorage.setItem("email", res.email);

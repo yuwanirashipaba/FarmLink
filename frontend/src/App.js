@@ -67,7 +67,7 @@ function App() {
             )}
             {user && user.role === "buyer" && (
               <Route
-                path="/*"
+                path="/home*"
                 element={
                   <MarketplaceNavbar showCategories={false}>
                     <MarketHome />
@@ -97,6 +97,17 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Navigate replace to="/login" />} />
 
+
+            <Route
+              path="/market"
+              element={
+                <MarketplaceNavbar showCategories={true}>
+                  <Categories/>
+                </MarketplaceNavbar>
+              }
+            />
+            
+
             <Route
               path="/product/:productId"
               element={
@@ -105,6 +116,7 @@ function App() {
                 </MarketplaceNavbar>
               }
             />
+
 
             <Route
               path="/dashboard"
