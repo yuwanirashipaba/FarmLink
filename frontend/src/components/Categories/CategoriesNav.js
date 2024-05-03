@@ -11,9 +11,30 @@ function CategoriesNav() {
         <div className="container" id="categories">
             <h1>Categories</h1>
             <div className="divider">
-                <Button variant="dark" id='all' onClick={() => setCategory('all')}><FaBorderAll />All</Button>{' '}
-                <Button variant="dark" id='fruits' onClick={() => setCategory('Fruit')}><FaAppleAlt />Fruits</Button>{' '}
-                <Button variant="dark" id='vegetables' onClick={() => setCategory('Vegetable')}><FaCarrot />Vegetables</Button>{' '}
+                <Button 
+                    variant="success" // Change to a color associated with agriculture, such as green
+                    id='all' 
+                    style={{ width: 'auto', height: 'auto' }} 
+                    onClick={() => setCategory('all')}
+                >
+                    <FaBorderAll />All
+                </Button>{' '}
+                <Button 
+                    variant="warning" // Change to a color associated with fruits, such as orange
+                    id='fruits' 
+                    style={{ width: 'auto', height: 'auto' }}
+                    onClick={() => setCategory('Fruit')}
+                >
+                    <FaAppleAlt />Fruits
+                </Button>{' '}
+                <Button 
+                    variant="info" // Change to a color associated with vegetables, such as green
+                    id='vegetables' 
+                    style={{ width: 'auto', height: 'auto' }} 
+                    onClick={() => setCategory('Vegetable')}
+                >
+                    <FaCarrot />Vegetables
+                </Button>{' '}
             </div>
         </div>
     );
