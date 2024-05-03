@@ -10,6 +10,10 @@ function MarketplaceNavbar({ children, showCategories = true }) {
         setCategory(category);
     };
 
+
+
+    
+
     return (
         <>
             <Navbar bg="light" expand="lg" className="shadow-sm">
