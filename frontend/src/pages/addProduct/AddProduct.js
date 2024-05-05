@@ -23,7 +23,6 @@ const AddProduct = () => {
     const [imagePreview, setImagePreview] = useState(null)
     const [description, setDescription] = useState("")
 
-
     const isLoading = useSelector(selectIsLoading)
 
     const {name,category,price,quantity} = product

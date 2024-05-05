@@ -131,7 +131,7 @@ const ProductList = ({ products, isLoading }) => {
                                                 <td>{category}</td>
                                                 <td>{"$"}{price}</td>
                                                 <td>{quantity}</td>
-                                                <td>{"$"}{price * quantity}</td>
+                                                <td>{"$"}{(price * quantity).toFixed(2)}</td>
                                                 <td className='icons'>
                                                     <span>
                                                         <Link to={`/product-detail/${_id}`}>
