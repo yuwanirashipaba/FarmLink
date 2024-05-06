@@ -38,9 +38,14 @@ import FarmerMain from "./components/Farmer/FarmerMain";
 import OfferManagement from "./components/offer/Offers";
 import OfferPreview from "./components/offer/OfferPreview";
 import Allfeedbacks from './components/Allfeedbacks'; // Import Allfeedbacks component
-import Addfeedback from './components/Addfeedback'; 
+import Addfeedback from './components/Addfeedback';
 import AcceptFeedbacks from './components/Acceptfeedbacks';
 import AcceptedFeedbacks from './components/Acceptedfeedbacks';
+import Cart from './pages/marketplace/details/Cart';
+import Order from './pages/marketplace/details/Orders';
+import Checkout from './pages/marketplace/details/Checkout';
+import AllOrders from './pages/marketplace/details/allOrders';
+import CartCheckout from './pages/marketplace/details/cartcheckout';
 axios.defaults.withCredentials = true;
 let user;
 
@@ -293,6 +298,43 @@ function App() {
             <Route path="/add" element={<Addfeedback />} />
             <Route path="/accept" element={<AcceptFeedbacks />} />
             <Route path="/accepted-feedbacks" element={<AcceptedFeedbacks />} />
+
+
+
+
+            <Route path="/checkout/:productId" element={
+              <MarketplaceNavbar showCategories={false}>
+                <Checkout />
+              </MarketplaceNavbar>
+            } />
+
+            <Route path="/cartcheckout/:cartId" element={<MarketplaceNavbar showCategories={false}><CartCheckout /></MarketplaceNavbar>} />
+
+
+
+
+            <Route path="/allorders" element={
+              <Sidebar>
+                <Layout>
+                  <AllOrders />
+                </Layout>
+              </Sidebar>
+            } />
+
+            <Route path="/cart" element={
+              <MarketplaceNavbar showCategories={false}>
+                <Cart />
+              </MarketplaceNavbar>
+            } />
+
+            <Route path="/orders" element={
+              <MarketplaceNavbar showCategories={false}>
+                <Order />
+              </MarketplaceNavbar>
+            } />
+
+
+
           </Routes>
         </BrowserRouter>
       </CategoryProvider>

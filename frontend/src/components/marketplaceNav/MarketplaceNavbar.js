@@ -19,6 +19,7 @@ function MarketplaceNavbar({ children, showCategories = true }) {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link href="/*" style={{marginLeft: "2rem"}} >Home</Nav.Link>
+                            <Nav.Link href="/cart" style={{marginLeft: "2rem"}} >Cart</Nav.Link>
                             <Nav.Link href="/products" style={{marginLeft: "2rem"}} >Products</Nav.Link>
                             {showCategories && (
                                 <NavDropdown title="Categories" id="basic-nav-dropdown" style={{marginLeft: "2rem"}} >

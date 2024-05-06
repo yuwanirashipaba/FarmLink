@@ -15,6 +15,8 @@ const appointmentRoutes = require('./Routes/appointmentRoute');
 const expertListingRoute = require('./Routes/expertListingRoute')
 const offerRouter = require("./Routes/offersRoute");
 const feedbackRouter=require("./routes/feedbacks.js");
+const cartRoutes =require("./Routes/cartRoutes");
+const orderRoutes = require("./Routes/orderRouter");
 const nodemailer = require('nodemailer');
 const PORT = process.env.PORT || 2001;
 const app = express();
@@ -44,7 +46,8 @@ app.use("/delBuddyModel", deliBuddyRouter);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/appointments",appointmentRoutes)
 app.use("/expertlisting", expertListingRoute);
-
+app.use("/api/cart", cartRoutes);
+app.use("/api/order",orderRoutes);
 app.use("/api/offers", offerRouter);
 app.use("/feedback",feedbackRouter);
 
