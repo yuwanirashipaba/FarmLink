@@ -37,7 +37,10 @@ import ExpertMain from "./components/Expert/ExpertMain";
 import FarmerMain from "./components/Farmer/FarmerMain";
 import OfferManagement from "./components/offer/Offers";
 import OfferPreview from "./components/offer/OfferPreview";
-
+import Allfeedbacks from './components/Allfeedbacks'; // Import Allfeedbacks component
+import Addfeedback from './components/Addfeedback'; 
+import AcceptFeedbacks from './components/Acceptfeedbacks';
+import AcceptedFeedbacks from './components/Acceptedfeedbacks';
 axios.defaults.withCredentials = true;
 let user;
 
@@ -99,16 +102,14 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Navigate replace to="/login" />} />
 
-
             <Route
               path="/market"
               element={
                 <MarketplaceNavbar showCategories={true}>
-                  <Categories/>
+                  <Categories />
                 </MarketplaceNavbar>
               }
             />
-            
 
             <Route
               path="/product/:productId"
@@ -118,7 +119,6 @@ function App() {
                 </MarketplaceNavbar>
               }
             />
-
 
             <Route
               path="/dashboard"
@@ -269,29 +269,30 @@ function App() {
                 </Sidebar>
               }
             />
-            <Route path="/offers" element={
-
-<Sidebar>
-  <Layout>
-  <OfferManagement />
-
-  </Layout>
-</Sidebar>
-
-
-} />
-<Route path="/offers-preview" element={
-<Sidebar>
-<Layout>
-<OfferPreview />
-
-
-</Layout>
-</Sidebar>
-
-
-
-} />
+            <Route
+              path="/offers"
+              element={
+                <Sidebar>
+                  <Layout>
+                    <OfferManagement />
+                  </Layout>
+                </Sidebar>
+              }
+            />
+            <Route
+              path="/offers-preview"
+              element={
+                <Sidebar>
+                  <Layout>
+                    <OfferPreview />
+                  </Layout>
+                </Sidebar>
+              }
+            />
+            <Route path="/allfeedback" element={<Allfeedbacks />} />
+            <Route path="/add" element={<Addfeedback />} />
+            <Route path="/accept" element={<AcceptFeedbacks />} />
+            <Route path="/accepted-feedbacks" element={<AcceptedFeedbacks />} />
           </Routes>
         </BrowserRouter>
       </CategoryProvider>

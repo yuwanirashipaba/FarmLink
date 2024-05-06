@@ -9,6 +9,7 @@ import ProductCard from '../../../components/ProductCard/ProductCard';
 import Footer from '../../../components/footer/Footer';
 import GlobalStyles from '../../../GlobalStyles';
 import Moment from 'react-moment';
+import AcceptedFeedbacks from '../../../components/Acceptedfeedbacks';
 
 
 
@@ -198,6 +199,8 @@ function ProductDetails() {
             </Row>
            
         </Container>
+                <AcceptedFeedbacks/>
+
         <div className='Footer'>  <Footer/></div>
        
          </>
