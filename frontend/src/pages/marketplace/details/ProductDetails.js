@@ -13,7 +13,7 @@ import AcceptedFeedbacks from '../../../components/Acceptedfeedbacks';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 let maxPiecesAvailable = 0;
-
+let userid;
 function ProductDetails() {
     const navigate = useNavigate();
     const { productId } = useParams();
@@ -29,6 +29,8 @@ function ProductDetails() {
 
     useEffect(() => {
         const fetchProductDetails = async () => {
+            userid = localStorage.getItem('userId');
+            
             setIsLoading(true);
             try {
                 const fetchedProduct = await productService.getProduct(productId);
@@ -91,11 +93,13 @@ function ProductDetails() {
     if (!product) {
         return <div>Product not found.</div>;
     }
-
+console.log(userid);
     const buyNow = () => {
         
         navigate(`/checkout/${productId}`, { state: { count } });
     };
+
+    
     const addToCart = async () => {
         try {
             if (isNaN(product.price) || isNaN(count)) {
@@ -108,7 +112,7 @@ function ProductDetails() {
                 productName: product.name,
                 productPrice: product.price,
                 productAmount: productAmount,
-                userId: "611f4a5b8f7a040015c6c851",
+                userId: userid,
                 quantity: count,
                 imageUrl: product.image.filePath
             });
