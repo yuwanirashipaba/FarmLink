@@ -96,13 +96,7 @@ function ProductCard({ product }) {
                 </Card.Text>
                 {product.quantity <= 0 ? (
                     <div className="out-of-stock-message">Out of stock</div>
-                ) : (
-                    isHovering && (
-                        <Button variant="primary" className="see-preview-btn" onClick={handlePreview}>
-                            See Preview
-                        </Button>
-                    )
-                )}
+                ) :null}
             <span>{productOwner?.firstName}</span>
             </Card.Body>
         </Card>

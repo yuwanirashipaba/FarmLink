@@ -74,18 +74,10 @@
     padding: 5px 10px 5px 10px; 
     border-radius: 5px; 
     font-size: 14px; 
-    display: none; 
-}
-
-.product-card:hover .out-of-stock-message {
-    display: block; /* Display the message on hover */
+    display: block; /* Always display the message */
 }
 
 
-
-.product-card:hover .out-of-stock-message {
-    display: block; /* Display the message on hover */
-}
 .price-offer{
     display: flex;
     justify-content: space-between;

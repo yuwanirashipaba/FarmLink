@@ -14,11 +14,11 @@ function MarketplaceNavbar({ children, showCategories = true }) {
         <>
             <Navbar bg="light" expand="lg" className="shadow-sm">
                 <Container>
-                    <Navbar.Brand href="/market">Marketplace</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
+                        <Nav className="me-auto">  
                             <Nav.Link href="/*" style={{marginLeft: "2rem"}} >Home</Nav.Link>
+                            <Nav.Link href="/market" style={{marginLeft: "2rem"}} >Shop</Nav.Link>
                             <Nav.Link href="/cart" style={{marginLeft: "2rem"}} >Cart</Nav.Link>
                             <Nav.Link href="/products" style={{marginLeft: "2rem"}} >Products</Nav.Link>
                             {showCategories && (
