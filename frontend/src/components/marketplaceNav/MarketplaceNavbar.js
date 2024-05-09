@@ -28,6 +28,7 @@ function MarketplaceNavbar({ children, showCategories = true }) {
                                     <NavDropdown.Item onClick={() => handleCategorySelect('all')}>All Categories</NavDropdown.Item>
                                 </NavDropdown>
                             )}
+                            <Nav.Link href="/bidding" style={{marginLeft: "2rem"}} >Biddings</Nav.Link>
                         </Nav>
                         <Nav>
                             <Nav.Link href="#account"style={{marginLeft: "52rem"}}>

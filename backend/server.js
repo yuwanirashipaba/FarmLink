@@ -18,6 +18,8 @@ const feedbackRouter=require("./routes/feedbacks.js");
 const cartRoutes =require("./Routes/cartRoutes");
 const orderRoutes = require("./Routes/orderRouter");
 const nodemailer = require('nodemailer');
+const buyerReqRoute =require("./Routes/BuyerReqRoute");
+
 const PORT = process.env.PORT || 2001;
 const app = express();
 const FRONTEND_URL = process.env.FRONTEND_URL;
@@ -50,7 +52,7 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/order",orderRoutes);
 app.use("/api/offers", offerRouter);
 app.use("/feedback",feedbackRouter);
-
+app.use("/api/buyer", buyerReqRoute);
 // Route from main branch
 app.get("/", (req, res) => {
     res.send("Home page");

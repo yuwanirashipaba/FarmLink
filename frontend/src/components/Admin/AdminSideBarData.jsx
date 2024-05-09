@@ -27,8 +27,8 @@ export const SidebarData=[
         path: "/sample6",
       },
       {
-        title: "Sample",
-        path: "/sample7",
+        title: "Biddings",
+        path: "/viewBiddings",
       },
       {
         title: "Delete Users",

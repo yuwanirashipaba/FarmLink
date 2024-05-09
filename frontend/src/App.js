@@ -46,6 +46,13 @@ import Order from './pages/marketplace/details/Orders';
 import Checkout from './pages/marketplace/details/Checkout';
 import AllOrders from './pages/marketplace/details/allOrders';
 import CartCheckout from './pages/marketplace/details/cartcheckout';
+import BiddingList from "./pages/bidding/BiddingList/BiddingList";
+import BiddingDetails from "./pages/bidding/BiddingDetails/BiddingDetails";
+import AddBidding from "./pages/bidding/AddBidding";
+import BiddingForm from "./pages/bidding/BiddingForm";
+import ViewBiddings from "./components/Admin/AdminNavCom/ViewBiddings";
+import UpdateBiddingForm from "./pages/bidding/UpdateBiddingForm";
+
 axios.defaults.withCredentials = true;
 let user;
 
@@ -333,6 +340,49 @@ function App() {
               </MarketplaceNavbar>
             } />
 
+
+            <Route path="/bidding" element={
+              <MarketplaceNavbar showCategories={true}>
+                <BiddingList />
+              </MarketplaceNavbar>
+            } />
+
+            <Route path="/bidding/:biddingId" element={
+              <MarketplaceNavbar showCategories={false}>
+                <BiddingDetails />
+              </MarketplaceNavbar>
+            } />
+             <Route
+                path="/addBidding"
+                element={
+                  <Sidebar>
+                    <Layout>
+                      <AddBidding />
+                    </Layout>
+                  </Sidebar>
+                }
+              />
+              <Route
+                path="/biddingForm"
+                element={
+                  <Sidebar>
+                    <Layout>
+                      <BiddingForm />
+                    </Layout>
+                  </Sidebar>
+                }
+              />
+              <Route
+                path="/updateBiddingForm/:id"
+                element={
+                  <Sidebar>
+                    <Layout>
+                      <UpdateBiddingForm />
+                    </Layout>
+                  </Sidebar>
+                }
+              />
+              
 
 
           </Routes>
