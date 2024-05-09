@@ -89,42 +89,40 @@ function CartCheckout() {
     };
 
     return (
-        <div className="card">
+        <div className="cart-card">
             <div className="card-body">
-                <div className="row upper">
-                    <span><i className="fa fa-check-circle-o"></i> Payment</span>
-                </div>
+                
                 <div className="row">
                     <div className="col-md-7">
-                        <div className="left border">
+                        <div className="left21 border">
                             <div className="row">
-                                <span className="header">Payment</span>
-                                <div className="icons">
+                                <span className="cart-header21">Payment</span>
+                                <div className="icons21">
                                     <img src="https://img.icons8.com/color/48/000000/visa.png" alt="visa"/>
                                     <img src="https://img.icons8.com/color/48/000000/mastercard-logo.png" alt="mastercard"/>
                                     <img src="https://img.icons8.com/color/48/000000/maestro.png" alt="maestro"/>
                                 </div>
                             </div>
-                            <form>
-                                <span>Cardholder's name:</span>
-                                <input placeholder="Linda Williams"/>
-                                <span>Card Number:</span>
-                                <input placeholder="0125 6780 4567 9909"/>
-                                <div className="row">
-                                    <div className="col-4"><span>Expiry date:</span>
-                                        <input placeholder="YY/MM"/>
-                                    </div>
-                                    <div className="col-4"><span>CVV:</span>
-                                        <input id="cvv"/>
-                                    </div>
-                                </div>
+                            <form className="class21">
+                            <span>Cardholder's name:</span>
+<input className="input21-cart" placeholder="Linda Williams"/>
+<br/><span>Card Number:</span>
+<input className="input21-cart" placeholder="0125 6780 4567 9909"/>
+<div className="row">
+    <div className="col-4"><span>Expiry date:</span>
+        <input className="input21-cart" placeholder="YY/MM"/>
+    </div>
+    <div className="col-4"><span>CVV:</span>
+        <input id="cvv" className="input21-cart"/>
+    </div>
+</div>
                                 
                             </form>
                         </div>                        
                     </div>
                     <div className="col-md-5">
-                        <div className="right border">
-                            <div className="header">Order Summary</div>
+                        <div className="right21 border">
+                            <div className="cart-header21">Order Summary</div>
                             <p>{totalItems} items</p>
                             {cart && cart.items.map((item) => (
                                 <div className="row item" key={item._id}>
@@ -137,39 +135,39 @@ function CartCheckout() {
                                     <hr/>
                                 </div>
                             ))}
-                            <hr/>
-                            <div className="row lower">
-                                <div className="col text-left">Subtotal</div>
+                            
+                            <div className="row lower21">
+                                <div className="col text-left">Sub Total</div>
                                 <div className="col text-right">$ {totalWithDiscount.toFixed(2)}</div>
                             </div>
-                            <div className="row lower">
+                            <div className="row lower21">
                                 <div className="col text-left">Shipping</div>
                                 <div className="col text-right">+ ${shippingPrice}</div>
                             </div>
-                            <div className="row lower">
+                            <div className="row lower21">
                                 <div className="col text-left">Discount</div>
                                 <div className="col text-right">- ${discountAmount}</div>
                             </div>
-                            <div className="row lower">
+                            <div className="row lower21">
                                 <div className="col text-left">Coupon</div>
                                 <div className="col text-right">
-                                    <input type="text" value={coupon} onChange={handleCouponChange} placeholder="Enter Coupon"/>
-                                    <button onClick={applyCoupon}>Apply Coupon</button>
+                                    <input className="coupon-input" type="text" value={coupon} onChange={handleCouponChange} placeholder="Enter Coupon"/>
+                                    <button className="coupon-btn" onClick={applyCoupon}>Apply Coupon</button>
                                 </div>
                             </div>
-                            <div className="row lower">
+                            <div className="row lower21">
                                 <div className="col text-left"><b>Total to pay</b></div>
                                 <div className="col text-right"><b>$ {totalWithDiscount.toFixed(2)}</b></div>
                             </div>
-                            <button className="btn" onClick={placeOrder}>Place order</button>
+                            <button className="button-27" onClick={placeOrder}>Place order</button>
                         </div>
                     </div>
                 </div>
             </div>
             {showModal && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <a href='/home'><span className="close" onClick={closeModal}>&times;</span></a>
+                <div className="cart-modal">
+                    <div className="cart-modal-content">
+                        <a href='/*'><span className="cart-close" onClick={closeModal}>&times;</span></a>
                         <p>Your order has been placed successfully!</p>
                     </div>
                 </div>
