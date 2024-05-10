@@ -71,11 +71,12 @@ function Cart() {
    
 
     if (error) {
-        return <div>Cart is empty.</div>;
+        return <div><GlobalStyles>/</GlobalStyles>Cart is empty.</div>;
     }
 
     if (!cart || cart.items.length === 0) {
-        return <div>Cart is empty.</div>;
+        return <div><GlobalStyles>/</GlobalStyles>
+            Cart is empty.</div>;
     }
     return (
         <div className="check-card">

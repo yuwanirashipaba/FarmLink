@@ -93,7 +93,6 @@ function ProductDetails() {
     if (!product) {
         return <div>Product not found.</div>;
     }
-console.log(userid);
     const buyNow = () => {
         
         navigate(`/checkout/${productId}`, { state: { count } });

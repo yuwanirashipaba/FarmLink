@@ -4,8 +4,7 @@ import productService from '../../../redux/features/product/ProductService';
 import Footer from '../../../components/footer/Footer';
 import axios from 'axios'; // Import axios for making HTTP requests
 import './checkout.css';
-import GlobalStyles from '../../../GlobalStyles';
-
+let userid;
 
 function Checkout() {
     const { productId, quantity } = useParams(); 
@@ -42,6 +41,7 @@ function Checkout() {
 
     useEffect(() => {
         const fetchProduct = async () => {
+            userid = localStorage.getItem('userId');
             setIsLoading(true);
             try {
                 const fetchedProduct = await productService.getProduct(productId);
@@ -57,7 +57,7 @@ function Checkout() {
             fetchProduct();
         }
     }, [productId]);
-
+//console.log(userid);
     const handleApplyCoupon = () => {
         if (couponCode.trim() === '') {
             setCouponError('Please enter a valid coupon code');
@@ -76,7 +76,8 @@ function Checkout() {
 
     const handleCheckout = async () => {
         try {
-            const userId = '662759a45804d5fceb0ee1cc';
+            const userId = userid;
+            console.log(userId);
             const response = await axios.post('http://localhost:5000/api/order/add', {
                 customer: userId, // Replace 'customerId' with the actual customer ID
                 purchasedItems: [{ product: productId, name: product.name, price: product.price, quantity: count}],
@@ -102,16 +103,15 @@ function Checkout() {
 
     return (
         <div className="container">
-            <GlobalStyles/>
-            <div style={{ marginTop: '20px' }}></div>
-            <div className="window">
+            <div className="container21"></div>
+            <div className="window21">
                 <div className="order-info">
                     <div className="order-info-content">
                         {isLoading && <div>Loading...</div>}
                         {error && <div>Error: {error}</div>}
                         {product && (
                             <>
-                                <h2>Order Summary</h2>
+                                <h2 className="h2-che">Order Summary</h2>
                                 
                                 <div className='line'></div>
                                 <table className='order-table'>
@@ -122,12 +122,12 @@ function Checkout() {
                                                 <br /> <span className='thin'>{product.name}</span>
                                                {/*  <br /> {product.description}<br />*/}
                                             </td>
-                                            <td><div className='quantity'>Quantity: {count}</div><div className='price'>${product.price}</div></td>
+                                            <td><div className='quantity'>Quantity: {count}</div><div className='price21'>${product.price}</div></td>
                                         </tr>
                                     </tbody>
                                 </table>
                                 <div className='line'></div>
-                                <div className='total'>
+                                <div className='total21'>
                                     <span style={{ float: 'left' }}>
                                         <div className='thin dense'>Discount</div>
                                         <div className='thin dense'>Delivery</div>
@@ -141,12 +141,13 @@ function Checkout() {
                                 </div>
                                 <div className="coupon-section">
                                     <input
+                                    className="coupun-input21"
                                         type="text"
                                         value={couponCode}
                                         onChange={(e) => setCouponCode(e.target.value)}
                                         placeholder="Enter coupon code"
                                     />
-                                    <button onClick={handleApplyCoupon}>Apply Coupon</button>
+                                    <button className="coupon-ch21" onClick={handleApplyCoupon}>Apply Coupon</button>
                                     {couponError && <div className="coupon-error">{couponError}</div>}
                                     {appliedCoupon && <div className="applied-coupon">Applied Coupon: {appliedCoupon}</div>}
                                 </div>
@@ -158,14 +159,14 @@ function Checkout() {
                     <div className='credit-info-content'>
                         <img src='https://dl.dropboxusercontent.com/s/ubamyu6mzov5c80/visa_logo%20%281%29.png' height='80' className='credit-card-image' id='credit-card-image' alt='Credit card logo' />
                         Card Number
-                        <input className='input-field' value={creditCardNumber} onChange={(e) => setCreditCardNumber(e.target.value)} />
+                        <input className='input-field21' value={creditCardNumber} onChange={(e) => setCreditCardNumber(e.target.value)} />
                         Card Holder
-                        <input className='input-field' value={cardHolder} onChange={(e) => setCardHolder(e.target.value)} />
+                        <input className='input-field21' value={cardHolder} onChange={(e) => setCardHolder(e.target.value)} />
                         <table className='half-input-table'>
                             <tbody>
                                 <tr>
-                                    <td> Expires <input className='input-field' value={expiry} onChange={(e) => setExpiry(e.target.value)} /></td>
-                                    <td>CVC <input className='input-field' value={cvc} onChange={(e) => setCvc(e.target.value)} /></td>
+                                    <td> Expires <input className='input-field21' value={expiry} onChange={(e) => setExpiry(e.target.value)} /></td>
+                                    <td>CVC <input className='input-field21' value={cvc} onChange={(e) => setCvc(e.target.value)} /></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -178,7 +179,7 @@ function Checkout() {
             {showNotification && (
                 <div className="notification-modal">
                     <div className="notification-content">
-                        <a href='/home'><span className="close-btn" onClick={() => setShowNotification(false)}>×</span></a>
+                        <a href='/*'><span className="close-btn" onClick={() => setShowNotification(false)}>×</span></a>
                         <p>{notificationMessage}</p>
                     </div>
                 </div>

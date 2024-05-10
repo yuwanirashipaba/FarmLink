@@ -16,11 +16,11 @@ const SpecialOffers = () => {
             try {
                 // Fetch all products by offers
                 let res = await productService.getProdcutsByCategory("offers");
-              console.log("first res",res)
+
                 // Filter products with price greater than 10
                 res = res.filter(product => parseFloat(product.price) > 10)
                          .slice(0, 5); 
-              console.log("second res",res)
+            
                 setProducts(res);
             } catch (err) {
                 console.log(err);
