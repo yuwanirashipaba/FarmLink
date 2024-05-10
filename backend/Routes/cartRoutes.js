@@ -266,6 +266,25 @@ router.get("/get/:cartId", async (req, res) => {
         res.status(500).json({ message: "Failed to fetch cart" });
     }
 });
+router.get("/total/:userId", async (req, res) => {
+    try {
+        const cart = await Cart.findOne({ user: req.params.userId });
+        if (!cart) {
+            return res.status(404).json({ message: "Cart not found" });
+        }
+        
+        // Calculate total cost of items in the cart
+        let totalCost = 0;
+        cart.items.forEach(item => {
+            totalCost += item.amount;
+        });
+        
+        res.status(200).json({ totalCost });
+    } catch (error) {
+        console.error("Fetching total cost of cart failed:", error);
+        res.status(500).json({ message: "Failed to fetch total cost of cart" });
+    }
+});
 
 
 module.exports = router;
