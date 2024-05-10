@@ -45,7 +45,7 @@ class ExpertDetails extends Component {
               <p className="expert-email">Email: {expert.email}</p>
               <p className="expert-expertise">Expertise: {expert.expertise}</p>
               <p className="expert-location">Location: {expert.location}</p>
-              <Link to={`/appointment-form?expertId=${expert._id}`}>
+              <Link to={`/addappoi?expertId=${expert._id}`}>
                 <button type="submit" className="submit-button">Appointment</button>
               </Link>
             </div>

@@ -23,18 +23,19 @@ import AssignDelivery from "./components/AssignDelivery";
 import AllDeliveries from "./components/AllDeliveries";
 import AllBuddies from "./components/AllBuddies";
 import ListBuddy from "./components/ListBuddy";
-import AppointmentListPage from "./components/appointmentList/AppointmentListPage";
-import AppointmentFormPage from "./components/appointmentForm/AppointmentFormPage";
-import ExpertForm from "./components/expertListingForm/expertListingForm";
-import ExpertDetails from "./components/expertList/expertList";
-import ExpertAppointmentsPage from "./components/expertAppointment/expertAppointmentPage";
-import AdminMain from "./components/Admin/AdminMain";
-import Signup from "./components/Singup";
-import Login from "./components/Login";
-import BuyerMain from "./components/Buyer/BuyerMain";
-import DeliveryMain from "./components/Delivery/DeliveryMain";
-import ExpertMain from "./components/Expert/ExpertMain";
-import FarmerMain from "./components/Farmer/FarmerMain";
+import AppointmentListPage from './components/appointmentList/AppointmentListPage';
+import AppointmentFormPage from './components/appointmentForm/AppointmentFormPage';
+import ExpertForm from './components/expertListingForm/expertListingForm';
+import ExpertDetails from './components/expertList/expertList';
+import ExpertAppointmentsPage from './components/expertAppointment/expertAppointmentPage';
+import Login from './components/Login/index'
+import Signup from './components/Singup/index'
+import AdminMain from './components/Admin/AdminMain'
+import FarmerMain from './components/Farmer/FarmerMain'
+import ExpertMain from './components/Expert/ExpertMain'
+import DeliveryMain from './components/Delivery/DeliveryMain'
+
+axios.defaults.withCredentials = true
 
 axios.defaults.withCredentials = true;
 let user;
@@ -56,11 +57,27 @@ function App() {
     return <Navigate to="/login" />;
   }
 
+  let user;
+    try {
+        user = JSON.parse(localStorage.getItem("role"));
+    } catch (error) {
+        console.error("Error parsing user from localStorage:", error);
+        
+        return <Navigate to="/login" />;
+    }
+  
+  // demo cookie
+
+  document.cookie = "authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWY3ZjU1YjQ4ZDE1OTEzYTQzZmVkZGEiLCJpYXQiOjE3MTM5MzA4OTIsImV4cCI6MTcxNDUzNTY5Mn0.JC8Ila_SlAQ_lgHCSl28z-JhcKl8WG8Fevg0pMC8CHg; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+
+ 
+
   return (
     <div className="App">
       <CategoryProvider>
         <BrowserRouter>
           <ToastContainer />
+         
           <Routes>
             {user && user.role === "admin" && (
               <Route path="/*" element={<AdminMain />} />
@@ -97,6 +114,20 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Navigate replace to="/login" />} />
 
+           
+            {user && user.role === "buyer" && <Route path="/*" element={
+              <MarketplaceNavbar showCategories={false}>
+                <MarketHome/>
+              </MarketplaceNavbar>} />}
+            {user && user.role === "admin" && <Route path="/*" element={<AdminMain />} />}
+            {user && user.role === "farmer" && <Route path="/*" element={<FarmerMain />} />}
+            {user && user.role === "delivery" && <Route path="/*" element={<DeliveryMain />} />}
+            {user && user.role === "expert" && <Route path="/*" element={<ExpertMain />} />}
+            
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Navigate replace to="/login" />} />
+            
 
             <Route
               path="/market"
@@ -106,6 +137,143 @@ function App() {
                 </MarketplaceNavbar>
               }
             />
+
+            <Route path="/market" element={
+              <MarketplaceNavbar showCategories={true}>
+                <Categories />
+              </MarketplaceNavbar>
+            } />
+
+            <Route path="/product/:productId" element={
+              <MarketplaceNavbar showCategories={false}>
+                <ProductDetails />
+              </MarketplaceNavbar>
+            } />
+
+            <Route path="/sam" element={
+              <MarketplaceNavbar showCategories={false}>
+                <MarketHome/>
+              </MarketplaceNavbar>
+            } />
+
+
+            <Route path="/dashboard" element={
+
+
+              <Sidebar>
+                <Layout>
+                  <Dashboard />
+
+                </Layout>
+              </Sidebar>
+
+
+            } />
+
+            <Route path="/add-product" element={
+              <Sidebar>
+                <Layout>
+                  <AddProduct />
+                </Layout>
+              </Sidebar>
+            } />
+
+
+            <Route path="/product-detail/:id" element={
+              <Sidebar>
+                <Layout>
+                  <ProductDetailsfarmer />
+
+                </Layout>
+              </Sidebar>
+
+
+            } />
+
+            <Route path="/edit-product/:id" element={
+              <Sidebar>
+                <Layout>
+                  <EditProduct />
+                </Layout>
+              </Sidebar>
+            } />
+
+            <Route path="/product-admin" element={
+              <Sidebar>
+                <Layout>
+                  <ProductAdminReport />
+                </Layout>
+              </Sidebar>
+            } />
+
+            <Route path="/assign" element={
+              <Sidebar>
+                <Layout>
+                  <AssignDelivery />
+                </Layout>
+              </Sidebar>
+            } />
+
+            <Route path="/view" element={
+              <Sidebar>
+                <Layout>
+                <AllDeliveries />
+                </Layout>
+              </Sidebar>
+            } />
+
+            <Route path="/list-buddy" element={
+              <Sidebar>
+                <Layout>
+                <ListBuddy />
+                </Layout>
+              </Sidebar>
+            } />
+
+            <Route path="/all-buddies" element={
+              <Sidebar>
+                <Layout>
+                <AllBuddies />
+                </Layout>
+              </Sidebar>
+            } />
+
+            <Route path="/appointment-list" element={
+              <Sidebar>
+                <Layout>
+                  <AppointmentListPage />
+                </Layout>
+              </Sidebar>
+            } />
+            <Route path="/appointment-form" element={
+              <Sidebar>
+                <Layout>
+                  <AppointmentFormPage />
+                </Layout>
+              </Sidebar>
+            } />
+            <Route path="/expertForm" element={
+              <Sidebar>
+                <Layout>
+                  <ExpertForm/>
+                </Layout>
+              </Sidebar>
+            } />
+            <Route path="/expertlist" element={
+              <Sidebar>
+                <Layout>
+                  <ExpertDetails  />
+                </Layout>
+              </Sidebar>
+            } />
+            <Route path="/expertAppointment" element={
+              <Sidebar>
+                <Layout>
+                  <ExpertAppointmentsPage />
+                </Layout>
+              </Sidebar>
+            } />
+
             
 
             <Route

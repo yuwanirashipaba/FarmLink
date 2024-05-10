@@ -56,7 +56,7 @@ const EditProduct = () => {
         console.log(...formData);
         await dispatch(updateProducts({ id, formData }));
         await dispatch(getProducts());
-        navigate("/dashboard");
+        //navigate("/dashboard");
     };
 
     return (
