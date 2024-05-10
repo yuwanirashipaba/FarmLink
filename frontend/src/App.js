@@ -73,27 +73,11 @@ function App() {
     return <Navigate to="/login" />;
   }
 
-  let user;
-    try {
-        user = JSON.parse(localStorage.getItem("role"));
-    } catch (error) {
-        console.error("Error parsing user from localStorage:", error);
-        
-        return <Navigate to="/login" />;
-    }
-  
-  // demo cookie
-
-  document.cookie = "authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWY3ZjU1YjQ4ZDE1OTEzYTQzZmVkZGEiLCJpYXQiOjE3MTM5MzA4OTIsImV4cCI6MTcxNDUzNTY5Mn0.JC8Ila_SlAQ_lgHCSl28z-JhcKl8WG8Fevg0pMC8CHg; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-
- 
-
   return (
     <div className="App">
       <CategoryProvider>
         <BrowserRouter>
           <ToastContainer />
-         
           <Routes>
             {user && user.role === "admin" && (
               <Route path="/*" element={<AdminMain />} />
@@ -130,7 +114,6 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Navigate replace to="/login" />} />
 
-
             <Route
               path="/market"
               element={
@@ -139,7 +122,6 @@ function App() {
                 </MarketplaceNavbar>
               }
             />
-
 
             <Route
               path="/product/:productId"

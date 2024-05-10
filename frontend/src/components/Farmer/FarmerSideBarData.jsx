@@ -6,19 +6,22 @@ export const SidebarData=[
         path: "/sample",
       },
       {
-        title: "Add roduct",
-        path: "/add_product",
+        title: "Sample",
+        path: "/sample2",
       },
       {
-        title: "Edit Product",
-        path: "/edit_product",
+        title: "Sample",
+        path: "/sample3",
       },
       {
-        title: "Find an Expert",
-        path: "/expert_details",
+        title: "Sample",
+        path: "/sample4",
       },
-      
-      
+      {
+        title: "Sample",
+        path: "/sample5",
+      },
+     
       {
         title: "Sample",
         path: "/sample6",
