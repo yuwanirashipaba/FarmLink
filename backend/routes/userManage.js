@@ -1,5 +1,9 @@
 const router = require("express").Router();
-const { User, validate } = require("../models/user");
+const { User, validate } = require("../Models/user");
+const bodyParser = require("body-parser");
+
+const PDFDocument = require("pdfkit");
+const fs = require("fs");
 
 //get all user data by admin
 router.get("/users", async (req, res) => {
@@ -51,4 +55,42 @@ router.delete("/users/:id", async (req, res) => {
     }
 });
 
+
+// Generate and send PDF
+router.post("/download", async (req, res) => {
+    try {
+        const { user } = req.body;
+        console.log({ user });
+        const doc = new PDFDocument();
+        let buffers = [];
+
+        doc.on("data", (buffer) => {
+            buffers.push(buffer);
+        });
+
+        doc.on("end", () => {
+            let pdfData = Buffer.concat(buffers);
+            res.setHeader("Content-Type", "application/pdf");
+            res.setHeader("Content-Disposition", "attachment; filename=user_data.pdf");
+            res.send(pdfData);
+        });
+
+        // Add user data to the PDF document
+        doc.fontSize(20).text("User Data", { align: "center" }).moveDown();
+        doc.fontSize(12).text(`ID: ${user._id}`).moveDown();
+        doc.text(`First Name: ${user.firstName}`).moveDown();
+        doc.text(`Last Name: ${user.lastName}`).moveDown();
+        doc.text(`Email: ${user.email}`).moveDown();
+        doc.text(`Role: ${user.role}`).moveDown();
+
+        // Finalize the PDF document
+        doc.end();
+    } catch (error) {
+        console.error("Failed to generate PDF:", error);
+        res.status(500).json({ message: "Failed to generate PDF" });
+    }
+});
+
+  
 module.exports = router;
+

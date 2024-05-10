@@ -4,7 +4,7 @@ const Offer = require("../Models/offersModel")
 const asyncHnadler = require("express-async-handler")
 const {fileSizeFormatter} = require("../Utills/fileupload")
 const sendEmail = require("../Utills/sendEmail")
-const { User } = require("../models/user")
+const { User } = require("../Models/user")
 const generateReport = require("../Utills/generateReport")
 fs = require('fs');
 
