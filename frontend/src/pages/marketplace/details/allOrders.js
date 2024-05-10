@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './allOrders.css'; // Import your CSS file
+import './allOrders.css'; 
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import OrderChart from '../../../components/charts/OrderChart';
+import IncomeChart from '../../../components/charts/IncomeChart';
+import OrdersByWeekChart from '../../../components/charts/OrdersByWeekChart';
 
 function AllOrders() {
     const [orders, setOrders] = useState([]);
@@ -11,6 +16,7 @@ function AllOrders() {
     const [selectedOrderId, setSelectedOrderId] = useState('');
     const [showUpdatePopup, setShowUpdatePopup] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [orderStats, setOrderStats] = useState([]);
 
     useEffect(() => {
         fetchOrders();
@@ -21,7 +27,8 @@ function AllOrders() {
         try {
             const response = await axios.get('http://localhost:5000/api/order/');
             setOrders(response.data);
-            setFilteredOrders(response.data); // Initially set filtered orders to all orders
+            setFilteredOrders(response.data); 
+            prepareOrderStats(response.data); 
         } catch (err) {
             setError(err.message || 'Failed to fetch orders');
         } finally {
@@ -30,8 +37,7 @@ function AllOrders() {
     };
 
     const generateCustomOrderId = (order) => {
-        // Ensure order._id exists and is a string
-        if (order && typeof order._id === 'string' && order._id.length >= 4) {
+      if (order && typeof order._id === 'string' && order._id.length >= 4) {
             return `ORD-${order._id.substr(order._id.length - 4)}`;
         } else {
             return 'Invalid Order ID';
@@ -45,9 +51,7 @@ function AllOrders() {
     const handleChangeStatus = async () => {
         try {
             await axios.put(`http://localhost:5000/api/order/updateStatus/${selectedOrderId}`, { status: selectedStatus });
-            // If the status update is successful, refresh the orders
             fetchOrders();
-            // Reset the selected status and order ID
             setSelectedStatus('');
             setSelectedOrderId('');
             setShowUpdatePopup(false);
@@ -71,6 +75,68 @@ function AllOrders() {
         setSearchQuery(e.target.value);
     };
 
+    const prepareOrderStats = (ordersData) => {
+        const stats = {};
+        ordersData.forEach((order) => {
+            const orderDate = new Date(order.orderDate).toLocaleDateString();
+            if (!stats[orderDate]) {
+                stats[orderDate] = 0;
+            }
+            stats[orderDate] += order.totalCost;
+        });
+        const sortedStats = Object.entries(stats).sort((a, b) => new Date(a[0]) - new Date(b[0]));
+        setOrderStats(sortedStats);
+    };
+    const generateReportData = (orders) => {
+       let csvContent = "data:text/csv;charset=utf-8,";
+        csvContent += "Order ID,Customer,Order Date,Status,Net Amount\n";
+        orders.forEach((order) => {
+            const orderId = generateCustomOrderId(order);
+            const customer = order.customer;
+            const orderDate = new Date(order.orderDate).toLocaleDateString();
+            const status = order.orderStatus;
+            const netAmount = order.totalCost.toFixed(2);
+            csvContent += `${orderId},${customer},${orderDate},${status},${netAmount}\n`;
+        });
+        return encodeURI(csvContent);
+    };
+    const handleDownloadReport = () => {
+        const reportData = generateReportData(orders);
+        const link = document.createElement("a");
+        link.setAttribute("href", reportData);
+        link.setAttribute("download", "all_orders_report.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+    
+const handlePDFDownloadReport = () => {
+    const input = document.getElementById('report-container'); // Container ID wrapping all elements to be included in the PDF
+    html2canvas(input)
+        .then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF();
+            const imgWidth = 210;
+            const pageHeight = 295;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            let heightLeft = imgHeight;
+            let position = 0;
+
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+
+            while (heightLeft >= 0) {
+                position = heightLeft - imgHeight;
+                pdf.addPage();
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+            }
+
+            pdf.save('all_orders_report.pdf');
+        });
+};
+    
+
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -79,72 +145,124 @@ function AllOrders() {
         return <div>Error: {error}</div>;
     }
 
+    const totalOrders = orders.length;
+    const totalNetAmount = orders.reduce((acc, order) => acc + order.totalCost, 0);
+    const shippedOrders = orders.filter(order => order.orderStatus === 'Shipped').length;
+    const pendingOrders = orders.filter(order => order.orderStatus === 'Pending').length;
+
     return (
-        <div className="container-xl">
-            <div className="table-responsive">
-                <div className="table-wrapper">
-                    <div className="table-title">
-                        <div className="row">
-                            <div className="col-sm-8">						
-                                <button className="btn btn-primary" onClick={handleRefresh}><i className="material-icons">&#xE863;</i> <span>Refresh List</span></button>
-                                <button className="btn btn-secondary"><i className="material-icons">&#xE24D;</i> <span>Export to Excel</span></button>
-                            </div>
-                        </div>
-                        <div className="search-container">
-                            <input type="text" placeholder="Search by Order ID" value={searchQuery} onChange={handleSearchChange} />
-                            <button onClick={handleSearch}>Search</button>
-                        </div>
-                    </div>
-                    <table className="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Order ID</th>
-                                <th>Customer</th>
-                                <th>Order Date</th>						
-                                <th>Status</th>						
-                                <th>Net Amount</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                           
-                                {filteredOrders.map((order, index) => (
-                                    <tr key={order._id}>
-                                        <td>{index + 1}</td>
-                                        <td>{generateCustomOrderId(order)}</td> {/* Display custom order ID */}
-                                        <td>{order.customer}</td>
-                                        <td>{new Date(order.orderDate).toLocaleDateString()}</td>
-                                        <td>{order.orderStatus}</td>
-                                        <td>${order.totalCost.toFixed(2)}</td>
-                                        <td>
-                                            <div className="select-wrapper">
-                                                <select value={selectedStatus} onChange={(e) => handleStatusChange(e, order._id)}>
-                                                    <option value=""></option>
-                                                    <option value="Pending">Pending</option>
-                                                    <option value="Shipped">Shipped</option>
-                                                    <option value="Checking">Checking</option>
-                                                </select>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                                
-                        </tbody>
-                    </table>
+        <div className="allorders">
+            <div className="order-result">
+            <div className="order-stats21">
+                <div className="order-stat-box211">
+                    <h3>Total Orders</h3>
+                    <p>{totalOrders}</p>
+                </div>
+                <div className="order-stat-box212">
+                    <h3>Total Net Amount</h3>
+                    <p>${totalNetAmount.toFixed(2)}</p>
+                </div>
+                <div className="order-stat-box213">
+                    <h3>Shipped Orders</h3>
+                    <p>{shippedOrders}</p>
+                </div>
+                <div className="order-stat-box214">
+                    <h3>Pending Orders</h3>
+                    <p>{pendingOrders}</p>
                 </div>
             </div>
-            {showUpdatePopup && (
-                <div className="popup">
-                    <div className="popup-content" style={{ width: "400px" }}>
-                        <h2>Update Order Status</h2>
-                        <div className="button-container">
-                            <button onClick={handleChangeStatus}>Update</button>
-                            <button onClick={() => setShowUpdatePopup(false)}>Cancel</button>
+            </div>
+              
+                        <div className="cl21">
+                            <div className="col-sm-8">						
+                                <button className="btn21 btn-primary21" onClick={handleRefresh}>
+                                   <span>Refresh List</span>
+                                </button>  .
+                                <button className="btn21 btn-secondary21" onClick={handleDownloadReport}>
+                                    <span>Exel Download Report</span>
+                                </button>  .
+                                <button className="btn21 btn-thee21" onClick={handlePDFDownloadReport}>
+                                    <span>PDF Download</span>
+                                </button>
+                            </div>
+                        
+                        {/*Search */}
+                        <div className="search-container">
+                            <input type="text" placeholder="Search by Order ID" value={searchQuery} onChange={handleSearchChange} className="order-search-input21"/>
+                            <button onClick={handleSearch} className="order-search21">Search</button>
                         </div>
-                    </div>
+                        </div>     
+     
+            {/* Table  */}
+            <div className="order-table-container21">
+            <table className="order-tavle21">
+                    <thead className="order-thead21">
+                        <tr>
+                            <th>#</th>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Order Date</th>						
+                            <th>Status</th>						
+                            <th>Net Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                        <tbody className="order-body21">
+                            {filteredOrders.map((order, index) => (
+                                <tr key={order._id}>
+                                    <td>{index + 1}</td>
+                                    <td>{generateCustomOrderId(order)}</td> 
+                                    <td>{order.customer}</td>
+                                    <td>{new Date(order.orderDate).toLocaleDateString()}</td>
+                                    <td>{order.orderStatus}</td>
+                                    <td>${order.totalCost.toFixed(2)}</td>
+                                    <td>
+                                        <div className="select-wrapper21">
+                                            <select value={selectedStatus} onChange={(e) => handleStatusChange(e, order._id)}>
+                                                <option value=""></option>
+                                                <option value="Pending">Pending</option>
+                                                <option value="Shipped">Shipped</option>
+                                                <option value="Checking">Checking</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+            </div>
+
+            <div className="chart-container21">
+                {/* Charts  */}
+                    <br/>
+                <div className="pie-chart-container">
+                    <h2>Orders by Status</h2>
+                        <OrderChart shippedOrders={shippedOrders} pendingOrders={pendingOrders} />  
                 </div>
-            )}
+                        <br/>
+                <div className="bar-chart-container">
+                        <h2>Orders by Week</h2>
+                        <OrdersByWeekChart orderStats={orderStats} /> 
+                </div>
+                    <br/><br/>   
+                <div className="line-chart-container">
+                    <h2>Total Income Day by Day</h2>
+                        <IncomeChart orderStats={orderStats} />
+                </div>
+            </div>                  
+           
+        {/* Updatet Modal Box */}
+        {showUpdatePopup && (
+        <div className="popup21">
+            <div className="popup-content21" style={{ width: "400px" }}>
+                    <h2>Update Order Status</h2>
+                <div className="button-container21">
+                    <button onClick={handleChangeStatus}>Update</button>
+                    <button onClick={() => setShowUpdatePopup(false)}>Cancel</button>
+                </div>
+            </div>
+        </div>
+)}
         </div>
     );
 }
