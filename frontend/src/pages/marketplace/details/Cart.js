@@ -3,6 +3,7 @@ import axios from 'axios';
 import './Cart.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import GlobalStyles from '../../../GlobalStyles';
 let userid;
 function Cart() {
     const [cart, setCart] = useState(null);
@@ -78,6 +79,7 @@ function Cart() {
     }
     return (
         <div className="check-card">
+            <GlobalStyles/>
             <div className="row21">
                 <div className="col-md-8 check-cart">
                     <div className="check-title">

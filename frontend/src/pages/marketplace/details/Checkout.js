@@ -4,6 +4,7 @@ import productService from '../../../redux/features/product/ProductService';
 import Footer from '../../../components/footer/Footer';
 import axios from 'axios'; // Import axios for making HTTP requests
 import './checkout.css';
+import GlobalStyles from '../../../GlobalStyles';
 
 
 function Checkout() {
@@ -101,6 +102,7 @@ function Checkout() {
 
     return (
         <div className="container">
+            <GlobalStyles/>
             <div style={{ marginTop: '20px' }}></div>
             <div className="window">
                 <div className="order-info">

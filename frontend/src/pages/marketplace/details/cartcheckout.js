@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './cartcheckout.css';
+import GlobalStyles from '../../../GlobalStyles';
 
 function CartCheckout() {
     const { cartId } = useParams();
@@ -90,6 +91,7 @@ function CartCheckout() {
 
     return (
         <div className="cart-card">
+            <GlobalStyles/>
             <div className="card-body">
                 
                 <div className="row">
