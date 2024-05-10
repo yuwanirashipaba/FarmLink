@@ -1,6 +1,10 @@
 
 
 export const SidebarData=[
+  {
+    title: "Users Summery",
+    path: "/*",
+  },
     {
         title: "Sample",
         path: "/*",
@@ -34,6 +38,10 @@ export const SidebarData=[
         title: "Delete Users",
         path: "/deleteuser",
         
+      },
+      {
+        title: "Add an Admin",
+        path: "/addadmin",
       },
       {
         title: "Edit Profile",

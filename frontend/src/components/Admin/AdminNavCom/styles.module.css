@@ -1,8 +1,7 @@
 .signup_container {
 	width: 100%;
 	min-height: 100vh;
-	background-image: url("../../image/updateBack.jpg");
-	background-size: cover;
+	background-image: url("../../../image/back.jpg");
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -10,9 +9,9 @@
 
 .signup_form_container {
 	width: 700px;
-	height: 400px;
+	height: 500px;
 	display: flex;
-	border-radius: 30px;
+	border-radius: 10px;
 	box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%),
 		0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%);
 }

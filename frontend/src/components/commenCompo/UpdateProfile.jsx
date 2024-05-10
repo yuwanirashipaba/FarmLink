@@ -1,5 +1,6 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import styles from "./styles.module.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import image from "../../image/curriculum-vitae.png"
@@ -13,7 +14,7 @@ const UpdateProfile = ({ userId }) => {
         firstName: "",
         lastName: "",
         email: "",
-        
+
     });
 
     useEffect(() => {
@@ -51,12 +52,12 @@ const UpdateProfile = ({ userId }) => {
                 draggable: true,
                 progress: undefined,
                 theme: "light",
-                
-                });
+
+            });
             console.log("User updated:", updatedUser);
-           
+
         } catch (error) {
-            toast.error('cannot update your data', {
+            toast.error('can not update your data', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -65,59 +66,54 @@ const UpdateProfile = ({ userId }) => {
                 draggable: true,
                 progress: undefined,
                 theme: "light",
-                
-                });
+
+            });
             console.error("Failed to update user:", error);
-            
+
         }
     };
 
 
     return (
-        
-        <div className="flex justify-start place-items-start h-screen p-10">
-        <div className="bg-gray-100 flex justify-start place-items-center rounded-md">
-        <div className="justify-center place-items-center rounded-xl bg-teal-500 p-7">
-        <form onSubmit={handleSubmit} className="justify-center place-items-center">
-            <h1 className="text-4xl mt-5 mb-5 text-white font-bold">Update your Account</h1>
-            <label className="block text-white pl-3 text-xl" htmlFor="firstName">First Name:</label>
-            <input className="border rounded-xl bg-gray-100 outline-none p-2 w-80"
-                type="text"
-                id="firstName"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-            />
 
-            <label className="block text-white pl-3 text-xl mt-2" htmlFor="lastName">Last Name:</label>
-            <input className="border rounded-xl bg-gray-100 outline-none p-2 w-80"
-                type="text"
-                id="lastName"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-            />
+        <div className={styles.signup_container}>
+        <div className={styles.signup_form_container}>
+            <div className={styles.right}>
+                <form className={styles.form_container} onSubmit={handleSubmit}>
+                    <h1>Update your Account</h1>
+                    <input
+                        type="text"
+                        id="firstName"
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        className={styles.input}
+                    />
+                    <input
+                        type="text"
+                        id="lastName"
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        className={styles.input}
+                    />
+                    <input
+                        type="text"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className={styles.input}
+                    />
+                    <button type="submit" className={styles.green_btn}>
+                        Update
+                    </button>
+                </form>
+            </div>
+        </div>
+        <ToastContainer />
+        </div>
 
-            <label className="block text-white pl-3 text-xl mt-2" htmlFor="email">Email:</label>
-            <input className="border rounded-xl bg-gray-100 outline-none p-2 w-80"
-                type="text"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-            />
-            
-            <button className="block w-24 h-10 font-bold bg-white text-teal-500 rounded-md m-5 hover:bg-teal-700 hover:text-white" type="submit">
-               Update
-            </button>
-            <ToastContainer />
-        </form>
-        
-        </div>
-        <img src={image} alt="" className="w-52 h-52 ml-20"/>
-        </div>
-    </div>
-    
     );
 };
 

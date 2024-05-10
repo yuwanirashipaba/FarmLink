@@ -9,6 +9,16 @@ function MarketplaceNavbar({ children, showCategories = true }) {
     const handleCategorySelect = (category) => {
         setCategory(category);
     };
+    const handleLogout = () => {
+		if (localStorage.getItem("token")) {
+			localStorage.removeItem("token");
+			localStorage.removeItem("role");
+			window.location = "/login";
+		} else {
+			console.warn("Token not found in localStorage");
+		}
+	};
+
 
     return (
         <>
@@ -30,9 +40,12 @@ function MarketplaceNavbar({ children, showCategories = true }) {
                             <Nav.Link href="/bidding" style={{marginLeft: "2rem"}} >Biddings</Nav.Link>
                         </Nav>
                         <Nav>
-                            <Nav.Link href="#account"style={{marginLeft: "52rem"}}>
+                        <Nav.Link href="/updateBuyer"style={{marginLeft: "52rem"}}>
                                 <FaUserCircle /> Account
                             </Nav.Link>
+                            <button className='pl-5 pr-5 ml-5 border rounded-lg' onClick={handleLogout}>
+					            Logout
+				            </button>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

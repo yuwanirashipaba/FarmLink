@@ -83,7 +83,7 @@ function ProductDetails() {
     };
 
     if (isLoading) {
-        return <div>Loading product details...</div>;
+        return <div><GlobalStyles/>Loading product details...</div>;
     }
 
     if (error) {

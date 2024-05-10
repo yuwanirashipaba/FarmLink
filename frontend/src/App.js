@@ -52,6 +52,7 @@ import AddBidding from "./pages/bidding/AddBidding";
 import BiddingForm from "./pages/bidding/BiddingForm";
 import ViewBiddings from "./components/Admin/AdminNavCom/ViewBiddings";
 import UpdateBiddingForm from "./pages/bidding/UpdateBiddingForm";
+import UpdateBuyer from "./components/marketplaceNav/UpdateBuyer";
 
 axios.defaults.withCredentials = true;
 let user;
@@ -114,6 +115,12 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Navigate replace to="/login" />} />
 
+            <Route
+              path="/updateBuyer"
+              element={
+                <UpdateBuyer/>
+              }
+            />
             <Route
               path="/market"
               element={
