@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import DOMPurify from 'dompurify';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Card, Container, Row, Col } from 'react-bootstrap';
 import productService from '../../../redux/features/product/ProductService';
 import authService from '../../../services/authService';
@@ -8,13 +8,14 @@ import './ProductDetails.css';
 import ProductCard from '../../../components/ProductCard/ProductCard';
 import Footer from '../../../components/footer/Footer';
 import GlobalStyles from '../../../GlobalStyles';
-
-
-
-
+import Moment from 'react-moment';
+import AcceptedFeedbacks from '../../../components/Acceptedfeedbacks';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 let maxPiecesAvailable = 0;
-
+let userid;
 function ProductDetails() {
+    const navigate = useNavigate();
     const { productId } = useParams();
     const [otherProducts, setOtherProducts] = useState([]);
     const [product, setProduct] = useState(null);
@@ -28,6 +29,8 @@ function ProductDetails() {
 
     useEffect(() => {
         const fetchProductDetails = async () => {
+            userid = localStorage.getItem('userId');
+            
             setIsLoading(true);
             try {
                 const fetchedProduct = await productService.getProduct(productId);
@@ -90,6 +93,39 @@ function ProductDetails() {
     if (!product) {
         return <div>Product not found.</div>;
     }
+console.log(userid);
+    const buyNow = () => {
+        
+        navigate(`/checkout/${productId}`, { state: { count } });
+    };
+
+    
+    const addToCart = async () => {
+        try {
+            if (isNaN(product.price) || isNaN(count)) {
+                console.error('Invalid product price or count');
+                return;
+            }
+            const productAmount = product.price * count;
+            const response = await axios.post('http://localhost:5000/api/cart/add', {
+                productId: product._id,
+                productName: product.name,
+                productPrice: product.price,
+                productAmount: productAmount,
+                userId: userid,
+                quantity: count,
+                imageUrl: product.image.filePath
+            });
+            console.log(response.data);
+           
+
+
+            toast.success('Success added to cart');
+        } catch (error) {
+            console.error('Error adding item to cart:', error);
+            toast.error('Failed to add item to cart. Please try again later.');
+        }
+    };                              
 
     return (
         <> 
@@ -110,8 +146,40 @@ function ProductDetails() {
                     <Card className="p-3">
                         <Card.Body>
                             <Card.Title as="h3">{product.name}</Card.Title>
-                            <h3>{product.price}$</h3>
-                            <div className="counter">
+                            {!product.offer &&<h3>{product.price}$</h3>}
+                            {product.offer && (
+                     <>
+                    <div className="price-offer">
+                
+                    {/* Discounted price */}
+                    <h4 className="discounted-price">
+                        $ {product.price-(product.price * product.offer.discount) / 100} 
+                    </h4>
+                    {/* Original price with a strikethrough */}
+                    <h4 className="original-price">
+                        <span style={{ textDecoration: 'line-through' }}>
+                         ${product.price}
+                        </span>
+                    </h4>
+                    <div className="discount-percentage">
+                        -{product.offer.discount}%
+                    </div>
+                    </div>
+                    <Card.Text as="div" className="offer-text">
+                    Offer  Ends:{' '}{<Moment format="DD/MM/YYYY">{product.offer.endDate}</Moment>}
+                    </Card.Text>
+                   {product.offer.coupon&& <Card.Text as="div" className="offer-coupon">
+                   <div className="offer-coupon-text">
+                          Use below coupon To Get Offer
+                    </div>  
+                    <div className="offer-coupon-code">
+                    {product.offer.coupon}
+                    </div>
+              
+                    </Card.Text>
+                    }
+                </>
+                )}<div className="counter">
                                 <button onClick={decrementCount} className="counter-button" disabled={count <= 1}>-</button>
                                 <input type="text" value={count} readOnly className="counter-input" />
                                 <button onClick={incrementCount} className="counter-button" disabled={count >= maxPiecesAvailable}>+</button>
@@ -121,15 +189,15 @@ function ProductDetails() {
                             {product.quantity <= 0 ? (<Button variant="warning" size="lg" className="w-100 mb-2" disabled>
                                     Out of Stock
                                 </Button>) : (
-                                <Button variant="warning" size="lg" className="w-100 mb-2">
+                                <Button variant="warning" size="lg" className="w-100 mb-2" onClick={buyNow}>
                                     Buy Now
                                 </Button>)}
                                 {product.quantity <= 0 ? ( <Button variant="outline-primary" size="lg" className="w-100" disabled>
                                     Add to Cart
                                 </Button>):( 
-                                <Button variant="outline-primary" size="lg" className="w-100">
+                                <Button variant="outline-primary" size="lg" className="w-100" onClick={addToCart}>
                                     Add to Cart
-                                </Button>)}
+                                </Button> )}
                             </div>
                             {/* Seller contact information */}
                             {productOwner && (
@@ -166,6 +234,8 @@ function ProductDetails() {
             </Row>
            
         </Container>
+                <AcceptedFeedbacks/>
+
         <div className='Footer'>  <Footer/></div>
        
          </>

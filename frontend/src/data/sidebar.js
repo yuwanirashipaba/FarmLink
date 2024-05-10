@@ -1,5 +1,6 @@
 import { FaTh, FaRegChartBar, FaCommentAlt , FaCalendarAlt , FaListAlt } from "react-icons/fa";
 import { BiImageAdd } from "react-icons/bi";
+import { MdCreate } from "react-icons/md";
 
 const menu = [
   {
@@ -35,6 +36,11 @@ const menu = [
     title: "Appointment List",
     icon: <FaListAlt />,
     path: "/appointment-list",
+  },
+  {
+    title: "Create A Bidding Post",
+    icon: <MdCreate />,
+    path: "/addBidding",
   },
   {
     title: "Report Bug",

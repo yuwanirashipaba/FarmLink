@@ -69,10 +69,10 @@ const ProductForm = ({
             onChange={handleInputChange}
           />
 
-          <label>Product Quantity:</label>
+          <label>Product Quantity(Kg):</label>
           <input
             type="number"
-            placeholder="Product Quantity"
+            placeholder="Product Quantity (Kg)"
             name="quantity"
             value={product?.quantity}
             onChange={handleInputChange}

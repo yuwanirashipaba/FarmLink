@@ -1,0 +1,188 @@
+import React, { useEffect, useState } from 'react';
+import { useParams , useLocation } from 'react-router-dom';
+import productService from '../../../redux/features/product/ProductService';
+import Footer from '../../../components/footer/Footer';
+import axios from 'axios'; // Import axios for making HTTP requests
+import './checkout.css';
+
+
+function Checkout() {
+    const { productId, quantity } = useParams(); 
+    const [product, setProduct] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [couponCode, setCouponCode] = useState('');
+    const [appliedCoupon, setAppliedCoupon] = useState('');
+    const [couponError, setCouponError] = useState('');
+    const [showNotification, setShowNotification] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const [creditCardNumber, setCreditCardNumber] = useState('');
+    const [cardHolder, setCardHolder] = useState('');
+    const [expiry, setExpiry] = useState('');
+    const [cvc, setCvc] = useState('');
+    const [isCreditCardValid, setIsCreditCardValid] = useState(false);
+
+    const location = useLocation();
+    const count = location.state.count;
+    //console.log(count)
+    // Shipping cost and minimum discount
+    const shippingCost = 10;
+    const minimumDiscount = 5;
+
+    // Function to validate credit card information
+    const validateCreditCard = () => {
+        const isValid = creditCardNumber.trim() !== '' && cardHolder.trim() !== '' && expiry.trim() !== '' && cvc.trim() !== '';
+        setIsCreditCardValid(isValid);
+    };
+
+    useEffect(() => {
+        validateCreditCard();
+    }, [creditCardNumber, cardHolder, expiry, cvc]);
+
+    useEffect(() => {
+        const fetchProduct = async () => {
+            setIsLoading(true);
+            try {
+                const fetchedProduct = await productService.getProduct(productId);
+                setProduct(fetchedProduct);
+            } catch (err) {
+                setError(err.message || 'Failed to fetch product');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (productId) {
+            fetchProduct();
+        }
+    }, [productId]);
+
+    const handleApplyCoupon = () => {
+        if (couponCode.trim() === '') {
+            setCouponError('Please enter a valid coupon code');
+        } else {
+            setAppliedCoupon(couponCode);
+            setCouponError('');
+        }
+    };
+
+    const calculateTotalAmount = (price) => {
+        const t = price*count;
+        const total = t - minimumDiscount;
+        const total1 = total + shippingCost;
+        return total1;
+    };
+
+    const handleCheckout = async () => {
+        try {
+            const userId = '662759a45804d5fceb0ee1cc';
+            const response = await axios.post('http://localhost:5000/api/order/add', {
+                customer: userId, // Replace 'customerId' with the actual customer ID
+                purchasedItems: [{ product: productId, name: product.name, price: product.price, quantity: count}],
+                discountApplied: minimumDiscount,
+                shippingCost: shippingCost,
+                totalCost: calculateTotalAmount(product.price),
+                orderStatus: 'Pending',
+                orderDate: new Date()
+            });
+
+            // Show a success notification modal box
+            setShowNotification(true);
+            setNotificationMessage('Order created successfully!');
+
+            // Optional: Reset the coupon code and applied coupon state
+            setCouponCode('');
+            setAppliedCoupon('');
+        } catch (error) {
+            console.error("Checkout failed:", error);
+            // Handle checkout failure if necessary
+        }
+    };
+
+    return (
+        <div className="container">
+            <div style={{ marginTop: '20px' }}></div>
+            <div className="window">
+                <div className="order-info">
+                    <div className="order-info-content">
+                        {isLoading && <div>Loading...</div>}
+                        {error && <div>Error: {error}</div>}
+                        {product && (
+                            <>
+                                <h2>Order Summary</h2>
+                                
+                                <div className='line'></div>
+                                <table className='order-table'>
+                                    <tbody>
+                                        <tr>
+                                            <td><img src={product.image.filePath} className='full-width' alt={product.name} /></td>
+                                            <td>
+                                                <br /> <span className='thin'>{product.name}</span>
+                                               {/*  <br /> {product.description}<br />*/}
+                                            </td>
+                                            <td><div className='quantity'>Quantity: {count}</div><div className='price'>${product.price}</div></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div className='line'></div>
+                                <div className='total'>
+                                    <span style={{ float: 'left' }}>
+                                        <div className='thin dense'>Discount</div>
+                                        <div className='thin dense'>Delivery</div>
+                                        TOTAL
+                                    </span>
+                                    <span style={{ float: 'right', textAlign: 'right' }}>
+                                        <div className='thin dense'>-${minimumDiscount.toFixed(2)}</div>
+                                        <div className='thin dense'>+${shippingCost.toFixed(2)}</div>
+                                        ${calculateTotalAmount(product.price)}
+                                    </span>
+                                </div>
+                                <div className="coupon-section">
+                                    <input
+                                        type="text"
+                                        value={couponCode}
+                                        onChange={(e) => setCouponCode(e.target.value)}
+                                        placeholder="Enter coupon code"
+                                    />
+                                    <button onClick={handleApplyCoupon}>Apply Coupon</button>
+                                    {couponError && <div className="coupon-error">{couponError}</div>}
+                                    {appliedCoupon && <div className="applied-coupon">Applied Coupon: {appliedCoupon}</div>}
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </div>
+                <div className='credit-info'>
+                    <div className='credit-info-content'>
+                        <img src='https://dl.dropboxusercontent.com/s/ubamyu6mzov5c80/visa_logo%20%281%29.png' height='80' className='credit-card-image' id='credit-card-image' alt='Credit card logo' />
+                        Card Number
+                        <input className='input-field' value={creditCardNumber} onChange={(e) => setCreditCardNumber(e.target.value)} />
+                        Card Holder
+                        <input className='input-field' value={cardHolder} onChange={(e) => setCardHolder(e.target.value)} />
+                        <table className='half-input-table'>
+                            <tbody>
+                                <tr>
+                                    <td> Expires <input className='input-field' value={expiry} onChange={(e) => setExpiry(e.target.value)} /></td>
+                                    <td>CVC <input className='input-field' value={cvc} onChange={(e) => setCvc(e.target.value)} /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button className='pay-btn' onClick={handleCheckout} disabled={!isCreditCardValid}>Checkout</button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Notification Modal */}
+            {showNotification && (
+                <div className="notification-modal">
+                    <div className="notification-content">
+                        <a href='/home'><span className="close-btn" onClick={() => setShowNotification(false)}>×</span></a>
+                        <p>{notificationMessage}</p>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}
+
+export default Checkout;

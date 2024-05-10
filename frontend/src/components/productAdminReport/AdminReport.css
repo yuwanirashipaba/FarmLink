@@ -1,0 +1,17 @@
+.download-button {
+    background-color: #4caf50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 40px 350px ;
+    margin-top: 4rem;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 1rem;
+  }
+  
+  

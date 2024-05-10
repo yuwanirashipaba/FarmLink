@@ -23,19 +23,35 @@ import AssignDelivery from "./components/AssignDelivery";
 import AllDeliveries from "./components/AllDeliveries";
 import AllBuddies from "./components/AllBuddies";
 import ListBuddy from "./components/ListBuddy";
-import AppointmentListPage from './components/appointmentList/AppointmentListPage';
-import AppointmentFormPage from './components/appointmentForm/AppointmentFormPage';
-import ExpertForm from './components/expertListingForm/expertListingForm';
-import ExpertDetails from './components/expertList/expertList';
-import ExpertAppointmentsPage from './components/expertAppointment/expertAppointmentPage';
-import Login from './components/Login/index'
-import Signup from './components/Singup/index'
-import AdminMain from './components/Admin/AdminMain'
-import FarmerMain from './components/Farmer/FarmerMain'
-import ExpertMain from './components/Expert/ExpertMain'
-import DeliveryMain from './components/Delivery/DeliveryMain'
-
-axios.defaults.withCredentials = true
+import AppointmentListPage from "./components/appointmentList/AppointmentListPage";
+import AppointmentFormPage from "./components/appointmentForm/AppointmentFormPage";
+import ExpertForm from "./components/expertListingForm/expertListingForm";
+import ExpertDetails from "./components/expertList/expertList";
+import ExpertAppointmentsPage from "./components/expertAppointment/expertAppointmentPage";
+import AdminMain from "./components/Admin/AdminMain";
+import Signup from "./components/Singup";
+import Login from "./components/Login";
+import BuyerMain from "./components/Buyer/BuyerMain";
+import DeliveryMain from "./components/Delivery/DeliveryMain";
+import ExpertMain from "./components/Expert/ExpertMain";
+import FarmerMain from "./components/Farmer/FarmerMain";
+import OfferManagement from "./components/offer/Offers";
+import OfferPreview from "./components/offer/OfferPreview";
+import Allfeedbacks from './components/Allfeedbacks'; // Import Allfeedbacks component
+import Addfeedback from './components/Addfeedback';
+import AcceptFeedbacks from './components/Acceptfeedbacks';
+import AcceptedFeedbacks from './components/Acceptedfeedbacks';
+import Cart from './pages/marketplace/details/Cart';
+import Order from './pages/marketplace/details/Orders';
+import Checkout from './pages/marketplace/details/Checkout';
+import AllOrders from './pages/marketplace/details/allOrders';
+import CartCheckout from './pages/marketplace/details/cartcheckout';
+import BiddingList from "./pages/bidding/BiddingList/BiddingList";
+import BiddingDetails from "./pages/bidding/BiddingDetails/BiddingDetails";
+import AddBidding from "./pages/bidding/AddBidding";
+import BiddingForm from "./pages/bidding/BiddingForm";
+import ViewBiddings from "./components/Admin/AdminNavCom/ViewBiddings";
+import UpdateBiddingForm from "./pages/bidding/UpdateBiddingForm";
 
 axios.defaults.withCredentials = true;
 let user;
@@ -114,167 +130,16 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Navigate replace to="/login" />} />
 
-           
-            {user && user.role === "buyer" && <Route path="/*" element={
-              <MarketplaceNavbar showCategories={false}>
-                <MarketHome/>
-              </MarketplaceNavbar>} />}
-            {user && user.role === "admin" && <Route path="/*" element={<AdminMain />} />}
-            {user && user.role === "farmer" && <Route path="/*" element={<FarmerMain />} />}
-            {user && user.role === "delivery" && <Route path="/*" element={<DeliveryMain />} />}
-            {user && user.role === "expert" && <Route path="/*" element={<ExpertMain />} />}
-            
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Navigate replace to="/login" />} />
-            
 
             <Route
               path="/market"
               element={
                 <MarketplaceNavbar showCategories={true}>
-                  <Categories/>
+                  <Categories />
                 </MarketplaceNavbar>
               }
             />
 
-            <Route path="/market" element={
-              <MarketplaceNavbar showCategories={true}>
-                <Categories />
-              </MarketplaceNavbar>
-            } />
-
-            <Route path="/product/:productId" element={
-              <MarketplaceNavbar showCategories={false}>
-                <ProductDetails />
-              </MarketplaceNavbar>
-            } />
-
-            <Route path="/sam" element={
-              <MarketplaceNavbar showCategories={false}>
-                <MarketHome/>
-              </MarketplaceNavbar>
-            } />
-
-
-            <Route path="/dashboard" element={
-
-
-              <Sidebar>
-                <Layout>
-                  <Dashboard />
-
-                </Layout>
-              </Sidebar>
-
-
-            } />
-
-            <Route path="/add-product" element={
-              <Sidebar>
-                <Layout>
-                  <AddProduct />
-                </Layout>
-              </Sidebar>
-            } />
-
-
-            <Route path="/product-detail/:id" element={
-              <Sidebar>
-                <Layout>
-                  <ProductDetailsfarmer />
-
-                </Layout>
-              </Sidebar>
-
-
-            } />
-
-            <Route path="/edit-product/:id" element={
-              <Sidebar>
-                <Layout>
-                  <EditProduct />
-                </Layout>
-              </Sidebar>
-            } />
-
-            <Route path="/product-admin" element={
-              <Sidebar>
-                <Layout>
-                  <ProductAdminReport />
-                </Layout>
-              </Sidebar>
-            } />
-
-            <Route path="/assign" element={
-              <Sidebar>
-                <Layout>
-                  <AssignDelivery />
-                </Layout>
-              </Sidebar>
-            } />
-
-            <Route path="/view" element={
-              <Sidebar>
-                <Layout>
-                <AllDeliveries />
-                </Layout>
-              </Sidebar>
-            } />
-
-            <Route path="/list-buddy" element={
-              <Sidebar>
-                <Layout>
-                <ListBuddy />
-                </Layout>
-              </Sidebar>
-            } />
-
-            <Route path="/all-buddies" element={
-              <Sidebar>
-                <Layout>
-                <AllBuddies />
-                </Layout>
-              </Sidebar>
-            } />
-
-            <Route path="/appointment-list" element={
-              <Sidebar>
-                <Layout>
-                  <AppointmentListPage />
-                </Layout>
-              </Sidebar>
-            } />
-            <Route path="/appointment-form" element={
-              <Sidebar>
-                <Layout>
-                  <AppointmentFormPage />
-                </Layout>
-              </Sidebar>
-            } />
-            <Route path="/expertForm" element={
-              <Sidebar>
-                <Layout>
-                  <ExpertForm/>
-                </Layout>
-              </Sidebar>
-            } />
-            <Route path="/expertlist" element={
-              <Sidebar>
-                <Layout>
-                  <ExpertDetails  />
-                </Layout>
-              </Sidebar>
-            } />
-            <Route path="/expertAppointment" element={
-              <Sidebar>
-                <Layout>
-                  <ExpertAppointmentsPage />
-                </Layout>
-              </Sidebar>
-            } />
-
-            
 
             <Route
               path="/product/:productId"
@@ -284,7 +149,6 @@ function App() {
                 </MarketplaceNavbar>
               }
             />
-
 
             <Route
               path="/dashboard"
@@ -435,6 +299,110 @@ function App() {
                 </Sidebar>
               }
             />
+            <Route
+              path="/offers"
+              element={
+                <Sidebar>
+                  <Layout>
+                    <OfferManagement />
+                  </Layout>
+                </Sidebar>
+              }
+            />
+            <Route
+              path="/offers-preview"
+              element={
+                <Sidebar>
+                  <Layout>
+                    <OfferPreview />
+                  </Layout>
+                </Sidebar>
+              }
+            />
+            <Route path="/allfeedback" element={<Allfeedbacks />} />
+            <Route path="/add" element={<Addfeedback />} />
+            <Route path="/accept" element={<AcceptFeedbacks />} />
+            <Route path="/accepted-feedbacks" element={<AcceptedFeedbacks />} />
+
+
+
+
+            <Route path="/checkout/:productId" element={
+              <MarketplaceNavbar showCategories={false}>
+                <Checkout />
+              </MarketplaceNavbar>
+            } />
+
+            <Route path="/cartcheckout/:cartId" element={<MarketplaceNavbar showCategories={false}><CartCheckout /></MarketplaceNavbar>} />
+
+
+
+
+            <Route path="/allorders" element={
+              <Sidebar>
+                <Layout>
+                  <AllOrders />
+                </Layout>
+              </Sidebar>
+            } />
+
+            <Route path="/cart" element={
+              <MarketplaceNavbar showCategories={false}>
+                <Cart />
+              </MarketplaceNavbar>
+            } />
+
+            <Route path="/orders" element={
+              <MarketplaceNavbar showCategories={false}>
+                <Order />
+              </MarketplaceNavbar>
+            } />
+
+
+            <Route path="/bidding" element={
+              <MarketplaceNavbar showCategories={true}>
+                <BiddingList />
+              </MarketplaceNavbar>
+            } />
+
+            <Route path="/bidding/:biddingId" element={
+              <MarketplaceNavbar showCategories={false}>
+                <BiddingDetails />
+              </MarketplaceNavbar>
+            } />
+             <Route
+                path="/addBidding"
+                element={
+                  <Sidebar>
+                    <Layout>
+                      <AddBidding />
+                    </Layout>
+                  </Sidebar>
+                }
+              />
+              <Route
+                path="/biddingForm"
+                element={
+                  <Sidebar>
+                    <Layout>
+                      <BiddingForm />
+                    </Layout>
+                  </Sidebar>
+                }
+              />
+              <Route
+                path="/updateBiddingForm/:id"
+                element={
+                  <Sidebar>
+                    <Layout>
+                      <UpdateBiddingForm />
+                    </Layout>
+                  </Sidebar>
+                }
+              />
+              
+
+
           </Routes>
         </BrowserRouter>
       </CategoryProvider>

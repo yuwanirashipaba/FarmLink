@@ -17,6 +17,7 @@ const initialState = {
   user: {
     name: '',
     email: '',
+    userId: null, // Add userId to the initial state
   },
 };
 
@@ -33,7 +34,7 @@ const authSlice = createSlice({
       state.name = action.payload;
     },
     SET_USER(state, action) {
-      // Update the user object directly with provided name and email
+      // Update the user object directly with provided name, email, and userId
       state.user = {
         ...state.user,
         ...action.payload,
@@ -48,5 +49,6 @@ export const { SET_LOGIN, SET_NAME, SET_USER } = authSlice.actions;
 export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
 export const selectUser = (state) => state.auth.user;
 export const selectName = (state) => state.auth.name;
+export const selectUserId = (state) => state.auth.user.userId; // New selector to get the user ID
 
 export default authSlice.reducer;

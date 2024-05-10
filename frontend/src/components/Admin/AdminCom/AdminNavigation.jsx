@@ -7,6 +7,7 @@ import DeleteUser from "../AdminNavCom/DeleteUser"
 import ProductAdminReport from "../../productAdminReport/productAdminReport";
 import AssignDelivery from '../../AssignDelivery'
 import AllBuddies from "../../AllBuddies";
+import ViewBiddings from "../AdminNavCom/ViewBiddings";
 
 const NavPage = () => {
 
@@ -15,6 +16,7 @@ const NavPage = () => {
         <React.Fragment>
         <section>
           <Routes>
+            <Route path="/viewBiddings" element={<ViewBiddings />} />
             <Route path="/updateadmin" element={<UpdateAdmin />} />
             <Route path="/search" element={<SearchUsers />} />
             <Route path="/deleteuser" element={<DeleteUser />} />
@@ -22,6 +24,7 @@ const NavPage = () => {
             <Route path="/delivery_delivery" element={<AssignDelivery />} />
             <Route path="/allbuddies" element={<AllBuddies />} />
             <Route path="/*" element={<Sample />} />
+            
           
           </Routes>
         </section>

@@ -4,7 +4,7 @@ import productService from '../../redux/features/product/ProductService';
 import logo from '../../assets/logo.png';
 import { Card } from 'react-bootstrap';
 import ProductsTable from './ProductTable';
-import GlobalStyles from '../../GlobalStyles';
+import "./AdminReport.css";
 import PieChart from '../charts/PieChart';
 
 const ProductAdminReport = () => {
@@ -102,13 +102,14 @@ const ProductAdminReport = () => {
 
 
 return (
-  <div>
-    <GlobalStyles/>
+  <div style={{margin: '10px'}}>
+    
     {loading ? (
       <p>Loading...</p>
     ) : (
       <>
         <Card>
+          <div style={{marginLeft:"1rem"}}>
           <h2>Product Admin Report</h2>
           <p>Total Vegetable Quantity : {vegiQuantity}</p>
           <p>Total Fruit Quantity : {fruitQuantity}</p>
@@ -125,12 +126,22 @@ return (
               </select>
             </div>
           )}
-          <button onClick={downloadPdf} style={{ background:'green', marginTop:'3rem', padding: '.5rem', marginLeft:'50rem', marginRight:'50rem' }}>Download PDF</button>
+            <button className="download-button" onClick={downloadPdf}>Download PDF</button>
+            </div>
         </Card>
-
-        <PieChart vegiQuantity={vegiQuantity} fruitQuantity={fruitQuantity} /> {/* Add the PieChart component */}
-        
+        <div >
+          <h1 style={{fontSize:"1.5rem", textAlign:"center"}}>Category Analisis</h1>
+          <br/>
+          <br/>
+          <br/>
+        <PieChart vegiQuantity={vegiQuantity} fruitQuantity={fruitQuantity} /> 
+        </div>
+        <div style={{marginTop: "10rem", textAlign:"center"}}>
+          <h1 style={{fontSize:"1.5rem"}}>Products Table</h1>
+          <br/>
+          <br/>
         <ProductsTable/>
+        </div>
       </>
     )}
   </div>
