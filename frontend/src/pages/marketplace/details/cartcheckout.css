@@ -75,12 +75,17 @@
     padding: 2vh;
 }
 
-
+.row21{
+  font-size: large;
+}
+.name21{
+width: 25%;
+}
 
 .lower21 {
     margin-top: 1%;
     line-height: 1.2;
-    font-size: 110%;
+    font-size: 20px;
     color: black;
    /* background-color: rgb(138, 138, 138);*/
 }
