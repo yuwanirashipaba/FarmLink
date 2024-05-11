@@ -1,5 +1,4 @@
 import "antd/dist/reset.css";
- 
 import React, { useState, useEffect } from "react";
 import {
   Table,
@@ -21,6 +20,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import moment from "moment";
 import Moment from "react-moment";
+import { useNavigate } from "react-router-dom";
 const { Option } = Select;
  
 const OfferManagement = () => {
@@ -47,6 +47,7 @@ const OfferManagement = () => {
     }
   };
  
+  const navigate = useNavigate();
   const fetchProducts = async () => {
     try {
       const data = await productService.getAllProducts();
@@ -229,12 +230,10 @@ const OfferManagement = () => {
   };
  
   const handleFilterProducts = () => {
-    if (filterStartDate && filterEndDate) {
-      fetchOffers(filterStartDate, filterEndDate);
-    } else {
-      message.warning("Please select start and end dates to filter products.");
-    }
-  };
+    
+      navigate("/offers-preview");
+  
+  }
  
   return (
     <div style={{ padding: 60 }}>
@@ -251,7 +250,7 @@ const OfferManagement = () => {
           Download Report
         </Button>
         <Button type="primary" onClick={handleFilterProducts}>
-          Filter Products
+         Preview
         </Button>
       </Row>
       <Table dataSource={offers} columns={columns} rowKey="_id" />

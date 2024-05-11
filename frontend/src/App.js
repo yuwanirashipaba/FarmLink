@@ -31,12 +31,8 @@ import ExpertAppointmentsPage from "./components/expertAppointment/expertAppoint
 import AdminMain from "./components/Admin/AdminMain";
 import Signup from "./components/Singup";
 import Login from "./components/Login";
-import BuyerMain from "./components/Buyer/BuyerMain";
 import DeliveryMain from "./components/Delivery/DeliveryMain";
 import ExpertMain from "./components/Expert/ExpertMain";
-import FarmerMain from "./components/Farmer/FarmerMain";
-import OfferManagement from "./components/offer/Offers";
-import OfferPreview from "./components/offer/OfferPreview";
 import Allfeedbacks from './components/Allfeedbacks'; // Import Allfeedbacks component
 import Addfeedback from './components/Addfeedback';
 import AcceptFeedbacks from './components/Acceptfeedbacks';
@@ -44,15 +40,15 @@ import AcceptedFeedbacks from './components/Acceptedfeedbacks';
 import Cart from './pages/marketplace/details/Cart';
 import Order from './pages/marketplace/details/Orders';
 import Checkout from './pages/marketplace/details/Checkout';
-import AllOrders from './pages/marketplace/details/allOrders';
 import CartCheckout from './pages/marketplace/details/cartcheckout';
 import BiddingList from "./pages/bidding/BiddingList/BiddingList";
 import BiddingDetails from "./pages/bidding/BiddingDetails/BiddingDetails";
 import AddBidding from "./pages/bidding/AddBidding";
 import BiddingForm from "./pages/bidding/BiddingForm";
-import ViewBiddings from "./components/Admin/AdminNavCom/ViewBiddings";
 import UpdateBiddingForm from "./pages/bidding/UpdateBiddingForm";
 import UpdateBuyer from "./components/marketplaceNav/UpdateBuyer";
+
+
 
 axios.defaults.withCredentials = true;
 let user;
@@ -172,6 +168,7 @@ function App() {
               }
             />
 
+
             <Route
               path="/edit-product/:id"
               element={
@@ -238,6 +235,7 @@ function App() {
               }
             />
 
+
             <Route
               path="/appointment-list"
               element={
@@ -288,26 +286,7 @@ function App() {
                 </Sidebar>
               }
             />
-            <Route
-              path="/offers"
-              element={
-                <Sidebar>
-                  <Layout>
-                    <OfferManagement />
-                  </Layout>
-                </Sidebar>
-              }
-            />
-            <Route
-              path="/offers-preview"
-              element={
-                <Sidebar>
-                  <Layout>
-                    <OfferPreview />
-                  </Layout>
-                </Sidebar>
-              }
-            />
+        
             <Route path="/allfeedback" element={<Allfeedbacks />} />
             <Route path="/add" element={<Addfeedback />} />
             <Route path="/accept" element={<AcceptFeedbacks />} />
@@ -325,15 +304,6 @@ function App() {
             <Route path="/cartcheckout/:cartId" element={<MarketplaceNavbar showCategories={false}><CartCheckout /></MarketplaceNavbar>} />
 
 
-
-
-            <Route path="/allorders" element={
-              <Sidebar>
-                <Layout>
-                  <AllOrders />
-                </Layout>
-              </Sidebar>
-            } />
 
             <Route path="/cart" element={
               <MarketplaceNavbar showCategories={false}>

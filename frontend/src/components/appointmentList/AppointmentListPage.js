@@ -103,7 +103,7 @@ function AppointmentListPage() {
               <td>{appointment.firstName} {appointment.lastName}</td>
               <td>{appointment.email}</td>
               <td>{appointment.message}</td>
-              <td>{appointment.date}</td>
+              <td>{new Date(appointment.date).toLocaleDateString()}</td>
               <td>{appointment.time}</td>
               <td>{getAppointmentStatus(appointment.date)}</td>
               <td>

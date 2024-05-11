@@ -10,6 +10,10 @@ import AllBuddies from "../../AllBuddies";
 import ViewBiddings from "../AdminNavCom/ViewBiddings";
 import AddAdmin from "../AdminNavCom/AddAdmin"
 import Calculate from "../AdminNavCom/Calculate"
+import AdminAppointmentsPage from "../../AdminAppointmentPage/AdminAppointmentsPage";
+import AllOrders from '../../../pages/marketplace/details/allOrders';
+import AddOfers from "../../../components/offer/Offers"
+import OfferPreview from "../../offer/OfferPreview";
 const NavPage = () => {
 
 
@@ -27,9 +31,10 @@ const NavPage = () => {
           <Route path="/delivery_delivery" element={<AssignDelivery />} />
           <Route path="/allbuddies" element={<AllBuddies />} />
           <Route path="/addadmin" element={<AddAdmin />} />
-
-
-
+          <Route path="/admin-appointments" element={<AdminAppointmentsPage />} />
+          <Route path="/allorders" element={< AllOrders/>} />
+          <Route path="/offers" element={< AddOfers/>} />
+          <Route path="/offers-preview" element={< OfferPreview/>} />
         </Routes>
       </section>
     </React.Fragment>
