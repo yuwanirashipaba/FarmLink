@@ -3,52 +3,40 @@ export const SidebarData = [
     title: "Users Summery",
     path: "/*",
   },
-    {
-        title: "Sample",
-        path: "/*",
-      },
-      {
-        title: "Search Users",
-        path: "/search",
-      },
-      {
-        title: "Product Report",
-        path: "/product_report",
-      },
-      {
-        title: "Delivery Assign",
-        path: "/delivery_delivery",
-      },
-      {
-        title: "All Buddies",
-        path: "/allbuddies",
-      },
-     
-      {
-        title: "Sample",
-        path: "/sample6",
-      },
-      {
-        title: "Biddings",
-        path: "/viewBiddings",
-      },
-      {
-        title: "Delete Users",
-        path: "/deleteuser",
-        
-      },
-      {
-        title: "Add an Admin",
-        path: "/addadmin",
-      },
-      {
-        title: "Edit Profile",
-        path: "/updateadmin",
-       
-      },
-      {
-        title: "Add offers",
-        path: "/offers",
-      },
-    
-]
+  {
+    title: "Search Users",
+    path: "/search",
+  },
+  {
+    title: "Product Report",
+    path: "/product_report",
+  },
+  {
+    title: "Delivery Assign",
+    path: "/delivery_delivery",
+  },
+  {
+    title: "All Buddies",
+    path: "/allbuddies",
+  },
+  {
+    title: "Biddings",
+    path: "/viewBiddings",
+  },
+  {
+    title: "Delete Users",
+    path: "/deleteuser",
+  },
+  {
+    title: "Add an Admin",
+    path: "/addadmin",
+  },
+  {
+    title: "Edit Profile",
+    path: "/updateadmin",
+  },
+  {
+    title: "Add offers",
+    path: "/offers",
+  },
+];
