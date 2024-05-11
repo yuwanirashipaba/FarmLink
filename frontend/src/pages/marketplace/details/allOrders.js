@@ -202,7 +202,7 @@ function AllOrders() {
                     <button onClick={handleSearch} className="order-search21">Search</button>
                 </div>
             </div>     
-     
+            <PDFContainer companyName="Farm Link">
             {/* Table  */}
             <div className="order-table-container21">
                 <table className="order-table21">
@@ -241,52 +241,6 @@ function AllOrders() {
                     </tbody>
                 </table>
             </div>
-            <PDFContainer>
-                {/* Include all elements you want to include in the PDF here */}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Customer</th>
-                            <th>Order Date</th>
-                            <th>Status</th>
-                            <th>Net Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredOrders.map(order => (
-                            <tr key={order._id}>
-                                <td>{generateCustomOrderId(order)}</td>
-                                <td>{order.customer}</td>
-                                <td>{new Date(order.orderDate).toLocaleDateString()}</td>
-                                <td>{order.orderStatus}</td>
-                                <td>${order.totalCost.toFixed(2)}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </PDFContainer>
-
-            <div className="order-result">
-                <div className="order-stats21">
-                    <div className="order-stat-box211">
-                        <h3>Total Orders</h3>
-                        <p>{totalOrders}</p>
-                    </div>
-                    <div className="order-stat-box212">
-                        <h3>Total Net Amount</h3>
-                        <p>${totalNetAmount.toFixed(2)}</p>
-                    </div>
-                    <div className="order-stat-box213">
-                        <h3>Shipped Orders</h3>
-                        <p>{shippedOrders}</p>
-                    </div>
-                    <div className="order-stat-box214">
-                        <h3>Pending Orders</h3>
-                        <p>{pendingOrders}</p>
-                    </div>
-                </div>
-            </div>
 
             <div className="chart-container21">
                 {/* Charts  */}
@@ -305,27 +259,9 @@ function AllOrders() {
                     <h2>Total Income Day by Day</h2>
                     <IncomeChart orderStats={orderStats} />
                 </div>
-            </div>    
-
-             <div className="chart-container21">
-                {/* Charts  */}
-                <br/>
-                <div className="pie-chart-container">
-                    <h2>Orders by Status</h2>
-                    <OrderChart shippedOrders={shippedOrders} pendingOrders={pendingOrders} />  
-                </div>
-                <br/>
-                <div className="bar-chart-container">
-                    <h2>Orders by Week</h2>
-                    <OrdersByWeekChart orderStats={orderStats} /> 
-                </div>
-                <br/><br/>   
-                <div className="line-chart-container">
-                    <h2>Total Income Day by Day</h2>
-                    <IncomeChart orderStats={orderStats} />
-                </div>
             </div>               
-           
+            </PDFContainer>
+
             {/* Update Modal Box */}
             {showUpdatePopup && (
                 <div className="popup21">
