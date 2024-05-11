@@ -14,8 +14,6 @@ function CartCheckout() {
     const [showModal, setShowModal] = useState(false);
     const [shippingPriceFromConsole, setShippingPriceFromConsole] = useState(null);
     const [total, setTotal] = useState(0); // Initialize total state variable
-    
-    const shippingPrice = shippingPriceFromConsole; 
     const discountAmount = 5; 
 
     useEffect(() => {
@@ -55,15 +53,12 @@ function CartCheckout() {
         let totalAmount = 0; // Initialize total amount
         let itemsCount = 0;
         cartData.items.forEach((item) => {
-            totalAmount += item.amount;
+            totalAmount += item.amount * item.quantity; // Multiply amount by quantity for each item
             itemsCount += item.quantity;
         });
         
-        const tt1 = totalAmount+shippingPriceFromConsole;
-        
-        const tt2 = tt1-discountAmount;
-        
-        const totalWithDiscount = totalAmount +tt2;
+        // Add shipping price and subtract discount amount
+        const totalWithDiscount = totalAmount + shippingPriceFromConsole - discountAmount;
        
         setTotal(totalAmount); // Set total amount
         setTotalWithDiscount(totalWithDiscount);
@@ -92,7 +87,7 @@ function CartCheckout() {
                     amount: item.amount
                 })),
                 discountApplied: discountAmount,
-                shippingCost: shippingPrice,
+                shippingCost: shippingPriceFromConsole,
                 totalCost: totalWithDiscount,
                 orderStatus: 'Pending',
                 orderDate: new Date()
@@ -116,6 +111,9 @@ function CartCheckout() {
             console.error('Error deleting cart:', error);
         }
     };
+
+    // Calculate total to pay
+    const totalToPay = total + shippingPriceFromConsole - discountAmount;
 
     return (
         <div className="cart-card">
@@ -171,7 +169,7 @@ function CartCheckout() {
                             </div>
                             <div className="row lower21">
                                 <div className="col text-left">Shipping</div>
-                                <div className="col text-right">+ ${shippingPrice}</div>
+                                <div className="col text-right">+ ${shippingPriceFromConsole}</div>
                             </div>
                             <div className="row lower21">
                                 <div className="col text-left">Discount</div>
@@ -186,7 +184,7 @@ function CartCheckout() {
                             </div>
                             <div className="row lower21">
                                 <div className="col text-left"><b>Total to pay</b></div>
-                                <div className="col text-right"><b>$ {totalWithDiscount.toFixed()}</b></div>
+                                <div className="col text-right"><b>$ {totalToPay.toFixed(2)}</b></div>
                             </div>
                             <button className="button-27" onClick={placeOrder}>Place order</button>
                         </div>
