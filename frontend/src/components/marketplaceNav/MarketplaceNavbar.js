@@ -60,6 +60,7 @@ function MarketplaceNavbar({ children, showCategories = true }) {
                                 </NavDropdown>
                             )}
                             <Nav.Link href="/bidding" style={{ marginLeft: "2rem" }} >Biddings</Nav.Link>
+                            <Nav.Link href="/allfeedback" style={{ marginLeft: "2rem" }} >FeedBacks</Nav.Link>
                         </Nav>
                         <Nav>
                             <Nav.Link href="/updateBuyer" style={{ marginLeft: "52rem" }}>
