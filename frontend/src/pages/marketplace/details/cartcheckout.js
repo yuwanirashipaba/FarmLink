@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './cartcheckout.css';
 import GlobalStyles from '../../../GlobalStyles';
+import AssignDelivery from '../../../components/AssignDelivery';
 
 function CartCheckout() {
     const { cartId } = useParams();
@@ -11,8 +12,11 @@ function CartCheckout() {
     const [totalItems, setTotalItems] = useState(0);
     const [coupon, setCoupon] = useState('');
     const [showModal, setShowModal] = useState(false);
-    const shippingPrice = 10; // Hardcoded shipping price
-    const discountAmount = 5; // Hardcoded discount amount
+    const [shippingPriceFromConsole, setShippingPriceFromConsole] = useState(null);
+    const [total, setTotal] = useState(0); // Initialize total state variable
+    
+    const shippingPrice = shippingPriceFromConsole; 
+    const discountAmount = 5; 
 
     useEffect(() => {
         const fetchCartDetails = async () => {
@@ -28,16 +32,40 @@ function CartCheckout() {
         fetchCartDetails();
     }, [cartId]);
 
+    useEffect(() => {
+        // Function to fetch shipping price from local storage
+        const fetchShippingPrice = () => {
+            const storedShippingPrice = localStorage.getItem('shippingPrice');
+            if (storedShippingPrice) {
+                setShippingPriceFromConsole(Number(storedShippingPrice));
+            }
+        };
+
+        // Fetch shipping price initially
+        fetchShippingPrice();
+
+        // Set up interval to fetch shipping price every 5 seconds
+        const interval = setInterval(fetchShippingPrice, 5000);
+
+        // Clean up interval on component unmount
+        return () => clearInterval(interval);
+    }, []);
+
     const calculateTotal = (cartData) => {
-        let total = 0;
+        let totalAmount = 0; // Initialize total amount
         let itemsCount = 0;
         cartData.items.forEach((item) => {
-            total += item.amount;
+            totalAmount += item.amount;
             itemsCount += item.quantity;
         });
-
-        const totalWithDiscount = total - discountAmount + shippingPrice;
-
+        
+        const tt1 = totalAmount+shippingPriceFromConsole;
+        
+        const tt2 = tt1-discountAmount;
+        
+        const totalWithDiscount = totalAmount +tt2;
+       
+        setTotal(totalAmount); // Set total amount
         setTotalWithDiscount(totalWithDiscount);
         setTotalItems(itemsCount);
     };
@@ -52,7 +80,7 @@ function CartCheckout() {
 
     const placeOrder = async () => {
         try {
-            const userId = '662759a45804d5fceb0ee1cc';
+            const userId = localStorage.getItem('userId');
             const orderData = {
                 customer: userId,
                 purchasedItems: cart.items.map(item => ({
@@ -106,19 +134,18 @@ function CartCheckout() {
                                 </div>
                             </div>
                             <form className="class21">
-                            <span>Cardholder's name:</span>
-<input className="input21-cart" placeholder="Linda Williams"/>
-<br/><span>Card Number:</span>
-<input className="input21-cart" placeholder="0125 6780 4567 9909"/>
-<div className="row">
-    <div className="col-4"><span>Expiry date:</span>
-        <input className="input21-cart" placeholder="YY/MM"/>
-    </div>
-    <div className="col-4"><span>CVV:</span>
-        <input id="cvv" className="input21-cart"/>
-    </div>
-</div>
-                                
+                                <span>Cardholder's name:</span>
+                                <input className="input21-cart" placeholder="Linda Williams"/>
+                                <br/><span>Card Number:</span>
+                                <input className="input21-cart" placeholder="0125 6780 4567 9909"/>
+                                <div className="row">
+                                    <div className="col-4"><span>Expiry date:</span>
+                                        <input className="input21-cart" placeholder="YY/MM"/>
+                                    </div>
+                                    <div className="col-4"><span>CVV:</span>
+                                        <input id="cvv" className="input21-cart"/>
+                                    </div>
+                                </div>
                             </form>
                         </div>                        
                     </div>
@@ -128,11 +155,11 @@ function CartCheckout() {
                             <p>{totalItems} items</p>
                             {cart && cart.items.map((item) => (
                                 <div className="row item" key={item._id}>
-                                    <div className="col-4 align-self-center"><img className="img-fluid" src={item.imageUrl} alt={item.productName}/></div>
+                                    <div className="name21"><img className="img-fluid" src={item.imageUrl} alt={item.productName}/></div>
                                     <div className="col-8">
-                                        <div className="row text-muted">{item.productName}</div>
-                                        <div className="row"><b>$ {item.amount.toFixed(2)}</b></div>
-                                        <div className="row">Qty: {item.quantity}</div>
+                                        <div className="row21 text-muted">{item.productName}</div>
+                                        <div className="row21"><b>$ {item.amount.toFixed(2)}</b></div>
+                                        <div className="row21">Qty: {item.quantity}</div>
                                     </div>
                                     <hr/>
                                 </div>
@@ -140,7 +167,7 @@ function CartCheckout() {
                             
                             <div className="row lower21">
                                 <div className="col text-left">Sub Total</div>
-                                <div className="col text-right">$ {totalWithDiscount.toFixed(2)}</div>
+                                <div className="col text-right">$ {total.toFixed(2)}</div> {/* Use 'total' here */}
                             </div>
                             <div className="row lower21">
                                 <div className="col text-left">Shipping</div>
@@ -159,12 +186,15 @@ function CartCheckout() {
                             </div>
                             <div className="row lower21">
                                 <div className="col text-left"><b>Total to pay</b></div>
-                                <div className="col text-right"><b>$ {totalWithDiscount.toFixed(2)}</b></div>
+                                <div className="col text-right"><b>$ {totalWithDiscount.toFixed()}</b></div>
                             </div>
                             <button className="button-27" onClick={placeOrder}>Place order</button>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="delivery-container">
+                <AssignDelivery />
             </div>
             {showModal && (
                 <div className="cart-modal">

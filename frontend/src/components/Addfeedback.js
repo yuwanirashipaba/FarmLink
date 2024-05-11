@@ -41,7 +41,7 @@ export default function AddFeedback() {
   }
 
   return (
-    <div className="container" style={{ backgroundColor: '#009688', padding: '20px', borderRadius: '5px' }}>
+    <div className="container" style={{ backgroundColor: '#009688', padding: '10px', borderRadius: '5px', width: '30%' }}> {/* Adjust the width here */}
       <h2 style={{ color: '#fff' }}>Add your feedback</h2>
       <form onSubmit={sendData}>
         <div className="form-group">
@@ -80,7 +80,7 @@ export default function AddFeedback() {
         <div className="form-group">
           <label htmlFor="starRating" style={{ color: '#fff' }}>Star Rating</label>
           {/* Render the StarRating component with appropriate props */}
-          <StarRating value={starRating} onChange={setStarRating} />
+          <StarRating value={starRating} onChange={setStarRating} starStyle={{ borderColor: 'black' }} /> {/* Add starStyle prop with borderColor */}
         </div>
         <button type="submit" className="btn btn-primary">
           Submit

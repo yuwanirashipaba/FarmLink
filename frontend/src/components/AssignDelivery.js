@@ -7,8 +7,9 @@ export default function AddDelivery() {
     const [city, setCity] = useState("");
     const [postalCode, setCode] = useState("");
     const [phone, setPhone] = useState("");
-    const [shippingPrice, setShippingPrice] = useState(null);
-
+    const [shippingPrice, setShippingPrice] = useState(() => {
+        return localStorage.getItem("shippingPrice") || null;
+    });
     function sendData(e) {
         e.preventDefault();
         
@@ -63,7 +64,7 @@ export default function AddDelivery() {
                 alert("Invalid city. Default shipping price applied.");
                 break;
         }
-  
+        localStorage.setItem("shippingPrice", price);
         setShippingPrice(price);
     }
   

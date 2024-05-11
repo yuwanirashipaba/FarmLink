@@ -6,6 +6,16 @@
     font-size: 19px;
     font-size: 2rem;
   }
+  .delivery-container {
+    margin-top: 20px;
+    padding: 20px;
+    margin-left: 12%;
+    width: 80%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.399);
+}
+
 /*
   ul {
   margin:0;
@@ -174,42 +184,39 @@
   .full-width {
   width:110%;
   }
-
-  /*Modal Box*/
   .notification-modal {
-    width: 40%;
-    height: 20%;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgba(229, 233, 232, 0.644);
-    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.9);
     padding: 20px;
-    border-radius: 10px;
-    z-index: 1000;
-  }
-  
-  .notification-content {
+    border-radius: 5px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.34);
+}
+
+.notification-content {
     text-align: center;
-  }
-  
-  .close-btn {
+}
+
+.close-btn {
     position: absolute;
     top: 5px;
-    right: 10px;
+    right: 5px;
     cursor: pointer;
-    font-size: 30px;
-  }
-  
-  .close-btn:hover {
-    color: #ff0000;
-  }
-  
-  .notification-content p {
-    margin: 0;
-    padding: 10px 0;
-  }
+    font-size: 20px;
+    color: #d49324;
+}
+
+.close-btn:hover {
+    color: #f51313;
+}
+
+.notification-content p {
+    margin-top: 10px;
+    font-size: 20px;
+    color: #000000;
+}
 
 
   .pay-btn {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { PDFDownloadLink, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { Link } from 'react-router-dom';
 import StarRating from './StarRating'; // Assuming StarRating component is in the same directory
 
@@ -91,45 +90,6 @@ export default function AllFeedbacks() {
         }
     };
 
-    const styles = StyleSheet.create({
-        page: {
-            flexDirection: 'column',
-            padding: 20,
-        },
-        title: {
-            fontSize: 24,
-            marginBottom: 20,
-            textAlign: 'center',
-        },
-        table: {
-            display: 'table',
-            width: '100%',
-            borderCollapse: 'collapse',
-        },
-        tableRow: {
-            flexDirection: 'row',
-            borderBottomWidth: 1,
-            borderColor: '#cccccc',
-        },
-        headerCell: {
-            padding: 10,
-            fontSize: 12,
-            fontWeight: 'bold',
-            backgroundColor: '#f2f2f2',
-        },
-        cell: {
-            padding: 10,
-            fontSize: 12,
-            borderBottomWidth: 1,
-            borderColor: '#cccccc',
-            display: 'flex',
-            alignItems: 'center' // Align the star rating vertically
-        },
-        highlightedRow: {
-            backgroundColor: 'yellow',
-        },
-    });
-
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -138,14 +98,6 @@ export default function AllFeedbacks() {
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
             <div style={{ width: '80%' }}>
                 <h1>All Feedbacks</h1>
-                
-                <div style={{ textAlign: 'right', border: '1px solid #ccc', padding: '5px', borderRadius: '10px', display: 'inline-block' }}>
-                    <PDFDownloadLink document={<MyDocument feedbacks={feedbacks} highlightedRow={highlightedRow} />} fileName="feedbacks.pdf">
-                        {({ blob, url, loading, error }) =>
-                            loading ? 'Loading document...' : 'Download PDF'
-                        }
-                    </PDFDownloadLink>
-                </div>
                 <input
                     type="text"
                     placeholder="Search by name..."
@@ -214,70 +166,3 @@ export default function AllFeedbacks() {
         </div>
     );
 }
-
-const MyDocument = ({ feedbacks, highlightedRow }) => (
-    <Document>
-        <Page size="A4">
-            <View style={styles.page}>
-                <Text style={styles.title}>Customer Feedbacks</Text>
-                <View style={styles.table}>
-                    <View style={styles.tableRow}>
-                        <Text style={styles.headerCell}>Name</Text>
-                        <Text style={styles.headerCell}>Email</Text>
-                        <Text style={styles.headerCell}>Message</Text>
-                        <Text style={styles.headerCell}>Star Rating</Text>
-                    </View>
-                    {feedbacks.map((feedback, index) => (
-                        <View key={feedback._id} style={[styles.tableRow, highlightedRow === index && styles.highlightedRow]}>
-                            <Text style={styles.cell}>{feedback.name}</Text>
-                            <Text style={styles.cell}>{feedback.email}</Text>
-                            <Text style={styles.cell}>{feedback.message}</Text>
-                            <View style={styles.cell}>
-                                <StarRating value={feedback.starRating} readOnly />
-                            </View>
-                        </View>
-                    ))}
-                </View>
-            </View>
-        </Page>
-    </Document>
-);
-
-const styles = StyleSheet.create({
-    page: {
-        flexDirection: 'column',
-        padding: 20,
-    },
-    title: {
-        fontSize: 24,
-        marginBottom: 20,
-        textAlign: 'center',
-    },
-    table: {
-        display: 'table',
-        width: '100%',
-        borderCollapse: 'collapse',
-    },
-    tableRow: {
-        flexDirection: 'row',
-        borderBottomWidth: 1,
-        borderColor: '#cccccc',
-    },
-    headerCell: {
-        padding: 10,
-        fontSize: 12,
-        fontWeight: 'bold',
-        backgroundColor: '#f2f2f2',
-    },
-    cell: {
-        padding: 10,
-        fontSize: 12,
-        borderBottomWidth: 1,
-        borderColor: '#cccccc',
-        display: 'flex',
-        alignItems: 'center' // Align the star rating vertically
-    },
-    highlightedRow: {
-        backgroundColor: 'yellow',
-    },
-});

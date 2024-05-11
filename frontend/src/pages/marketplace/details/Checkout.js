@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useParams , useLocation } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import productService from '../../../redux/features/product/ProductService';
 import Footer from '../../../components/footer/Footer';
 import axios from 'axios'; // Import axios for making HTTP requests
 import './checkout.css';
-let userid;
+import AssignDelivery from '../../../components/AssignDelivery';
 
 function Checkout() {
-    const { productId, quantity } = useParams(); 
+    const { productId, quantity } = useParams();
     const [product, setProduct] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
@@ -21,12 +21,13 @@ function Checkout() {
     const [expiry, setExpiry] = useState('');
     const [cvc, setCvc] = useState('');
     const [isCreditCardValid, setIsCreditCardValid] = useState(false);
+    const [shippingPriceFromConsole, setShippingPriceFromConsole] = useState(null); 
 
     const location = useLocation();
     const count = location.state.count;
-    //console.log(count)
+
     // Shipping cost and minimum discount
-    const shippingCost = 10;
+    const shippingCost = shippingPriceFromConsole;
     const minimumDiscount = 5;
 
     // Function to validate credit card information
@@ -41,7 +42,6 @@ function Checkout() {
 
     useEffect(() => {
         const fetchProduct = async () => {
-            userid = localStorage.getItem('userId');
             setIsLoading(true);
             try {
                 const fetchedProduct = await productService.getProduct(productId);
@@ -57,7 +57,26 @@ function Checkout() {
             fetchProduct();
         }
     }, [productId]);
-//console.log(userid);
+
+    useEffect(() => {
+        // Function to fetch shipping price from local storage
+        const fetchShippingPrice = () => {
+            const storedShippingPrice = localStorage.getItem('shippingPrice');
+            if (storedShippingPrice) {
+                setShippingPriceFromConsole(Number(storedShippingPrice));
+            }
+        };
+
+        // Fetch shipping price initially
+        fetchShippingPrice();
+
+        // Set up interval to fetch shipping price every 5 seconds
+        const interval = setInterval(fetchShippingPrice, 5000);
+
+        // Clean up interval on component unmount
+        return () => clearInterval(interval);
+    }, []);
+
     const handleApplyCoupon = () => {
         if (couponCode.trim() === '') {
             setCouponError('Please enter a valid coupon code');
@@ -68,7 +87,7 @@ function Checkout() {
     };
 
     const calculateTotalAmount = (price) => {
-        const t = price*count;
+        const t = price * count;
         const total = t - minimumDiscount;
         const total1 = total + shippingCost;
         return total1;
@@ -76,11 +95,9 @@ function Checkout() {
 
     const handleCheckout = async () => {
         try {
-            const userId = userid;
-            console.log(userId);
             const response = await axios.post('http://localhost:5000/api/order/add', {
-                customer: userId, // Replace 'customerId' with the actual customer ID
-                purchasedItems: [{ product: productId, name: product.name, price: product.price, quantity: count}],
+                customer: localStorage.getItem('userId'), 
+                purchasedItems: [{ product: productId, name: product.name, price: product.price, quantity: count }],
                 discountApplied: minimumDiscount,
                 shippingCost: shippingCost,
                 totalCost: calculateTotalAmount(product.price),
@@ -103,7 +120,7 @@ function Checkout() {
 
     return (
         <div className="container">
-            <div className="container21"></div>
+            
             <div className="window21">
                 <div className="order-info">
                     <div className="order-info-content">
@@ -112,7 +129,6 @@ function Checkout() {
                         {product && (
                             <>
                                 <h2 className="h2-che">Order Summary</h2>
-                                
                                 <div className='line'></div>
                                 <table className='order-table'>
                                     <tbody>
@@ -120,7 +136,6 @@ function Checkout() {
                                             <td><img src={product.image.filePath} className='full-width' alt={product.name} /></td>
                                             <td>
                                                 <br /> <span className='thin'>{product.name}</span>
-                                               {/*  <br /> {product.description}<br />*/}
                                             </td>
                                             <td><div className='quantity'>Quantity: {count}</div><div className='price21'>${product.price}</div></td>
                                         </tr>
@@ -141,7 +156,7 @@ function Checkout() {
                                 </div>
                                 <div className="coupon-section">
                                     <input
-                                    className="coupun-input21"
+                                        className="coupun-input21"
                                         type="text"
                                         value={couponCode}
                                         onChange={(e) => setCouponCode(e.target.value)}
@@ -174,12 +189,15 @@ function Checkout() {
                     </div>
                 </div>
             </div>
+            <div className="delivery-container">
+                <AssignDelivery />
+            </div>
 
             {/* Notification Modal */}
             {showNotification && (
                 <div className="notification-modal">
                     <div className="notification-content">
-                        <a href='/*'><span className="close-btn" onClick={() => setShowNotification(false)}>×</span></a>
+                        <a href='/add'><span className="close-btn" onClick={() => setShowNotification(false)}>×</span></a>
                         <p>{notificationMessage}</p>
                     </div>
                 </div>
