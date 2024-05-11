@@ -5,11 +5,7 @@ export const SidebarData=[
     title: "Users Summery",
     path: "/*",
   },
-    {
-        title: "Sample",
-        path: "/*",
-      },
-      {
+  {
         title: "Search Users",
         path: "/search",
       },
@@ -24,11 +20,6 @@ export const SidebarData=[
       {
         title: "All Buddies",
         path: "/allbuddies",
-      },
-     
-      {
-        title: "Sample",
-        path: "/sample6",
       },
       {
         title: "Biddings",
