@@ -199,7 +199,7 @@ function CartCheckout() {
             {showModal && (
                 <div className="cart-modal">
                     <div className="cart-modal-content">
-                        <a href='/*'><span className="cart-close" onClick={closeModal}>&times;</span></a>
+                        <a href='/add'><span className="cart-close" onClick={closeModal}>&times;</span></a>
                         <p>Your order has been placed successfully!</p>
                     </div>
                 </div>
