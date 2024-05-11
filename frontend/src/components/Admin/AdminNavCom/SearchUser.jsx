@@ -92,7 +92,8 @@ const UsersList = () => {
               <td className="p-2 pr-6">{user.email}</td>
               <td className="p-2 pr-6">{user.role}</td>
               <td>
-                <button className="p-2 rounded-md bg-teal-500 font-bold text-white hover:bg-teal-300" onClick={() => downloadPDF(user)}>Download PDF</button>
+              {user.role === "delivery" && (
+                <button className="p-2 rounded-md bg-teal-500 font-bold text-white hover:bg-teal-300" onClick={() => downloadPDF(user)}>Download PDF</button>)}
               </td>
             </tr>
           ))}

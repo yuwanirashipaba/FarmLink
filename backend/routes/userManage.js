@@ -114,17 +114,23 @@ router.post("/download", async (req, res) => {
         doc.on("end", () => {
             let pdfData = Buffer.concat(buffers);
             res.setHeader("Content-Type", "application/pdf");
-            res.setHeader("Content-Disposition", "attachment; filename=user_data.pdf");
+            res.setHeader("Content-Disposition", "attachment; filename=delivery_id_card.pdf");
             res.send(pdfData);
         });
 
         // Add user data to the PDF document
-        doc.fontSize(20).text("User Data", { align: "center" }).moveDown();
-        doc.fontSize(12).text(`ID: ${user._id}`).moveDown();
-        doc.text(`First Name: ${user.firstName}`).moveDown();
-        doc.text(`Last Name: ${user.lastName}`).moveDown();
-        doc.text(`Email: ${user.email}`).moveDown();
-        doc.text(`Role: ${user.role}`).moveDown();
+        doc.rect(50, 50, 400, 250).stroke(); // Draw a rectangle around the content
+        doc.fillColor('#007bff').font('Helvetica-Bold').fontSize(20).text("Farm Link (PVT) LTD", { align: "center" }).moveDown();
+        doc.fillColor('#007bff').font('Helvetica-Bold').fontSize(14).text("Delivery Licence", { align: "center" }).moveDown();
+        doc.fillColor('#333').font('Helvetica-Bold').fontSize(12).text(`Name: ${user.firstName} ${user.lastName}`).moveDown();
+        doc.fillColor('#333').text(`Email: ${user.email}`).moveDown();
+        doc.fillColor('#333').text(`ID: ${user._id}`).moveDown();
+
+        const today = new Date();
+        const expiryDate = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate());
+
+        doc.fillColor('#333').text(`Received Date: ${today.toDateString()}`).moveDown();
+        doc.fillColor('#333').text(`Expiry Date: ${expiryDate.toDateString()}`).moveDown();
 
         // Finalize the PDF document
         doc.end();
@@ -133,6 +139,5 @@ router.post("/download", async (req, res) => {
         res.status(500).json({ message: "Failed to generate PDF" });
     }
 });
-
   
 module.exports = router;
