@@ -179,7 +179,7 @@ function Checkout() {
             {showNotification && (
                 <div className="notification-modal">
                     <div className="notification-content">
-                        <a href='/*'><span className="close-btn" onClick={() => setShowNotification(false)}>×</span></a>
+                        <a href='/add'><span className="close-btn" onClick={() => setShowNotification(false)}>×</span></a>
                         <p>{notificationMessage}</p>
                     </div>
                 </div>
