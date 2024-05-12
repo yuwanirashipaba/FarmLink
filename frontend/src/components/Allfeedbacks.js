@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import StarRating from './StarRating'; // Assuming StarRating component is in the same directory
+import GlobalStyles from '../GlobalStyles';
 
 export default function AllFeedbacks() {
     const [feedbacks, setFeedbacks] = useState([]);
@@ -91,11 +92,16 @@ export default function AllFeedbacks() {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+
+        return <div>
+            <GlobalStyles/>
+            Loading...</div>;
     }
 
     return (
+
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+             <GlobalStyles/>
             <div style={{ width: '80%' }}>
                 <h1>All Feedbacks</h1>
                 <input

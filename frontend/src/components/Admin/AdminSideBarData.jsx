@@ -39,4 +39,13 @@ export const SidebarData = [
     title: "Add offers",
     path: "/offers",
   },
+  {
+    title: "Appointments details",
+    path: "/admin-appointments",
+  },
+  {
+    title: "Orders Summery",
+    path: "/allorders",
+  },
+
 ];

@@ -13,6 +13,7 @@ import IMG1 from "./img1.jpg";
 import IMG2 from "./img2.jpg";
 import IMG3 from "./img3.jpg";
 import IMG4 from "./img4.jpg"; 
+import Footer from '../../../components/footer/Footer';
 const MarketplaceHomePage = () => {
   const settings = {
     dots: true,
@@ -89,6 +90,7 @@ const MarketplaceHomePage = () => {
           Product Owners with Highest Sales Here
         </div>
       </section>
+      <Footer/>
     </div>
   );
 };

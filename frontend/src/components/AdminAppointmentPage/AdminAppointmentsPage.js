@@ -3,6 +3,7 @@ import axios from 'axios';
 import Chart from 'chart.js/auto';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import logo from '../../assets/logo.png';
 import './AdminAppointmentsPage.scss';
 
 const AdminAppointmentsPage = () => {
@@ -43,6 +44,18 @@ const AdminAppointmentsPage = () => {
 
     setMonthlyAppointmentsData(monthlyAppointments);
   };
+  const generateTableImage = async () => {
+    const tableContainer = document.querySelector('.admin-appointments-page table');
+    const tableCanvas = await html2canvas(tableContainer);
+    return tableCanvas.toDataURL('image/png');
+  };
+  
+  const generateChartImage = async () => {
+    const chartContainer = document.querySelector('.line-chart-container canvas');
+    const chartCanvas = await html2canvas(chartContainer);
+    return chartCanvas.toDataURL('image/png');
+  };
+  
 
   // Chart.js code to create the line chart
   useEffect(() => {
@@ -76,29 +89,56 @@ const AdminAppointmentsPage = () => {
     }
   }, [monthlyAppointmentsData]);
 
-  
   const generatePDF = () => {
-    // Get the HTML element containing the chart and table
-    const chartTableContainer = document.querySelector('.admin-appointments-page');
+    // Initialize jsPDF document
+    const pdf = new jsPDF();
   
-    // Use html2canvas to capture the chart container as an image
-    html2canvas(chartTableContainer).then(canvas => {
-      // Convert the canvas image to a data URL
-      const imgData = canvas.toDataURL('image/png');
+    // Add the company logo
+    pdf.addImage(logo, 'JPEG', 160, 10, 30, 30);
   
-      // Initialize jsPDF document
-      const pdf = new jsPDF();
+    // Header information (Company Contact)
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(11);
+    pdf.setTextColor(60, 80, 60); // Dark green color
+    pdf.text('FarmLink.Org', 10, 10);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(10);
+    pdf.text('Email: FarmLink.Org@outlook.com', 10, 20);
+    pdf.text('Phone: 0761827545', 10, 30);
   
-      // Add title to the PDF
-      pdf.text('Monthly Appointments', 10, 10);
+    // Add title to the PDF
+    pdf.text('Monthly Appointments', 50, 50);
   
-      // Add the chart image to the PDF
-      pdf.addImage(imgData, 'PNG', 10, 20, 180, 100); // Adjust the position and dimensions as needed
-  
-      // Save the PDF
-      pdf.save('monthly-appointments.pdf');
+    // Generate table data
+    const tableData = [];
+    appointments.forEach(appointment => {
+      tableData.push([
+        `${appointment.firstName} ${appointment.lastName}`,
+        appointment.email,
+        appointment.message,
+        new Date(appointment.date).toLocaleDateString(),
+        appointment.time
+      ]);
     });
+  
+    // Add table to PDF
+    pdf.autoTable({
+      startY: 60, // Start position Y
+      head: [['Name', 'Email', 'Message', 'Date', 'Time']], // Table header
+      body: tableData // Table data
+    });
+  
+    // Generate chart as image
+    const chartImage = chartRef.current.toBase64Image();
+  
+    // Add the chart image to the PDF
+    pdf.addImage(chartImage, 'PNG', 10, pdf.lastAutoTable.finalY + 10, 180, 80);
+  
+    // Save the PDF
+    pdf.save('monthly-appointments.pdf');
   };
+  
+  
   
   
   return (

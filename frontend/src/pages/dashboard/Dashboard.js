@@ -5,7 +5,6 @@ import { selectIsLoggedIn } from '../../redux/features/auth/authSlice';
 import { getProducts } from '../../redux/features/product/ProductSlice';
 import ProductList from '../../components/product/productList/ProductList';
 import ProductSummary from '../../components/product/productSummary/ProductSummary';
-import LineChart from '../../components/charts/lineChart';
 import GlobalStyles from '../../GlobalStyles';
 
 const Dashboard = () => {
@@ -43,11 +42,8 @@ const Dashboard = () => {
         isLoading={isLoading}
       />
        <div>
-        <hr />
-      <h1>Store Sells</h1>
-      <div style={{ width: '800px', height: '700px' }}>
-      <LineChart />
-      </div>
+      
+  
     </div>
     </div>
   )

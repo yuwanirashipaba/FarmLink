@@ -435,7 +435,47 @@ const deleteProductsByUserId = asyncHnadler(async (req, res) => {
     }
 });
 
+// Update Product Quantity
+const updateProductQuantity = asyncHnadler(async (req, res) => {
+    const { id } = req.params; // Extract the product ID from the request parameters
+    const { quantity } = req.body; // Extract the new quantity from the request body
 
+    // Find the product by ID
+    const product = await Product.findById(id);
+
+    // Check if the product exists
+    if (!product) {
+        res.status(404).json({ message: "Product not found" });
+        return;
+    }
+
+
+
+    // Update the quantity of the product
+    product.quantity = quantity;
+    
+    // Save the updated product
+    await product.save();
+
+    res.status(200).json({ message: "Product quantity updated successfully", product });
+});
+// Get product quantity by product ID
+const getProductQuantityById = asyncHnadler(async (req, res) => {
+    const productId = req.params.id; 
+
+    // Find the product by ID
+    const product = await Product.findById(productId);
+
+    // Check if the product exists
+    if (!product) {
+        res.status(404).json({ message: "Product not found" });
+        return;
+    }
+
+    // Extract and return the product quantity
+    const productQuantity = product.quantity;
+    res.status(200).json({ productId, quantity: productQuantity });
+});
 
  module.exports = {
 
@@ -452,6 +492,8 @@ const deleteProductsByUserId = asyncHnadler(async (req, res) => {
      sendNotificationEmail,
      generateAndDownloadReport,
         deleteProductsByUserId,
+        updateProductQuantity,
+        getProductQuantityById
     
  }
 

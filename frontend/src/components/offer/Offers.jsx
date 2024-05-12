@@ -1,5 +1,7 @@
 import "antd/dist/reset.css";
 import React, { useState, useEffect } from "react";
+import logo from '../../assets/logo.png';
+
 import {
   Table,
   Button,
@@ -197,29 +199,50 @@ const OfferManagement = () => {
  
   const generatePDF = () => {
     const doc = new jsPDF();
+    doc.addImage(logo, 'JPEG', 160, 10, 30, 30); // Replace with the path to your logo image
  
-    doc.setFontSize(20);
-    doc.text("Offer Management", 10, 10);
- 
+    // Set up company header and logo
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(60, 80, 60); // Dark green color
+    doc.addImage(logo, 'JPEG', 160, 10, 30, 30); // Add company logo
+    doc.text('FarmLink.Org', 10, 10);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.text('Email: FarmLink.Org@outlook.com', 10, 20);
+    doc.text('Phone: 0761827545', 10, 30);
+
+    // Report Title
+    doc.setFontSize(14);
+    doc.setTextColor(100, 150, 100); // Theme color
+    doc.text('Product Offers Report', 10, 45);
+
+    let y = 55; // Start content below the header
+
+    // Offers Table
     const rows = offers.map((offer, index) => {
-      const productNames = offer.products
-        .map((productId) => {
-          const product = products.find((p) => p._id === productId);
-          return product ? product.name : "";
-        })
-        .join(", ");
- 
-      return [index + 1, offer.coupon, offer.discount, productNames];
+        const productNames = offer.products
+            .map(productId => {
+                const product = products.find(p => p._id === productId);
+                return product ? product.name : "";
+            })
+            .join(", ");
+
+        return [index + 1, offer.coupon, offer.discount, productNames];
     });
- 
+
     doc.autoTable({
-      startY: 20,
-      head: [["#", "Coupon", "Discount", "Products"]],
-      body: rows,
+        startY: y,
+        head: [['#', 'Coupon', 'Discount', 'Products']],
+        body: rows,
     });
- 
+
+    // Save the PDF
     doc.save("offers.pdf");
-  };
+};
+
+
+
  
   const handleEditOffer = (offer) => {
     setEditingOffer(offer);
@@ -270,7 +293,8 @@ const OfferManagement = () => {
             name="discount"
             rules={[{ required: true, message: "Please input a discount" }]}
           >
-            <Input type="number" />
+          <Input type="number" min={0} max={100} />
+            
           </Form.Item>
           <Form.Item label="Products" name="products">
             <Select

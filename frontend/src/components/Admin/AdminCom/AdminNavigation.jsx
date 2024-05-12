@@ -14,6 +14,7 @@ import AdminAppointmentsPage from "../../AdminAppointmentPage/AdminAppointmentsP
 import AllOrders from '../../../pages/marketplace/details/allOrders';
 import AddOfers from "../../../components/offer/Offers"
 import OfferPreview from "../../offer/OfferPreview";
+import ProductAdminAdvancedData from "../../productAdminReport/ProductAdminAdvancedSalesData";
 const NavPage = () => {
 
 
@@ -35,6 +36,7 @@ const NavPage = () => {
           <Route path="/allorders" element={< AllOrders/>} />
           <Route path="/offers" element={< AddOfers/>} />
           <Route path="/offers-preview" element={< OfferPreview/>} />
+          <Route path="/admin/sales" element={< ProductAdminAdvancedData/>} />
         </Routes>
       </section>
     </React.Fragment>

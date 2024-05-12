@@ -14,4 +14,35 @@
     border-radius: 1rem;
   }
   
+
+  .card-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
   
+  .quantity-details,
+  .financial-summary {
+    margin-bottom: 20px;
+  }
+  
+  .download-button {
+    margin-top: 20px;
+  }
+  .charts-container {
+    display: flex;
+    gap:6rem
+  }
+  
+  
+  .charts-container {
+  display: flex;
+  gap: 20px; /* Adjust the gap value as needed */
+}
+
+@media screen and (max-width: 768px) {
+  .charts-container {
+    flex-direction: column;
+  }
+}

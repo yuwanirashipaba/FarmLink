@@ -1,39 +1,61 @@
-import React, { useState, useEffect } from 'react';
-import { jsPDF } from 'jspdf';
-import productService from '../../redux/features/product/ProductService';
-import logo from '../../assets/logo.png';
-import { Card } from 'react-bootstrap';
-import ProductsTable from './ProductTable';
+import React, { useState, useEffect } from "react";
+import { jsPDF } from "jspdf";
+import productService from "../../redux/features/product/ProductService";
+import logo from "../../assets/logo.png";
+import { Card } from "react-bootstrap";
+import ProductsTable from "./ProductTable";
 import "./AdminReport.css";
-import PieChart from '../charts/PieChart';
+import PieChart from "../charts/PieChart";
+import MostBoughtProductsChart from "../charts/ProductAdminOverviewTable";
+import TopProductsByQuantityChart from "../charts/TopProductsByQuantityChart";
+import axios from "axios";
+import downloadPDF from "./downloadPDF";
+import LineChartAdmin from "../charts/lineChartAdmin";
+import { useNavigate } from "react-router-dom";
 
 const ProductAdminReport = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [outOfStock, setOutOfStock] = useState([]);
   const [inventoryValue, setInventoryValue] = useState(0);
   const [vegiQuantity, setVegiQuantity] = useState(0);
   const [fruitQuantity, setFruitQuantity] = useState(0);
-
+  const [totalRevenue, setTotalRevenue] = useState(0);
+  const [orders, setOrders] = useState([]);
+  const [error, setError] = useState(null);
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-
         const res = await productService.getAllProducts();
-        const parsedProducts = res.map(product => ({
+        const parsedProducts = res.map((product) => ({
           ...product,
-          quantity: parseInt(product.quantity, 10)
+          quantity: parseInt(product.quantity, 10),
         }));
-  
-      
-        const vegiProducts = parsedProducts.filter(product => product.category === "Vegetable");
-        const fruitProducts = parsedProducts.filter(product => product.category === "Fruit");
-  
-        const totalVegiQuantity = vegiProducts.reduce((acc, product) => acc + product.quantity, 0);
-        const totalFruitQuantity = fruitProducts.reduce((acc, product) => acc + product.quantity, 0);
-  
-        setOutOfStock(parsedProducts.filter(product => product.quantity < 1));
-        setInventoryValue(parsedProducts.reduce((acc, product) => acc + (product.quantity * product.price), 0));
+
+        const vegiProducts = parsedProducts.filter(
+          (product) => product.category === "Vegetable"
+        );
+        const fruitProducts = parsedProducts.filter(
+          (product) => product.category === "Fruit"
+        );
+
+        const totalVegiQuantity = vegiProducts.reduce(
+          (acc, product) => acc + product.quantity,
+          0
+        );
+        const totalFruitQuantity = fruitProducts.reduce(
+          (acc, product) => acc + product.quantity,
+          0
+        );
+
+        setOutOfStock(parsedProducts.filter((product) => product.quantity < 1));
+        setInventoryValue(
+          parsedProducts.reduce(
+            (acc, product) => acc + product.quantity * product.price,
+            0
+          )
+        );
         setVegiQuantity(totalVegiQuantity);
         setFruitQuantity(totalFruitQuantity);
       } catch (err) {
@@ -43,109 +65,157 @@ const ProductAdminReport = () => {
     };
     fetchProducts();
   }, []);
-  
 
-  const downloadPdf = () => {
-    const doc = new jsPDF();
-    // Add the company logo
-    doc.addImage(logo, 'JPEG', 160, 10, 30, 30);
+  useEffect(() => {
+    const fetchOrdersAndCalculateRevenue = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get("http://localhost:5000/api/order/");
+        const orders = response.data;
 
-    // Header information (Company Contact)
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(11);
-    doc.setTextColor(60, 80, 60); // Dark green color
-    doc.text('FarmLink.Org', 10, 10);
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(10);
-    doc.text('Email: FarmLink.Org@outlook.com', 10, 20);
-    doc.text('Phone: 0761827545', 10, 30);
+        // Calculate total revenue
+        const totalRevenue = orders.reduce(
+          (total, order) => total + order.totalCost,
+          0
+        );
 
-    // Report Title
-    doc.setFontSize(14);
-    doc.setTextColor(100, 150, 100); // Theme color
-    doc.text('Product Admin Report', 10, 45);
+        // Log the orders and total revenue
+        console.log("Orders:", orders);
+        console.log("Total Revenue:", totalRevenue);
 
-    let y = 55; // Start content below the header
-    doc.setFontSize(12);
-    doc.setTextColor(0);
+        // Set the total revenue state
+        setTotalRevenue(totalRevenue);
 
-    // Section for vegetable quantity
-    doc.text(`Total Vegetable Quantity: ${vegiQuantity}`, 10, y);
-    y += 10;
+        // Set the orders state
+        setOrders(orders);
+      } catch (err) {
+        console.error("Failed to fetch orders:", err);
+        setError("Failed to fetch orders");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    // Section for fruit quantity
-    doc.text(`Total Fruit Quantity: ${fruitQuantity}`, 10, y);
-    y += 10;
+    fetchOrdersAndCalculateRevenue(); // Fetch orders and calculate revenue when the component mounts
+  }, []);
 
-    // Section for inventory value
-    doc.text(`Inventory Value: $${inventoryValue.toFixed(2)}`, 10, y);
-    y += 10;
+  const handleDownloadPdf = () => {
+    downloadPDF(
+      vegiQuantity,
+      fruitQuantity,
+      inventoryValue,
+      totalRevenue,
+      outOfStock
+    );
+  };
 
-    // Adding a section header for out of stock products
-    doc.setFillColor(232, 232, 232); // Grey background for section header
-    doc.setTextColor(200, 0, 0); // Red color for text
-    doc.rect(10, y, 190, 8, 'F'); // Draw rectangle with fill
-    y += 6;
-    doc.text('Out of Stock Products:', 12, y);
-
-    // List out of stock products
-    outOfStock.forEach(product => {
-        y += 10;
-        doc.setTextColor(0);
-        doc.text(`- ${product.name}`, 15, y);
-    });
-
-    // Final call to download the PDF
-    doc.save('ProductAdminReport.pdf');
-};
-
-
-
-return (
-  <div style={{margin: '10px'}}>
-    
-    {loading ? (
-      <p>Loading...</p>
-    ) : (
-      <>
-        <Card>
-          <div style={{marginLeft:"1rem"}}>
-          <h2>Product Admin Report</h2>
-          <p>Total Vegetable Quantity : {vegiQuantity}</p>
-          <p>Total Fruit Quantity : {fruitQuantity}</p>
-          <p>Inventory Value : ${inventoryValue.toFixed(2)}</p>
-          {outOfStock.length > 0 && (
-            <div>
-              <label htmlFor="outOfStock" style={{fontSize:'1.4rem', color:'#333', marginRight:'2rem'}}>Out of Stock Products :</label>
-              <select id="outOfStock" style={{ width: '300px', height: '35px', fontSize: '16px' }}>
-                {outOfStock.map((product, index) => (
-                  <option key={index} value={product.name}>
-                    {product.name}
-                  </option>
-                ))}
-              </select>
+  const productAdminAdvancedData = () => {
+    navigate("/admin/sales");
+  };
+  return (
+    <div style={{ margin: "10px" }}>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <Card>
+            <div className="card-section">
+              <div className="quantity-details">
+                <h2>Quantity Details</h2>
+                <p>Total Vegetable Quantity: {vegiQuantity}</p>
+                <p>Total Fruit Quantity: {fruitQuantity}</p>
+              </div>
+              <div className="financial-summary">
+                <h2>Financial Summary</h2>
+                <p>Total Revenue: ${totalRevenue.toFixed(2)}</p>
+                <p>Inventory Value: ${inventoryValue.toFixed(2)}</p>
+              </div>
+              <button className="download-button" onClick={handleDownloadPdf}>
+                Download PDF
+              </button>
             </div>
-          )}
-            <button className="download-button" onClick={downloadPdf}>Download PDF</button>
+          </Card>
+
+          <div>
+            <h1 style={{ fontSize: "1.5rem", textAlign: "center" }}>
+              Category Analisis
+            </h1>
+            <br />
+            <br />
+            <br />
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <PieChart
+                vegiQuantity={vegiQuantity}
+                fruitQuantity={fruitQuantity}
+              />
             </div>
-        </Card>
-        <div >
-          <h1 style={{fontSize:"1.5rem", textAlign:"center"}}>Category Analisis</h1>
-          <br/>
-          <br/>
-          <br/>
-        <PieChart vegiQuantity={vegiQuantity} fruitQuantity={fruitQuantity} /> 
-        </div>
-        <div style={{marginTop: "10rem", textAlign:"center"}}>
-          <h1 style={{fontSize:"1.5rem"}}>Products Table</h1>
-          <br/>
-          <br/>
-        <ProductsTable/>
-        </div>
-      </>
-    )}
-  </div>
-);
+          </div>
+
+          <br />
+          <br />
+          <br />
+          <br />
+          <div>
+            <h1 style={{ fontSize: "1.5rem", textAlign: "center" }}>
+              Daily Sales
+            </h1>
+            <br />
+            <br />
+            <br />
+            <div style={{ width: "1000px" }}>
+              <LineChartAdmin />
+              <div style={{ marginTop: "5rem", textAlign: "center" }}>
+                <button
+                  onClick={productAdminAdvancedData}
+                  style={{
+                    backgroundColor: "red",
+                    border: "none",
+                    color: "white",
+                    padding: "15px 32px",
+                    textAlign: "center",
+                    textDecoration: "none",
+                    display: "inline-block",
+                    fontSize: "16px",
+                    margin: "4px 2px",
+                    cursor: "pointer",
+                    borderRadius: "8px",
+                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                    transition: "background-color 0.3s ease",
+                  }}
+                >
+                  Advanced Sales Details
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <br />
+          <br />
+          <br />
+          <br />
+          <div>
+            <h1 style={{ fontSize: "1.5rem", textAlign: "center" }}>
+              Product Performance
+            </h1>
+            <br />
+            <br />
+            <br />
+            <div className="charts-container">
+              <MostBoughtProductsChart />
+              <TopProductsByQuantityChart />
+            </div>
+          </div>
+
+          <div style={{ marginTop: "10rem", textAlign: "center" }}>
+            <h1 style={{ fontSize: "1.5rem" }}>Products Table</h1>
+            <br />
+            <br />
+            <ProductsTable />
+          </div>
+        </>
+      )}
+    </div>
+  );
 };
 
 export default ProductAdminReport;

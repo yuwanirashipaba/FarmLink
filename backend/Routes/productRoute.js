@@ -14,7 +14,9 @@ const {
   getProductsById,
   sendNotificationEmail,
   generateAndDownloadReport,
-  deleteProductsByUserId
+  deleteProductsByUserId,
+  updateProductQuantity,
+  getProductQuantityById
 } = require("../Controllers/productController");
 const { upload } = require("../Utills/fileupload");
 const { authenticate} = require('../middleware/authMiddleware');
@@ -33,5 +35,6 @@ router.get('/user-products/:id',authenticate,getProductsById);
 router.post('/send-notification-email', authenticate,sendNotificationEmail);
 router.get('/report/generate', generateAndDownloadReport);
 router.delete('/deleteProductsByUser/:id', deleteProductsByUserId);
-
+router.put('/updateproduct/:id', updateProductQuantity);
+router.get('/getproductq/:id', getProductQuantityById);
 module.exports = router;

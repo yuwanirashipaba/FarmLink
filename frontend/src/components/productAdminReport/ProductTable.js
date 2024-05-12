@@ -21,6 +21,7 @@ const ProductsTable = () => {
         };
         fetchProducts();
     }, []);
+
     if (loading) return <p>Loading...</p>;
 
     return (
@@ -31,17 +32,19 @@ const ProductsTable = () => {
                     <th>Category</th>
                     <th>Price</th>
                     <th>Quantity</th>
+                    <th>SKU</th> {/* New header for SKU */}
                 </tr>
             </thead>
             <tbody>
-            {products.map((product, index) => (
-    <tr key={product.id || index}>
-        <td>{product.name}</td>
-        <td>{product.category}</td>
-        <td>${product.price}</td>
-        <td>{product.quantity}</td>
-    </tr>
-))}
+                {products.map((product, index) => (
+                    <tr key={product.id || index}>
+                        <td>{product.name}</td>
+                        <td>{product.category}</td>
+                        <td>${product.price}</td>
+                        <td>{product.quantity}</td>
+                        <td>{product.sku}</td> {/* Render SKU */}
+                    </tr>
+                ))}
             </tbody>
         </table>
     );

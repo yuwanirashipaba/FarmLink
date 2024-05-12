@@ -116,7 +116,11 @@ function Checkout() {
         orderStatus: "Pending",
         orderDate: new Date(),
       });
+      await axios.put(`http://localhost:5000/api/products/updateproduct/${productId}`, {
+        quantity: product.quantity - count,
+      }
 
+    )
       // Show a success notification modal box
       setShowNotification(true);
       setNotificationMessage("Order created successfully!");

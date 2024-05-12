@@ -47,6 +47,8 @@ import AddBidding from "./pages/bidding/AddBidding";
 import BiddingForm from "./pages/bidding/BiddingForm";
 import UpdateBiddingForm from "./pages/bidding/UpdateBiddingForm";
 import UpdateBuyer from "./components/marketplaceNav/UpdateBuyer";
+import AllFeedbacks from "./components/Allfeedbacks";
+import BarChart from "./components/charts/ProductAdminOverviewTable";
 
 
 
@@ -287,7 +289,8 @@ function App() {
               }
             />
         
-            <Route path="/allfeedback" element={<Allfeedbacks />} />
+            <Route path="/allfeedback" element=
+            {<MarketplaceNavbar showCategories={false}><AllFeedbacks /></MarketplaceNavbar>} />
             <Route path="/add" element={<Addfeedback />} />
             <Route path="/accept" element={<AcceptFeedbacks />} />
             <Route path="/accepted-feedbacks" element={<AcceptedFeedbacks />} />
@@ -360,7 +363,6 @@ function App() {
                 }
               />
               
-
 
           </Routes>
         </BrowserRouter>

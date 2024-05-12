@@ -92,14 +92,31 @@ function CartCheckout() {
                 orderStatus: 'Pending',
                 orderDate: new Date()
             };
-
+    
+            // Place the order
             const response = await axios.post('http://localhost:5000/api/order/add', orderData);
             console.log('Order placed successfully:', response.data);
+    
+            // Update the quantity of each product in the cart
+            await Promise.all(cart.items.map(async item => {
+                // Fetch the current quantity of the product
+                const { data: { quantity } } = await axios.get(`http://localhost:5000/api/products/getproductq/${item.product}`);
+                
+                // Calculate the new quantity after subtracting the ordered quantity
+                const newQuantity = quantity - item.quantity;
+    
+                // Update the product's quantity
+                await axios.put(`http://localhost:5000/api/products/updateproduct/${item.product}`, {
+                    quantity: newQuantity
+                });
+            }));
+    
             setShowModal(true); // Show modal on successful order placement
         } catch (error) {
             console.error('Error placing order:', error);
         }
     };
+    
 
     const closeModal = async () => {
         setShowModal(false);
