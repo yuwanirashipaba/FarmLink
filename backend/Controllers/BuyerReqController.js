@@ -23,9 +23,10 @@ const getAllPosts = asyncHandler(async (req, res) => {
 //create Post
 
 const addPost = asyncHandler(async (req, res) => {
-    const { description, location, category,title, startingPrice } = req.body;
+    const { description, location, category,title, startingPrice, biddingEndTime } = req.body;
+    
     // Validation
-    if (!location || !category || !description ||!title ||!startingPrice) {
+    if (!location || !category || !description ||!title || !startingPrice || !biddingEndTime) {
         res.status(400);
         throw new Error("Please fill in all fields");
     }
@@ -53,7 +54,7 @@ const addPost = asyncHandler(async (req, res) => {
     }
 
     // Create post
-    const post = await buyerReqService.addPost(description, location, category,fileData, demo,title, startingPrice);
+    const post = await buyerReqService.addPost(description, location, category,fileData, demo,title, startingPrice, biddingEndTime);
     res.status(201).json(post);
 });
 
@@ -100,6 +101,53 @@ const getBiddingsById = asyncHandler(async (req, res) => {
     
     
 });
+
+// Controller function to create a bid on a post
+exports.createBid = async (req, res) => {
+    try {
+      const { postId } = req.params;
+      const { amount } = req.body;
+  
+      console.log('Received request to create bid on post with ID:', postId);
+      console.log('Bid amount:', amount);
+  
+      // Find the post by ID
+      const post = await Post.findById(postId);
+  
+      // Check if the post exists
+      if (!post) {
+        console.log('Post not found');
+        return res.status(404).json({ error: 'Post not found' });
+      }
+  
+      // Check if the post has a biddingEndTime property
+      if (!post.biddingEndTime) {
+        console.log('Bidding end time not set for this post');
+        return res.status(400).json({ error: 'Bidding end time not set for this post' });
+      }
+  
+      // Check if bidding is still open
+      if (post.biddingEndTime < Date.now()) {
+        console.log('Bidding for this post has ended');
+        return res.status(400).json({ error: 'Bidding for this post has ended' });
+      }
+  
+      // Update current bid if the new amount is higher
+      if (amount > post.currentBid) {
+        post.currentBid = amount;
+        await post.save();
+        console.log('Bid created successfully');
+        return res.json(post);
+      } else {
+        console.log('Bid amount must be higher than current bid');
+        return res.status(400).json({ error: 'Bid amount must be higher than current bid' });
+      }
+    } catch (err) {
+      console.error('Error creating bid:', err);
+      res.status(500).json({ error: 'Server error' });
+    }
+  };
+  
 
 
 module.exports  = {

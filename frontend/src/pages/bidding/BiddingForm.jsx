@@ -4,9 +4,13 @@ import "react-quill/dist/quill.snow.css";
 import Card from "../../components/card/Card";
 import axios from "axios";
 import GlobalStyles from '../../GlobalStyles';
-import toast from 'react-hot-toast';
+//import toast from 'react-hot-toast';
 import "./BiddingForm.scss";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
+
 
 
 const BiddingForm = () => {
@@ -16,6 +20,7 @@ const BiddingForm = () => {
   const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
   const [startingPrice, setStartingPrice] = useState("");
+  const [biddingEndTime, setBiddingEndTime]= useState("");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [errors, setErrors] = useState({}); // State to manage form validation errors
@@ -27,6 +32,7 @@ const BiddingForm = () => {
     if (name === "category") setCategory(value);
     if (name === "title") setTitle(value);
     if (name === "startingPrice") setStartingPrice(value);
+    if (name ==="biddingEndTime") setBiddingEndTime(value);
   };
 
   const handleImageChange = (e) => {
@@ -64,6 +70,9 @@ const BiddingForm = () => {
     if (!image) {
       errors.image = "Image is required";
     }
+    if (!biddingEndTime) {
+      errors.biddingEndTime = "End time is required";
+    }
     return errors;
   };
 
@@ -73,6 +82,7 @@ const BiddingForm = () => {
     const errors = validateForm(); // Validate form fields
     if (Object.keys(errors).length > 0) {
       setErrors(errors); // Set validation errors in state
+      
       return;
     }
 
@@ -84,6 +94,7 @@ const BiddingForm = () => {
       formData.append("title", title);
       formData.append("startingPrice", startingPrice);
       formData.append("image", image);
+      formData.append("biddingEndTime", biddingEndTime);
 
       const res = await axios.post("http://localhost:5000/api/buyer/createPost", formData, {
         headers: {
@@ -92,7 +103,7 @@ const BiddingForm = () => {
       });
 
       console.log(res.data); // Assuming the backend returns the saved bidding data
-      toast.success('Bidding added successfully!');
+      
       // Clear form fields after successful submission
       setDescription("");
       setLocation("");
@@ -101,11 +112,34 @@ const BiddingForm = () => {
       setStartingPrice("");
       setImage(null);
       setImagePreview(null);
+      setBiddingEndTime("");
       navigate('/addBidding');
+
+      
+        toast.success('Your Bid Placed Succesfully.', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark",
+        })
+
+     
+
     } catch (error) {
-      console.error("Error saving bidding:", error);
-      // Optionally, display an error message to the user
-    }
+      console.log(error);
+      toast.error('Something Went Wrong.', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+      })
+  }
   };
 
   return (
@@ -181,6 +215,17 @@ const BiddingForm = () => {
             onChange={handleInputChange}
           />
           {errors.startingPrice && <span className="error">{errors.startingPrice}</span>}
+
+          <label>Bidding Duration:</label>
+<input
+    type="datetime-local"
+    placeholder="Bidding end time"
+    name="biddingEndTime"
+    value={biddingEndTime}
+    onChange={handleInputChange}
+    style={{ width: '300px',padding:'10px' }}
+/>
+{errors.biddingEndTime && <span className="error">{errors.biddingEndTime}</span>}
 
           <div className="--my">
             <button type="submit" className="--btn --btn-primary">

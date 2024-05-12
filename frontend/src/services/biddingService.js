@@ -7,6 +7,7 @@ const BACKEND_URL = 'http://localhost:5000';
 
 const getAllBiddings = async () => {
   const response = await axios.get(`${BACKEND_URL}/api/buyer/getAllPosts`);
+  console.log("Controller Res  : ", response);
   return response.data;
   
 };
@@ -23,6 +24,7 @@ const getBiddingsByCategory = async (category) => {
 // Get a biddibgs
 const getBidding = async (id) => {
   const response = await axios.get(`${BACKEND_URL}/api/buyer/getPost/${id}`);
+  console.log("Get Bidding Data : ", response);
   return response.data;
 };
 
@@ -33,13 +35,21 @@ const getBiddingsByUser = async (userId) => {
   
   return response.data;
 };
+//get biddings for checkout
+const getBiddingsForCheckout = async (userId) => {
+  const response = await axios.get(`${BACKEND_URL}/api/bidding/bids/${userId}`);
+  
+  return response.data;
+};
+
 
 
  const biddingService = {
     getAllBiddings,
     getBidding,
     getBiddingsByCategory,
-    getBiddingsByUser
+    getBiddingsByUser,
+    getBiddingsForCheckout
  }
 
  export default biddingService;

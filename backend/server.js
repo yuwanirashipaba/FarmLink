@@ -19,6 +19,7 @@ const cartRoutes =require("./Routes/cartRoutes");
 const orderRoutes = require("./Routes/orderRouter");
 const nodemailer = require('nodemailer');
 const buyerReqRoute =require("./Routes/BuyerReqRoute");
+const biddingRoute = require('./Routes/biddingRoute');
 
 const PORT = process.env.PORT || 2001;
 const app = express();
@@ -52,7 +53,11 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/order",orderRoutes);
 app.use("/api/offers", offerRouter);
 app.use("/feedback",feedbackRouter);
+
+//routes for bidding management
 app.use("/api/buyer", buyerReqRoute);
+app.use('/api/bidding', biddingRoute);
+
 // Route from main branch
 app.get("/", (req, res) => {
     res.send("Home page");

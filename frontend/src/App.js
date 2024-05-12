@@ -47,6 +47,7 @@ import AddBidding from "./pages/bidding/AddBidding";
 import BiddingForm from "./pages/bidding/BiddingForm";
 import UpdateBiddingForm from "./pages/bidding/UpdateBiddingForm";
 import UpdateBuyer from "./components/marketplaceNav/UpdateBuyer";
+import BidCheckout from './pages/bidding/bidCheckout/BidCheckout';
 import AllFeedbacks from "./components/Allfeedbacks";
 import BarChart from "./components/charts/ProductAdminOverviewTable";
 
@@ -116,7 +117,7 @@ function App() {
             <Route
               path="/updateBuyer"
               element={
-                <UpdateBuyer/>
+                <UpdateBuyer />
               }
             />
             <Route
@@ -289,7 +290,7 @@ function App() {
               }
             />
         
-            <Route path="/allfeedback" element=
+        <Route path="/allfeedback" element=
             {<MarketplaceNavbar showCategories={false}><AllFeedbacks /></MarketplaceNavbar>} />
             <Route path="/add" element={<Addfeedback />} />
             <Route path="/accept" element={<AcceptFeedbacks />} />
@@ -327,42 +328,49 @@ function App() {
               </MarketplaceNavbar>
             } />
 
+            <Route path="/bidding/bids" element={
+              <MarketplaceNavbar showCategories={true}>
+                <BidCheckout />
+              </MarketplaceNavbar>
+            } />
+
             <Route path="/bidding/:biddingId" element={
               <MarketplaceNavbar showCategories={false}>
                 <BiddingDetails />
               </MarketplaceNavbar>
             } />
-             <Route
-                path="/addBidding"
-                element={
-                  <Sidebar>
-                    <Layout>
-                      <AddBidding />
-                    </Layout>
-                  </Sidebar>
-                }
-              />
-              <Route
-                path="/biddingForm"
-                element={
-                  <Sidebar>
-                    <Layout>
-                      <BiddingForm />
-                    </Layout>
-                  </Sidebar>
-                }
-              />
-              <Route
-                path="/updateBiddingForm/:id"
-                element={
-                  <Sidebar>
-                    <Layout>
-                      <UpdateBiddingForm />
-                    </Layout>
-                  </Sidebar>
-                }
-              />
-              
+            <Route
+              path="/addBidding"
+              element={
+                <Sidebar>
+                  <Layout>
+                    <AddBidding />
+                  </Layout>
+                </Sidebar>
+              }
+            />
+            <Route
+              path="/biddingForm"
+              element={
+                <Sidebar>
+                  <Layout>
+                    <BiddingForm />
+                  </Layout>
+                </Sidebar>
+              }
+            />
+            <Route
+              path="/updateBiddingForm/:id"
+              element={
+                <Sidebar>
+                  <Layout>
+                    <UpdateBiddingForm />
+                  </Layout>
+                </Sidebar>
+              }
+            />
+
+
 
           </Routes>
         </BrowserRouter>
