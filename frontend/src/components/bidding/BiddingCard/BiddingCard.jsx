@@ -5,6 +5,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import './BiddingCard.css';
 import biddingService from '../../../services/biddingService';
 import authService from '../../../services/authService';
+import Post from '../Post';
+
+
 
 
 function BiddingCard({ bidding }) {
@@ -13,6 +16,7 @@ function BiddingCard({ bidding }) {
     const imagePath = bidding?.image?.filePath;
     const [productOwner, setProductOwner] = useState("");
     const [error, setError] = useState('');
+    
 
     // Handle the preview action here
     const handlePreview = () => {
@@ -35,6 +39,8 @@ function BiddingCard({ bidding }) {
         fetchProductDetails();
     }, [bidding._id]);
 
+   
+
     return (
         <Card
             className={`my-3 p-3 custom-rounded product-card`}
@@ -47,6 +53,7 @@ function BiddingCard({ bidding }) {
                 </Link>
             )}
             <Card.Body>
+                
                 <Link to={`/bidding/${bidding?._id}`}>
                     <Card.Title as="div">
                         <strong className="hover-green">{bidding?.title}</strong>
@@ -57,6 +64,10 @@ function BiddingCard({ bidding }) {
                     <p>Category: {bidding.category}</p>
                     <p>Owner: {productOwner?.firstName}</p>
                 </Card.Text>
+
+                
+                
+                
 
             </Card.Body>
         </Card>

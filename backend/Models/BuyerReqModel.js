@@ -18,7 +18,7 @@ const BiddingPostSchema = new Schema({
     },
     image:{
         type : Object,
-        //required : [true,"Please add an image"],
+        required : [false,"Please add an image"],
     },
     user:{
         type:mongoose.Schema.Types.ObjectId,
@@ -32,6 +32,37 @@ const BiddingPostSchema = new Schema({
     startingPrice:{
         type:Number,
         required:true,
+    },
+    sellingPrice:{
+        type:Number,
+        required:false,
+    },
+    biddingEndTime:{
+        type:Date,
+        required:true,
+    },
+    bidWinner:{
+        type:mongoose.Schema.Types.ObjectId,
+        required : false,
+        ref: "profilemanagement",
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    isProductSold : {
+        type : Boolean,
+        require : false,
+        default : false
+    },
+    soldToUser:{
+        type:mongoose.Schema.Types.ObjectId,
+        required : false,
+        ref: "profilemanagement",
+    },
+    soldPrice:{
+        type:Number,
+        required:false,
     },
 });
 
