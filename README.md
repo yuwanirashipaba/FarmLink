@@ -1,6 +1,6 @@
-# AgriConnect (Assumed Project Name)
+# FarmLink
 
-AgriConnect is a comprehensive web application designed to bridge the gap between farmers, buyers, and delivery personnel within the agricultural sector. The platform facilitates the listing of agricultural products by farmers, allows buyers to browse, bid on, and purchase these products, and coordinates delivery logistics through registered delivery buddies.
+FarmLink is a comprehensive web application designed to bridge the gap between farmers, buyers, and delivery personnel within the agricultural sector. The platform facilitates the listing of agricultural products by farmers, allows buyers to browse, bid on, and purchase these products, and coordinates delivery logistics through registered delivery buddies.
 
 ## Core Features
 
@@ -117,7 +117,7 @@ Once both the backend and frontend servers are running:
 
 ## Contributing
 
-We welcome contributions to enhance AgriConnect! Please follow these guidelines:
+We welcome contributions to enhance FarmLink! Please follow these guidelines:
 
 1.  **Fork the repository.**
 2.  **Create a feature branch:** `git checkout -b feature/YourFeatureName` or `bugfix/YourBugFixName`.
